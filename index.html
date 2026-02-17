@@ -371,6 +371,11 @@
       font-weight: 400;
       letter-spacing: 0.05em;
     }
+    .work-item__video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
     .work-item__info {
       display: flex;
       flex-direction: column;
@@ -1017,30 +1022,28 @@
         <h2 class="work__title" data-i18n-html="work.title">Projects that <strong>speak for themselves</strong></h2>
       </div>
       <div class="work__grid">
-        <!-- Project 1: Software Walkthrough (based on Bankline/SOAP) -->
+        <!-- Project 1: Let Us Pay -->
         <div class="work-item">
           <div class="work-item__image">
-            <div class="work-item__image-placeholder">Video thumbnail</div>
+            <video class="work-item__video" autoplay loop muted playsinline>
+              <source src="Videos/LetUsPay.mp4" type="video/mp4">
+            </video>
           </div>
           <div class="work-item__info">
             <div class="work-item__tags">
-              <span class="work-item__tag">Software</span>
-              <span class="work-item__tag">Animation</span>
+              <span class="work-item__tag">Corporate Video</span>
+              <span class="work-item__tag">Motion Graphics</span>
             </div>
-            <h3 class="work-item__title" data-i18n="work.p1.title">Enterprise Platform Walkthrough</h3>
-            <p class="work-item__desc" data-i18n="work.p1.desc">Animated walkthrough for a global logistics platform. We recreated the full interface and guided 4,000+ employees through every feature — reducing support tickets by 40% in the first quarter.</p>
+            <h3 class="work-item__title" data-i18n="work.p1.title">Let Us Pay — Payment Solutions Platform</h3>
+            <p class="work-item__desc" data-i18n="work.p1.desc">Corporate video highlighting a payment facilitation service for event organizers. We brought the platform benefits to life through split-screen storytelling, animated money flow diagrams, and testimonial-style delivery—helping teams understand complex procurement processes in under 90 seconds.</p>
             <div class="work-item__meta">
               <div class="work-item__meta-item">
-                <span class="work-item__meta-label">Type</span>
+                <span class="work-item__meta-label" data-i18n="work.meta.type">Type</span>
                 <span class="work-item__meta-value">Product Explainer</span>
               </div>
               <div class="work-item__meta-item">
-                <span class="work-item__meta-label">Duration</span>
-                <span class="work-item__meta-value">2:30 min</span>
-              </div>
-              <div class="work-item__meta-item">
-                <span class="work-item__meta-label">Industry</span>
-                <span class="work-item__meta-value">Logistics</span>
+                <span class="work-item__meta-label" data-i18n="work.meta.industry">Industry</span>
+                <span class="work-item__meta-value">Corporate Event Producer</span>
               </div>
             </div>
           </div>
@@ -1309,8 +1312,8 @@
         'services.s4.desc': 'Onboarding and educational content that turns complex processes into clear, watchable guides your team will actually remember.',
         'work.label': 'Selected work',
         'work.title': 'Projects that <strong>speak for themselves</strong>',
-        'work.p1.title': 'Enterprise Platform Walkthrough',
-        'work.p1.desc': 'Animated walkthrough for a global logistics platform. We recreated the full interface and guided 4,000+ employees through every feature — reducing support tickets by 40% in the first quarter.',
+        'work.p1.title': 'Let Us Pay — Payment Solutions Platform',
+        'work.p1.desc': 'Corporate video highlighting a payment facilitation service for event organizers. We brought the platform benefits to life through split-screen storytelling, animated money flow diagrams, and testimonial-style delivery—helping teams understand complex procurement processes in under 90 seconds.',
         'work.p2.title': 'Nutraceutical Product Showcase',
         'work.p2.desc': '3D motion graphics combined with technical infographics to introduce a new supplement line to internal sales teams. The video became the go-to training material across 12 regional offices.',
         'work.p3.title': 'Clinical Procedure Training',
@@ -1347,8 +1350,8 @@
         'services.s4.desc': 'Contenido de onboarding y educativo que convierte procesos complejos en guías claras y visuales que tu equipo recordará.',
         'work.label': 'Proyectos destacados',
         'work.title': 'Proyectos que <strong>hablan por sí solos</strong>',
-        'work.p1.title': 'Recorrido de Plataforma Empresarial',
-        'work.p1.desc': 'Recorrido animado para una plataforma logística global. Recreamos toda la interfaz y guiamos a 4,000+ empleados por cada función — reduciendo tickets de soporte un 40% en el primer trimestre.',
+        'work.p1.title': 'Let Us Pay — Plataforma de Soluciones de Pago',
+        'work.p1.desc': 'Video corporativo que destaca un servicio de facilitación de pagos para organizadores de eventos. Dimos vida a los beneficios de la plataforma con narrativa en pantalla dividida, diagramas animados de flujo de dinero y entrega estilo testimonial — ayudando a los equipos a entender procesos complejos de compras en menos de 90 segundos.',
         'work.p2.title': 'Showcase de Producto Nutracéutico',
         'work.p2.desc': 'Motion graphics 3D combinados con infografías técnicas para presentar una nueva línea de suplementos a equipos de ventas internos. El video se convirtió en material de referencia en 12 oficinas regionales.',
         'work.p3.title': 'Capacitación en Procedimiento Clínico',
