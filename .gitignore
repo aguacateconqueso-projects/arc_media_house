@@ -1,0 +1,12 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Large media files
+Videos/
+References/
+
+# Editor files
+*.swp
+*.swo
+*~
