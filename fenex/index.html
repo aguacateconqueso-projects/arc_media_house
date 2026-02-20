@@ -15,7 +15,7 @@ a{text-decoration:none;color:inherit}button{border:none;background:none;cursor:p
 .login-overlay{position:fixed;inset:0;z-index:9999;background:#0a0a0f;display:flex;align-items:center;justify-content:center;transition:opacity .5s,visibility .5s}
 .login-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none}
 .login-box{text-align:center;max-width:380px;width:100%;padding:0 24px}
-.login-box__logo{height:48px;margin:0 auto 48px}
+.login-box__logo{height:100px;margin:0 auto 48px}
 .login-box__title{font-size:14px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#4a9ece;margin-bottom:40px}
 .login-box__input{width:100%;padding:16px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#e8e8e8;font-family:inherit;font-size:15px;text-align:center;letter-spacing:.15em;outline:none;transition:border-color .3s;margin-bottom:20px}
 .login-box__input:focus{border-color:#4a9ece}.login-box__input::placeholder{color:#444}
@@ -23,7 +23,7 @@ a{text-decoration:none;color:inherit}button{border:none;background:none;cursor:p
 .login-box__btn:hover{background:#5fb4e0;transform:translateY(-1px)}
 .login-box__error{margin-top:16px;font-size:13px;color:#e05555;opacity:0;transition:opacity .3s}.login-box__error.show{opacity:1}
 .fnav{position:fixed;top:0;left:0;right:0;z-index:1000;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 48px;background:rgba(10,10,15,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.04)}
-.fnav__logo{height:24px}.fnav__links{display:flex;gap:28px}
+.fnav__logo{height:36px}.fnav__links{display:flex;gap:28px}
 .fnav__links a{font-size:13px;color:#666;transition:color .2s}.fnav__links a:hover{color:#d0d0d8}
 .fnav__arc{font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#444}.fnav__arc span{color:#4a9ece}
 .section{padding:120px 48px;max-width:1100px;margin:0 auto}
@@ -32,7 +32,7 @@ a{text-decoration:none;color:inherit}button{border:none;background:none;cursor:p
 .divider{width:100%;height:1px;background:rgba(255,255,255,.06)}
 .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:64px 24px 80px;position:relative;overflow:hidden}
 .hero::before{content:"";position:absolute;top:-50%;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(74,158,206,.08) 0%,transparent 70%);pointer-events:none}
-.hero__fenex-logo{height:56px;margin-bottom:48px;opacity:.9}
+.hero__fenex-logo{height:90px;margin-bottom:48px;opacity:.9}
 .hero__badge{display:inline-flex;padding:8px 20px;border:1px solid rgba(74,158,206,.25);border-radius:50px;font-size:12px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:#4a9ece;margin-bottom:40px}
 .hero__headline{font-size:64px;font-weight:200;letter-spacing:-.04em;line-height:1.05;color:#e8e8e8;margin-bottom:28px;max-width:800px}.hero__headline strong{font-weight:700}
 .hero__tagline{font-size:22px;font-weight:300;font-style:italic;color:#4a9ece;margin-bottom:36px}
@@ -127,8 +127,8 @@ a{text-decoration:none;color:inherit}button{border:none;background:none;cursor:p
 .closing__validity{font-size:14px;color:#555;margin-bottom:24px}.closing__contact{font-size:14px;color:#666;line-height:1.8}.closing__contact strong{font-weight:500;color:#999}
 .ffooter{padding:48px;border-top:1px solid rgba(255,255,255,.04);margin-top:40px}
 .ffooter__inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
-.ffooter__brand{display:flex;align-items:center;gap:24px}.ffooter__logo{height:22px;opacity:.6}.ffooter__text{font-size:12px;color:#444}
-.ffooter__fenex{display:flex;align-items:center;gap:16px}.ffooter__fenex-logo{height:20px;opacity:.5}.ffooter__fenex-text{font-size:12px;color:#444}
+.ffooter__brand{display:flex;align-items:center;gap:24px}.ffooter__logo{height:36px;opacity:.6}.ffooter__text{font-size:12px;color:#444}
+.ffooter__fenex{display:flex;align-items:center;gap:16px}.ffooter__fenex-logo{height:32px;opacity:.5}.ffooter__fenex-text{font-size:12px;color:#444}
 @media(max-width:768px){.fnav{padding:0 24px}.fnav__links{display:none}.section{padding:80px 24px}.section-title{font-size:32px}.hero{min-height:90vh;padding:64px 20px 80px}.hero__headline{font-size:36px}.vcard{grid-template-columns:1fr;gap:16px;padding:32px 24px}.vcard__num{font-size:48px}.vcard__meta{text-align:left;min-width:auto;flex-direction:row;gap:24px}.tech-grid,.v23-grid,.addons-grid{grid-template-columns:1fr}.schedule-grid,.payment-grid{grid-template-columns:1fr 1fr}.invest-includes{grid-template-columns:1fr}.invest-price{font-size:48px}.script-line,.timeline__phase{grid-template-columns:1fr;gap:6px}.deepdive__inner{padding:80px 24px}.cta-buttons{flex-direction:column;align-items:center}.ffooter__inner{flex-direction:column;text-align:center}}
 </style>
 </head>
@@ -173,7 +173,7 @@ a{text-decoration:none;color:inherit}button{border:none;background:none;cursor:p
 <p class="section-label">Video 1 &#x2014; Deep Dive</p>
 <h2 class="section-title"><strong>The Impossible Window</strong></h2>
 <p style="font-size:16px;color:#666;margin-bottom:32px">Case Study: Bottega Veneta &#x2014; Miami Design District</p>
-<div class="deepdive__award"><img src="assets/PIA_logo.png" alt="PIA'20" style="height:20px;margin-right:4px"> PIA&#x27;20 Award Winner</div>
+<div class="deepdive__award"><img src="assets/PIA_logo.png" alt="PIA'20" style="height:28px;margin-right:6px"> PIA&#x27;20 Award Winner</div>
 <p class="deepdive__intro">When luxury retailer Bottega Veneta needed a curved glass entrance for their Miami Design District flagship, they turned to FENEX. The challenge: create an 8-foot wide, 16-foot tall impact-rated window system with a custom S-shaped curve.<br><br>The result won the 2020 Product Innovation Award from Architectural SSL Magazine.</p>
 <div class="video-embed"><div class="video-embed__play"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.14v14l11-7-11-7z"/></svg></div><p class="video-embed__placeholder">15-second motion graphics sample</p></div>
 <p class="video-embed__caption">This 15-second sample demonstrates the motion graphics approach: technical blueprint overlays, animated callouts, and specification visualization that transforms architectural footage into compelling technical storytelling.</p>
@@ -192,7 +192,7 @@ a{text-decoration:none;color:inherit}button{border:none;background:none;cursor:p
 <div class="tech-grid">
 <div class="tech-card"><p class="tech-card__label">Dimensions</p><p class="tech-card__value">8&#x27;-0&#x22; W &#xD7; 16&#x27;-6&#x22; H</p><p class="tech-card__desc">Curved S-shape glass system</p></div>
 <div class="tech-card"><p class="tech-card__label">Certifications</p><p class="tech-card__value">FL#20700.2</p><p class="tech-card__desc">Impact &amp; flood resistant<br>Category 5 hurricane rated</p></div>
-<div class="tech-card"><p class="tech-card__label">Recognition</p><img src="assets/PIA_logo.png" alt="PIA'20" style="height:40px;margin:0 auto 8px"><p class="tech-card__desc">Architectural SSL Magazine<br>Product Innovation Award</p></div>
+<div class="tech-card"><p class="tech-card__label">Recognition</p><img src="assets/PIA_logo.png" alt="PIA'20" style="height:56px;margin:0 auto 8px"><p class="tech-card__desc">Architectural SSL Magazine<br>Product Innovation Award</p></div>
 <div class="tech-card"><p class="tech-card__label">Location</p><p class="tech-card__value">Miami Design District</p><p class="tech-card__desc">Bottega Veneta Flagship<br>High-end retail boutique</p></div>
 </div>
 <p class="section-label">Production Timeline &#x2014; Video 1</p>
