@@ -130,10 +130,11 @@ a{text-decoration:none;color:inherit}button{border:none;background:none;cursor:p
 .ffooter__brand{display:flex;align-items:center;gap:24px}.ffooter__logo{height:36px;opacity:.6}.ffooter__text{font-size:12px;color:#444}
 .ffooter__fenex{display:flex;align-items:center;gap:16px}.ffooter__fenex-logo{height:32px;opacity:.5}.ffooter__fenex-text{font-size:12px;color:#444}
 @media(max-width:768px){.fnav{padding:0 24px}.fnav__links{display:none}.section{padding:80px 24px}.section-title{font-size:32px}.hero{min-height:90vh;padding:64px 20px 80px}.hero__headline{font-size:36px}.vcard{grid-template-columns:1fr;gap:16px;padding:32px 24px}.vcard__num{font-size:48px}.vcard__meta{text-align:left;min-width:auto;flex-direction:row;gap:24px}.tech-grid,.v23-grid,.addons-grid{grid-template-columns:1fr}.schedule-grid,.payment-grid{grid-template-columns:1fr 1fr}.invest-includes{grid-template-columns:1fr}.invest-price{font-size:48px}.script-line,.timeline__phase{grid-template-columns:1fr;gap:6px}.deepdive__inner{padding:80px 24px}.cta-buttons{flex-direction:column;align-items:center}.ffooter__inner{flex-direction:column;text-align:center}}
+#bgCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
 </style>
 </head>
 <body>
-
+<canvas id="bgCanvas" aria-hidden="true"></canvas>
 <div class="login-overlay" id="loginOverlay">
 <div class="login-box">
 <img src="assets/fenex_logo.png" alt="FENEX" class="login-box__logo">
@@ -293,5 +294,152 @@ function tryLogin(){var i=document.getElementById("loginInput"),e=document.getEl
 document.getElementById("loginInput").addEventListener("keydown",function(e){if(e.key==="Enter")tryLogin()});
 if(sessionStorage.getItem("fenex_auth")==="true"){document.getElementById("loginOverlay").classList.add("hidden");document.getElementById("mainContent").style.display="block"}
 document.querySelectorAll(".fnav__links a").forEach(function(a){a.addEventListener("click",function(e){e.preventDefault();var t=document.querySelector(this.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})})});
+</script>
+<script>
+(function(){
+var canvas = document.getElementById('bgCanvas');
+if (!canvas) return;
+var ctx = canvas.getContext('2d');
+var mx = -9999, my = -9999, W, H, elements = [];
+
+function resize() {
+  var dpr = window.devicePixelRatio || 1;
+  W = window.innerWidth; H = window.innerHeight;
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+function rnd(a, b) { return a + Math.random() * (b - a); }
+
+function createElements() {
+  elements = [];
+  var mobile = W < 768;
+  var nWin = mobile ? 5 : 10;
+  var nDim = mobile ? 3 : 6;
+  var nArc = mobile ? 2 : 5;
+
+  for (var i = 0; i < nWin; i++) {
+    var scale = rnd(40, mobile ? 100 : 170);
+    var aspects = [0.45, 0.6, 0.75, 1, 1.3, 1.8, 2.2];
+    var asp = aspects[Math.floor(Math.random() * aspects.length)];
+    var w = scale * asp, h = scale;
+    elements.push({
+      type: 'window', x: rnd(-100, W + 100), y: rnd(-100, H + 100),
+      w: w, h: h,
+      vx: rnd(-0.18, 0.18), vy: rnd(-0.12, 0.12),
+      baseAlpha: rnd(0.012, 0.028), maxAlpha: rnd(0.07, 0.11),
+      dimH: Math.random() > 0.25, dimV: Math.random() > 0.25,
+      panes: (w > 70 && h > 70) ? (Math.random() > 0.35) : false,
+      panesH: (h > 100) ? (Math.random() > 0.5) : false
+    });
+  }
+  for (var i = 0; i < nDim; i++) {
+    elements.push({
+      type: 'dim', x: rnd(0, W), y: rnd(0, H),
+      length: rnd(50, 220), vertical: Math.random() > 0.5,
+      vx: rnd(-0.22, 0.22), vy: rnd(-0.18, 0.18),
+      baseAlpha: rnd(0.01, 0.022), maxAlpha: rnd(0.05, 0.09)
+    });
+  }
+  for (var i = 0; i < nArc; i++) {
+    elements.push({
+      type: 'arc', x: rnd(0, W), y: rnd(0, H),
+      radius: rnd(25, 110),
+      startAngle: rnd(0, Math.PI * 2), sweep: rnd(0.6, 2.4),
+      vx: rnd(-0.1, 0.1), vy: rnd(-0.08, 0.08),
+      baseAlpha: rnd(0.01, 0.02), maxAlpha: rnd(0.05, 0.08)
+    });
+  }
+}
+
+window.addEventListener('mousemove', function(e) { mx = e.clientX; my = e.clientY; });
+document.addEventListener('mouseleave', function() { mx = my = -9999; });
+
+function dimLine(x1, y1, x2, y2) {
+  var dx = x2 - x1, dy = y2 - y1;
+  var len = Math.sqrt(dx * dx + dy * dy);
+  if (len < 2) return;
+  var ux = dx / len, uy = dy / len;
+  var nx = -uy, ny = ux;
+  var tk = 5, ar = 6;
+
+  ctx.beginPath();
+  ctx.moveTo(x1, y1); ctx.lineTo(x2, y2);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(x1 + nx * tk, y1 + ny * tk); ctx.lineTo(x1 - nx * tk, y1 - ny * tk);
+  ctx.moveTo(x2 + nx * tk, y2 + ny * tk); ctx.lineTo(x2 - nx * tk, y2 - ny * tk);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x1 + ux * ar + nx * ar * 0.4, y1 + uy * ar + ny * ar * 0.4);
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x1 + ux * ar - nx * ar * 0.4, y1 + uy * ar - ny * ar * 0.4);
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - ux * ar + nx * ar * 0.4, y2 - uy * ar + ny * ar * 0.4);
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - ux * ar - nx * ar * 0.4, y2 - uy * ar - ny * ar * 0.4);
+  ctx.stroke();
+}
+
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+
+  for (var i = 0; i < elements.length; i++) {
+    var el = elements[i];
+    el.x += el.vx; el.y += el.vy;
+
+    var margin = 260;
+    if (el.x < -margin) el.x = W + margin * 0.5;
+    if (el.x > W + margin) el.x = -margin * 0.5;
+    if (el.y < -margin) el.y = H + margin * 0.5;
+    if (el.y > H + margin) el.y = -margin * 0.5;
+
+    var dx = mx - el.x, dy = my - el.y;
+    var dist = Math.sqrt(dx * dx + dy * dy);
+    var inf = Math.max(0, 1 - dist / 250);
+    inf = inf * inf * (3 - 2 * inf);
+
+    var alpha = el.baseAlpha + inf * (el.maxAlpha - el.baseAlpha);
+    ctx.strokeStyle = 'rgba(74,158,206,' + alpha + ')';
+    ctx.lineWidth = 0.5 + inf * 1.5;
+
+    if (el.type === 'window') {
+      var x = el.x - el.w / 2, y = el.y - el.h / 2;
+      ctx.strokeRect(x, y, el.w, el.h);
+
+      if (el.panes) {
+        ctx.beginPath();
+        ctx.moveTo(el.x, y); ctx.lineTo(el.x, y + el.h);
+        ctx.stroke();
+      }
+      if (el.panesH) {
+        ctx.beginPath();
+        ctx.moveTo(x, el.y); ctx.lineTo(x + el.w, el.y);
+        ctx.stroke();
+      }
+
+      var gap = 15;
+      if (el.dimH) dimLine(x, el.y + el.h / 2 + gap, x + el.w, el.y + el.h / 2 + gap);
+      if (el.dimV) dimLine(el.x + el.w / 2 + gap, y, el.x + el.w / 2 + gap, y + el.h);
+
+    } else if (el.type === 'dim') {
+      if (el.vertical) dimLine(el.x, el.y - el.length / 2, el.x, el.y + el.length / 2);
+      else dimLine(el.x - el.length / 2, el.y, el.x + el.length / 2, el.y);
+
+    } else if (el.type === 'arc') {
+      ctx.beginPath();
+      ctx.arc(el.x, el.y, el.radius, el.startAngle, el.startAngle + el.sweep);
+      ctx.stroke();
+    }
+  }
+  requestAnimationFrame(draw);
+}
+
+resize(); createElements(); draw();
+window.addEventListener('resize', function() { resize(); createElements(); });
+})();
 </script>
 </body></html>
