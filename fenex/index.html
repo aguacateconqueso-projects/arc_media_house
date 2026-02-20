@@ -131,9 +131,104 @@ a{text-decoration:none;color:inherit}button{border:none;background:none;cursor:p
 .ffooter__fenex{display:flex;align-items:center;gap:16px}.ffooter__fenex-logo{height:32px;opacity:.5}.ffooter__fenex-text{font-size:12px;color:#444}
 @media(max-width:768px){.fnav{padding:0 24px}.fnav__links{display:none}.section{padding:80px 24px}.section-title{font-size:32px}.hero{min-height:90vh;padding:64px 20px 80px}.hero__headline{font-size:36px}.vcard{grid-template-columns:1fr;gap:16px;padding:32px 24px}.vcard__num{font-size:48px}.vcard__meta{text-align:left;min-width:auto;flex-direction:row;gap:24px}.tech-grid,.v23-grid,.addons-grid{grid-template-columns:1fr}.schedule-grid,.payment-grid{grid-template-columns:1fr 1fr}.invest-includes{grid-template-columns:1fr}.invest-price{font-size:48px}.script-line,.timeline__phase{grid-template-columns:1fr;gap:6px}.deepdive__inner{padding:80px 24px}.cta-buttons{flex-direction:column;align-items:center}.ffooter__inner{flex-direction:column;text-align:center}}
 #bgCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.fnav__right{display:flex;align-items:center;gap:16px}
+.theme-toggle{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;color:#666;cursor:pointer;transition:all .3s}.theme-toggle:hover{background:rgba(255,255,255,.1);color:#d0d0d8}.theme-toggle svg{width:15px;height:15px}
+body.light{background:#f4f4f7;color:#3a3a42}
+body.light .login-overlay{background:#f4f4f7}
+body.light .login-box__input{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.12);color:#1a1a1a}
+body.light .login-box__input::placeholder{color:#aaa}
+body.light .login-box__btn{color:#fff}
+body.light .fnav{background:rgba(244,244,247,.9);border-bottom-color:rgba(0,0,0,.06)}
+body.light .fnav__logo{filter:invert(1)}
+body.light .fnav__links a{color:#999}
+body.light .fnav__links a:hover{color:#333}
+body.light .fnav__arc{color:#999}
+body.light .theme-toggle{background:rgba(0,0,0,.05);border-color:rgba(0,0,0,.08);color:#999}
+body.light .theme-toggle:hover{background:rgba(0,0,0,.1);color:#333}
+body.light .section-title,.body.light .section-title strong{color:#1a1a1a}
+body.light .divider{background:rgba(0,0,0,.06)}
+body.light .hero::before{background:radial-gradient(circle,rgba(74,158,206,.1) 0%,transparent 70%)}
+body.light .hero__headline,.body.light .hero__headline strong{color:#1a1a1a}
+body.light .hero__desc{color:#666}
+body.light .hero__scroll{color:#bbb}
+body.light .overview__text{color:#666}
+body.light .vcard{background:rgba(0,0,0,.025)}
+body.light .vcard:hover{background:rgba(0,0,0,.045)}
+body.light .vcard__num{color:rgba(74,158,206,.2)}
+body.light .vcard__title{color:#1a1a1a}
+body.light .vcard__subtitle{color:#999}
+body.light .vcard__desc{color:#666}
+body.light .vcard__meta-label{color:#aaa}
+body.light .vcard__meta-value{color:#777}
+body.light .deepdive{background:rgba(0,0,0,.02)}
+body.light .deepdive__intro{color:#666}
+body.light .video-embed{background:#eaeaef;border-color:rgba(0,0,0,.06)}
+body.light .video-embed__placeholder{color:#aaa}
+body.light .video-embed__play{background:rgba(74,158,206,.1);border-color:rgba(74,158,206,.25)}
+body.light .video-embed__caption{color:#888}
+body.light .script-block{background:rgba(0,0,0,.025);border-color:rgba(0,0,0,.06)}
+body.light .script-line{border-bottom-color:rgba(0,0,0,.05)}
+body.light .script-line__label{color:#999}
+body.light .script-line__text{color:#444}
+body.light .script-line__note{color:#999}
+body.light .tech-card{background:rgba(0,0,0,.025)}
+body.light .tech-card:hover{background:rgba(0,0,0,.045)}
+body.light .tech-card__value{color:#1a1a1a}
+body.light .tech-card__desc{color:#888}
+body.light .timeline__phase{border-bottom-color:rgba(0,0,0,.06)}
+body.light .timeline__phase-title{color:#1a1a1a}
+body.light .timeline__task{color:#777}
+body.light .timeline__task::before{background:#ccc}
+body.light .v23-card{background:rgba(0,0,0,.025)}
+body.light .v23-card__title{color:#1a1a1a}
+body.light .v23-card__subtitle{color:#999}
+body.light .v23-card__desc{color:#666}
+body.light .v23-card__section-label{color:#999}
+body.light .v23-card__list-item{color:#666}
+body.light .v23-card__spec{color:#666}
+body.light .addon-card{background:rgba(0,0,0,.025)}
+body.light .addon-card__title{color:#1a1a1a}
+body.light .addon-card__desc{color:#666}
+body.light .addon-card__list-item{color:#666}
+body.light .addon-card__list-item::before{background:#ccc}
+body.light .addons-included{border-color:rgba(74,158,206,.2);background:rgba(74,158,206,.05)}
+body.light .addons-included__text{color:#666}
+body.light .invest-price,.body.light .invest-price strong{color:#1a1a1a}
+body.light .invest-currency{color:#999}
+body.light .invest-check{color:#666}
+body.light .value-table th{color:#aaa;border-bottom-color:rgba(0,0,0,.08)}
+body.light .value-table td{color:#666;border-bottom-color:rgba(0,0,0,.04)}
+body.light .value-table td:last-child{color:#555}
+body.light .value-table tr.total td{color:#1a1a1a;border-top-color:rgba(0,0,0,.1)}
+body.light .value-table tr.package td{color:#3a8ab5}
+body.light .value-table tr.savings td{color:#3da86a}
+body.light .schedule-card{background:rgba(0,0,0,.025)}
+body.light .schedule-card__title{color:#1a1a1a}
+body.light .schedule-card__task{color:#888}
+body.light .formats-table th{color:#aaa;border-bottom-color:rgba(0,0,0,.08)}
+body.light .formats-table td{color:#666;border-bottom-color:rgba(0,0,0,.04)}
+body.light .payment-card{background:rgba(0,0,0,.025)}
+body.light .payment-card__label{color:#999}
+body.light .payment-card__amount{color:#1a1a1a}
+body.light .payment-card__desc{color:#888}
+body.light .payment-methods{color:#999}
+body.light .nextsteps__text{color:#666}
+body.light .nextsteps__highlight{color:#777}
+body.light .cta-btn--primary{color:#fff}
+body.light .cta-btn--secondary{background:rgba(0,0,0,.04);color:#333;border-color:rgba(0,0,0,.1)}
+body.light .cta-btn--secondary:hover{background:rgba(0,0,0,.08)}
+body.light .closing{border-top-color:rgba(0,0,0,.06)}
+body.light .closing__validity{color:#999}
+body.light .closing__contact{color:#888}
+body.light .closing__contact strong{color:#555}
+body.light .ffooter{border-top-color:rgba(0,0,0,.06)}
+body.light .ffooter__logo{filter:invert(1)}
+body.light .ffooter__text{color:#aaa}
+body.light .ffooter__fenex-text{color:#aaa}
 </style>
 </head>
 <body>
+<script>if(localStorage.getItem('fenex_theme')==='light')document.body.classList.add('light')</script>
 <canvas id="bgCanvas" aria-hidden="true"></canvas>
 <div class="login-overlay" id="loginOverlay">
 <div class="login-box">
@@ -146,7 +241,7 @@ a{text-decoration:none;color:inherit}button{border:none;background:none;cursor:p
 <nav class="fnav">
 <img src="../Logos/Logo White Alpha.png" alt="ARC Media House" class="fnav__logo">
 <div class="fnav__links"><a href="#overview">Overview</a><a href="#videos">Videos</a><a href="#deepdive">Deep Dive</a><a href="#investment">Investment</a><a href="#next">Next Steps</a></div>
-<span class="fnav__arc">Prepared by <span>ARC Media House</span></span>
+<div class="fnav__right"><span class="fnav__arc">Prepared by <span>ARC Media House</span></span><button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle theme"><svg id="themeIcon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><circle cx="12" cy="12" r="5"/><path stroke-linecap="round" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></button></div>
 </nav>
 <main id="mainContent" style="display:none">
 <section class="hero" id="hero">
@@ -294,6 +389,10 @@ function tryLogin(){var i=document.getElementById("loginInput"),e=document.getEl
 document.getElementById("loginInput").addEventListener("keydown",function(e){if(e.key==="Enter")tryLogin()});
 if(sessionStorage.getItem("fenex_auth")==="true"){document.getElementById("loginOverlay").classList.add("hidden");document.getElementById("mainContent").style.display="block"}
 document.querySelectorAll(".fnav__links a").forEach(function(a){a.addEventListener("click",function(e){e.preventDefault();var t=document.querySelector(this.getAttribute("href"));if(t)t.scrollIntoView({behavior:"smooth",block:"start"})})});
+var sunSVG='<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><circle cx="12" cy="12" r="5"/><path stroke-linecap="round" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+var moonSVG='<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/></svg>';
+function toggleTheme(){document.body.classList.toggle('light');var isLight=document.body.classList.contains('light');localStorage.setItem('fenex_theme',isLight?'light':'dark');document.getElementById('themeIcon').innerHTML=isLight?moonSVG:sunSVG}
+if(document.body.classList.contains('light')){document.getElementById('themeIcon').innerHTML=moonSVG}
 </script>
 <script>
 (function(){
@@ -403,7 +502,10 @@ function draw() {
     inf = inf * inf * (3 - 2 * inf);
 
     var alpha = el.baseAlpha + inf * (el.maxAlpha - el.baseAlpha);
-    ctx.strokeStyle = 'rgba(74,158,206,' + alpha + ')';
+    var isLight = document.body.classList.contains('light');
+    var rgb = isLight ? '40,90,140' : '74,158,206';
+    if (isLight) alpha *= 1.6;
+    ctx.strokeStyle = 'rgba(' + rgb + ',' + alpha + ')';
     ctx.lineWidth = 0.5 + inf * 1.5;
 
     if (el.type === 'window') {
