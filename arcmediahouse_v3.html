@@ -1,0 +1,1653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ARC Media House — Corporate Video Production</title>
+  <meta name="description" content="Corporate video production that transforms internal communications into content your team actually watches.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #292929; background: #fafafa; font-weight: 400; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+    button { border: none; background: none; cursor: pointer; font-family: inherit; }
+    img { max-width: 100%; display: block; }
+
+    /* ── Nav ── */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+
+    .nav.scrolled {
+      border-bottom-color: rgba(0, 0, 0, 0.06);
+      background: rgba(255, 255, 255, 0.88);
+    }
+
+    .nav__logo {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    .nav__logo img {
+      height: 28px;
+      width: auto;
+    }
+
+    .nav__right {
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav__links a {
+      font-size: 14px;
+      font-weight: 400;
+      color: #717984;
+      transition: color 0.2s ease;
+      letter-spacing: -0.01em;
+    }
+
+    .nav__links a:hover {
+      color: #292929;
+    }
+
+    .nav__lang {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 400;
+      color: #717984;
+      margin-left: 8px;
+    }
+
+    .nav__lang span {
+      cursor: pointer;
+      transition: color 0.2s ease;
+      padding: 2px 0;
+    }
+
+    .nav__lang span:hover,
+    .nav__lang span.active {
+      color: #292929;
+    }
+
+    .nav__lang-divider {
+      opacity: 0.3;
+      user-select: none;
+    }
+
+    /* Mobile menu toggle */
+    .nav__menu-toggle {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+    }
+
+    .nav__menu-toggle span {
+      display: block;
+      width: 100%;
+      height: 1.5px;
+      background: #292929;
+      border-radius: 1px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .nav__menu-toggle.open span:nth-child(1) {
+      transform: translateY(6.5px) rotate(45deg);
+    }
+
+    .nav__menu-toggle.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav__menu-toggle.open span:nth-child(3) {
+      transform: translateY(-6.5px) rotate(-45deg);
+    }
+
+    /* Mobile nav overlay */
+    .nav__mobile {
+      display: none;
+      position: fixed;
+      top: 64px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 36px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 999;
+    }
+
+    .nav__mobile.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .nav__mobile a {
+      font-size: 28px;
+      font-weight: 300;
+      letter-spacing: -0.02em;
+      color: #292929;
+      transition: color 0.2s ease;
+    }
+
+    .nav__mobile a:hover {
+      color: #555;
+    }
+
+    .nav__mobile .nav__lang {
+      font-size: 14px;
+      margin-left: 0;
+      margin-top: 12px;
+    }
+
+    /* ── Animated diagonal lines (canvas background) ── */
+    #bgCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      min-height: 80vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 64px 24px 0;
+      position: relative;
+    }
+
+    .hero__content {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .hero__headline {
+      font-size: 72px;
+      font-weight: 200;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: #292929;
+      margin-bottom: 28px;
+    }
+
+    .hero__headline .bold {
+      font-weight: 700;
+    }
+
+    .hero__subtitle {
+      font-size: 19px;
+      font-weight: 300;
+      line-height: 1.55;
+      color: #717984;
+      max-width: 540px;
+      margin: 0 auto 44px;
+      letter-spacing: -0.01em;
+    }
+
+    .hero__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      background: #292929;
+      color: #fff;
+      font-size: 15px;
+      font-weight: 400;
+      border-radius: 50px;
+      letter-spacing: -0.01em;
+      transition: background 0.25s ease, transform 0.2s ease;
+    }
+
+    .hero__cta:hover {
+      background: #444;
+      transform: translateY(-1px);
+    }
+
+    .hero__cta:active {
+      transform: translateY(0);
+    }
+
+    .hero__cta svg {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.2s ease;
+    }
+
+    .hero__cta:hover svg {
+      transform: translateX(2px);
+    }
+
+    /* ── Services ── */
+    .services {
+      padding: 120px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .services__header {
+      margin-bottom: 80px;
+    }
+
+    .services__label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 20px;
+    }
+
+    .services__title {
+      font-size: 40px;
+      font-weight: 200;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: #292929;
+      max-width: 600px;
+    }
+
+    .services__title strong {
+      font-weight: 700;
+    }
+
+    .services__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: rgba(0, 0, 0, 0.06);
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    .service-card {
+      background: #fafafa;
+      padding: 48px 40px;
+      position: relative;
+      transition: background 0.3s ease;
+    }
+
+    .service-card:hover {
+      background: #f0f0f0;
+    }
+
+    .service-card__number {
+      font-size: 13px;
+      font-weight: 400;
+      color: #bbb;
+      letter-spacing: 0.02em;
+      margin-bottom: 24px;
+    }
+
+    .service-card__title {
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: #292929;
+      margin-bottom: 14px;
+    }
+
+    .service-card__desc {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.6;
+      color: #717984;
+      max-width: 380px;
+    }
+
+    .service-card__icon {
+      position: absolute;
+      top: 48px;
+      right: 40px;
+      width: 32px;
+      height: 32px;
+      color: #ccc;
+      transition: color 0.3s ease;
+    }
+
+    .service-card:hover .service-card__icon {
+      color: #292929;
+    }
+
+    /* ── Work / Portfolio ── */
+    .work {
+      padding: 120px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .work__header {
+      margin-bottom: 72px;
+    }
+
+    .work__label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 20px;
+    }
+
+    .work__title {
+      font-size: 40px;
+      font-weight: 200;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: #292929;
+      max-width: 500px;
+    }
+
+    .work__title strong {
+      font-weight: 700;
+    }
+
+    .work__grid {
+      display: flex;
+      flex-direction: column;
+      gap: 64px;
+    }
+
+    .work-item {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .work-item:nth-child(even) {
+      direction: rtl;
+    }
+
+    .work-item:nth-child(even) > * {
+      direction: ltr;
+    }
+
+    .work-item__image {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: #e8e8e8;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .work-item__image-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #bbb;
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+    }
+
+    .work-item__info {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .work-item__tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .work-item__tag {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #717984;
+      background: #f0f0f0;
+      padding: 5px 14px;
+      border-radius: 50px;
+    }
+
+    .work-item__title {
+      font-size: 26px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      color: #292929;
+      line-height: 1.2;
+    }
+
+    .work-item__desc {
+      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.65;
+      color: #717984;
+    }
+
+    .work-item__meta {
+      display: flex;
+      gap: 24px;
+      margin-top: 4px;
+    }
+
+    .work-item__meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .work-item__meta-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #bbb;
+    }
+
+    .work-item__meta-value {
+      font-size: 14px;
+      font-weight: 400;
+      color: #292929;
+    }
+
+    /* ── Contact ── */
+    .contact {
+      padding: 120px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .contact__inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .contact__left {}
+
+    .contact__label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #999;
+      margin-bottom: 20px;
+    }
+
+    .contact__title {
+      font-size: 40px;
+      font-weight: 200;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      color: #292929;
+      margin-bottom: 24px;
+    }
+
+    .contact__title strong {
+      font-weight: 700;
+    }
+
+    .contact__text {
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.65;
+      color: #717984;
+      margin-bottom: 40px;
+      max-width: 420px;
+    }
+
+    .contact__email {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 400;
+      color: #292929;
+      letter-spacing: -0.01em;
+      border-bottom: 1px solid rgba(0,0,0,0.15);
+      padding-bottom: 4px;
+      transition: border-color 0.2s ease;
+    }
+
+    .contact__email:hover {
+      border-bottom-color: #292929;
+    }
+
+    .contact__email svg {
+      width: 18px;
+      height: 18px;
+      color: #999;
+    }
+
+    .contact__form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contact__form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .contact__form-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #999;
+    }
+
+    .contact__form-input,
+    .contact__form-textarea {
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 300;
+      color: #292929;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+      padding: 12px 0;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .contact__form-input:focus,
+    .contact__form-textarea:focus {
+      border-bottom-color: #292929;
+    }
+
+    .contact__form-input::placeholder,
+    .contact__form-textarea::placeholder {
+      color: #ccc;
+    }
+
+    .contact__form-textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .contact__form-submit {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 36px;
+      background: #292929;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      letter-spacing: -0.01em;
+      transition: background 0.25s ease, transform 0.2s ease;
+      margin-top: 8px;
+    }
+
+    .contact__form-submit:hover {
+      background: #444;
+      transform: translateY(-1px);
+    }
+
+    .contact__form-submit svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background: #1a1a1a;
+      padding: 64px 48px;
+      margin-top: 40px;
+    }
+
+    .footer__inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 40px;
+    }
+
+    .footer__brand {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .footer__logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .footer__logo img {
+      height: 28px;
+      width: auto;
+    }
+
+    .footer__tagline {
+      font-size: 14px;
+      font-weight: 300;
+      color: #666;
+      max-width: 280px;
+      line-height: 1.5;
+    }
+
+    .footer__right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 16px;
+    }
+
+    .footer__links {
+      display: flex;
+      gap: 28px;
+    }
+
+    .footer__links a {
+      font-size: 14px;
+      font-weight: 400;
+      color: #666;
+      transition: color 0.2s ease;
+    }
+
+    .footer__links a:hover {
+      color: #fff;
+    }
+
+    .footer__copy {
+      font-size: 12px;
+      font-weight: 300;
+      color: #444;
+    }
+
+    /* ── Theme Toggle ── */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      color: #717984;
+      transition: color 0.2s ease, background 0.2s ease;
+      margin-left: 4px;
+    }
+
+    .theme-toggle:hover {
+      color: #292929;
+      background: rgba(0,0,0,0.04);
+    }
+
+    .theme-toggle svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .theme-toggle .icon-moon { display: block; }
+    .theme-toggle .icon-sun { display: none; }
+
+    /* Logo swap */
+    .nav__logo .logo-dark { display: block; }
+    .nav__logo .logo-light { display: none; }
+
+    /* ── Dark Mode ── */
+    body.dark {
+      background: #111;
+      color: #e0e0e0;
+    }
+
+    body.dark .nav {
+      background: rgba(17, 17, 17, 0.7);
+    }
+
+    body.dark .nav.scrolled {
+      border-bottom-color: rgba(255, 255, 255, 0.08);
+      background: rgba(17, 17, 17, 0.88);
+    }
+
+    body.dark .nav__logo .logo-dark { display: none; }
+    body.dark .nav__logo .logo-light { display: block; }
+
+    body.dark .nav__links a {
+      color: #888;
+    }
+
+    body.dark .nav__links a:hover {
+      color: #e0e0e0;
+    }
+
+    body.dark .nav__lang {
+      color: #888;
+    }
+
+    body.dark .nav__lang span:hover,
+    body.dark .nav__lang span.active {
+      color: #e0e0e0;
+    }
+
+    body.dark .nav__menu-toggle span {
+      background: #e0e0e0;
+    }
+
+    body.dark .nav__mobile {
+      background: rgba(17, 17, 17, 0.97);
+    }
+
+    body.dark .nav__mobile a {
+      color: #e0e0e0;
+    }
+
+    body.dark .nav__mobile a:hover {
+      color: #999;
+    }
+
+    body.dark .theme-toggle {
+      color: #888;
+    }
+
+    body.dark .theme-toggle:hover {
+      color: #e0e0e0;
+      background: rgba(255,255,255,0.06);
+    }
+
+    body.dark .theme-toggle .icon-moon { display: none; }
+    body.dark .theme-toggle .icon-sun { display: block; }
+
+    body.dark .hero__headline {
+      color: #e0e0e0;
+    }
+
+    body.dark .hero__subtitle {
+      color: #888;
+    }
+
+    body.dark .hero__cta {
+      background: #e0e0e0;
+      color: #111;
+    }
+
+    body.dark .hero__cta:hover {
+      background: #ccc;
+    }
+
+    body.dark .services__label,
+    body.dark .work__label,
+    body.dark .contact__label {
+      color: #666;
+    }
+
+    body.dark .services__title,
+    body.dark .work__title,
+    body.dark .contact__title {
+      color: #e0e0e0;
+    }
+
+    body.dark .services__grid {
+      background: rgba(255, 255, 255, 0.06);
+      border-top-color: rgba(255, 255, 255, 0.06);
+      border-bottom-color: rgba(255, 255, 255, 0.06);
+    }
+
+    body.dark .service-card {
+      background: #111;
+    }
+
+    body.dark .service-card:hover {
+      background: #1a1a1a;
+    }
+
+    body.dark .service-card__number {
+      color: #444;
+    }
+
+    body.dark .service-card__title {
+      color: #e0e0e0;
+    }
+
+    body.dark .service-card__desc {
+      color: #888;
+    }
+
+    body.dark .service-card__icon {
+      color: #333;
+    }
+
+    body.dark .service-card:hover .service-card__icon {
+      color: #e0e0e0;
+    }
+
+    body.dark .work-item__image {
+      background: #1e1e1e;
+    }
+
+    body.dark .work-item__image-placeholder {
+      color: #444;
+    }
+
+    body.dark .work-item__tag {
+      color: #999;
+      background: #1e1e1e;
+    }
+
+    body.dark .work-item__title {
+      color: #e0e0e0;
+    }
+
+    body.dark .work-item__desc {
+      color: #888;
+    }
+
+    body.dark .work-item__meta-label {
+      color: #555;
+    }
+
+    body.dark .work-item__meta-value {
+      color: #ccc;
+    }
+
+    body.dark .contact__title {
+      color: #e0e0e0;
+    }
+
+    body.dark .contact__text {
+      color: #888;
+    }
+
+    body.dark .contact__email {
+      color: #e0e0e0;
+      border-bottom-color: rgba(255,255,255,0.15);
+    }
+
+    body.dark .contact__email:hover {
+      border-bottom-color: #e0e0e0;
+    }
+
+    body.dark .contact__email svg {
+      color: #666;
+    }
+
+    body.dark .contact__form-label {
+      color: #666;
+    }
+
+    body.dark .contact__form-input,
+    body.dark .contact__form-textarea {
+      color: #e0e0e0;
+      border-bottom-color: rgba(255,255,255,0.1);
+    }
+
+    body.dark .contact__form-input:focus,
+    body.dark .contact__form-textarea:focus {
+      border-bottom-color: #e0e0e0;
+    }
+
+    body.dark .contact__form-input::placeholder,
+    body.dark .contact__form-textarea::placeholder {
+      color: #444;
+    }
+
+    body.dark .contact__form-submit {
+      background: #e0e0e0;
+      color: #111;
+    }
+
+    body.dark .contact__form-submit:hover {
+      background: #ccc;
+    }
+
+    body.dark .footer {
+      background: #0a0a0a;
+    }
+
+    body.dark .footer__tagline {
+      color: #555;
+    }
+
+    body.dark .footer__links a {
+      color: #555;
+    }
+
+    body.dark .footer__links a:hover {
+      color: #e0e0e0;
+    }
+
+    body.dark .footer__copy {
+      color: #333;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .nav {
+        padding: 0 24px;
+      }
+
+      .nav__right {
+        display: none;
+      }
+
+      .nav__menu-toggle {
+        display: flex;
+      }
+
+      .nav__mobile {
+        display: flex;
+      }
+
+      .hero {
+        min-height: 75vh;
+        padding-top: 64px;
+      }
+
+      .hero__headline {
+        font-size: 42px;
+        margin-bottom: 22px;
+      }
+
+      .hero__subtitle {
+        font-size: 17px;
+        margin-bottom: 36px;
+        max-width: 400px;
+      }
+
+      .hero__cta {
+        padding: 13px 28px;
+        font-size: 14px;
+      }
+
+      .services {
+        padding: 80px 24px;
+      }
+
+      .services__header {
+        margin-bottom: 48px;
+      }
+
+      .services__title {
+        font-size: 30px;
+      }
+
+      .services__grid {
+        grid-template-columns: 1fr;
+      }
+
+      .service-card {
+        padding: 36px 28px;
+      }
+
+      .service-card__icon {
+        top: 36px;
+        right: 28px;
+      }
+
+      .work {
+        padding: 80px 24px;
+      }
+
+      .work__header {
+        margin-bottom: 48px;
+      }
+
+      .work__title {
+        font-size: 30px;
+      }
+
+      .work__grid {
+        gap: 48px;
+      }
+
+      .work-item {
+        grid-template-columns: 1fr;
+        gap: 28px;
+      }
+
+      .work-item:nth-child(even) {
+        direction: ltr;
+      }
+
+      .work-item__title {
+        font-size: 22px;
+      }
+
+      .contact {
+        padding: 80px 24px;
+      }
+
+      .contact__inner {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .contact__title {
+        font-size: 30px;
+      }
+
+      .footer {
+        padding: 48px 24px;
+      }
+
+      .footer__inner {
+        flex-direction: column;
+        gap: 32px;
+      }
+
+      .footer__right {
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero__headline {
+        font-size: 36px;
+      }
+
+      .hero__subtitle {
+        font-size: 16px;
+      }
+
+      .services__title {
+        font-size: 26px;
+      }
+
+      .service-card__title {
+        font-size: 20px;
+      }
+
+      .work__title {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animated background lines (canvas) -->
+  <canvas id="bgCanvas" aria-hidden="true"></canvas>
+
+  <!-- ── Navigation ── -->
+  <nav class="nav" id="nav">
+    <a href="#" class="nav__logo">
+      <img src="Logos/Logo Black Alpha.png" alt="ARC Media House" class="logo-dark">
+      <img src="Logos/Logo White Alpha.png" alt="ARC Media House" class="logo-light">
+    </a>
+
+    <div class="nav__right">
+      <ul class="nav__links">
+        <li><a href="#services" data-i18n="nav.services">Services</a></li>
+        <li><a href="#work" data-i18n="nav.work">Work</a></li>
+        <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
+      </ul>
+      <div class="nav__lang">
+        <span class="active">EN</span>
+        <span class="nav__lang-divider">/</span>
+        <span>ES</span>
+      </div>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"/></svg>
+        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/></svg>
+      </button>
+    </div>
+
+    <div class="nav__menu-toggle" id="menuToggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+
+  <!-- Mobile nav overlay -->
+  <div class="nav__mobile" id="mobileNav">
+    <a href="#services" onclick="closeMobile()" data-i18n="nav.services">Services</a>
+    <a href="#work" onclick="closeMobile()" data-i18n="nav.work">Work</a>
+    <a href="#contact" onclick="closeMobile()" data-i18n="nav.contact">Contact</a>
+    <div class="nav__lang">
+      <span class="active">EN</span>
+      <span class="nav__lang-divider">/</span>
+      <span>ES</span>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- ── Hero ── -->
+    <section class="hero" id="hero">
+      <div class="hero__content">
+        <h1 class="hero__headline" data-i18n-html="hero.headline"><span class="bold">We turn complex</span><br>into clear</h1>
+        <p class="hero__subtitle" data-i18n="hero.subtitle">Corporate video production that transforms internal communications into content your team actually watches.</p>
+        <a href="#work" class="hero__cta">
+          <span data-i18n="hero.cta">See our work</span>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ── Services ── -->
+    <section class="services" id="services">
+      <div class="services__header">
+        <p class="services__label" data-i18n="services.label">What we do</p>
+        <h2 class="services__title" data-i18n-html="services.title">Four ways we help your team <strong>communicate better</strong></h2>
+      </div>
+
+      <div class="services__grid">
+        <div class="service-card">
+          <p class="service-card__number">01</p>
+          <svg class="service-card__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
+          <h3 class="service-card__title" data-i18n="services.s1.title">Event Recaps</h3>
+          <p class="service-card__desc" data-i18n="services.s1.desc">We capture your corporate events and transform them into compelling recaps that keep the momentum alive long after the applause.</p>
+        </div>
+
+        <div class="service-card">
+          <p class="service-card__number">02</p>
+          <svg class="service-card__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/></svg>
+          <h3 class="service-card__title" data-i18n="services.s2.title">Product Explainers</h3>
+          <p class="service-card__desc" data-i18n="services.s2.desc">Animated walkthroughs of your tools and software. We make your platform intuitive before anyone even opens it.</p>
+        </div>
+
+        <div class="service-card">
+          <p class="service-card__number">03</p>
+          <svg class="service-card__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
+          <h3 class="service-card__title" data-i18n="services.s3.title">FY Reviews</h3>
+          <p class="service-card__desc" data-i18n="services.s3.desc">Year-end results and next-year projections presented in a format that actually keeps your audience engaged through the last slide.</p>
+        </div>
+
+        <div class="service-card">
+          <p class="service-card__number">04</p>
+          <svg class="service-card__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"/></svg>
+          <h3 class="service-card__title" data-i18n="services.s4.title">Training Videos</h3>
+          <p class="service-card__desc" data-i18n="services.s4.desc">Onboarding and educational content that turns complex processes into clear, watchable guides your team will actually remember.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Work / Portfolio ── -->
+    <section class="work" id="work">
+      <div class="work__header">
+        <p class="work__label" data-i18n="work.label">Selected work</p>
+        <h2 class="work__title" data-i18n-html="work.title">Projects that <strong>speak for themselves</strong></h2>
+      </div>
+
+      <div class="work__grid">
+
+        <!-- Project 1: Software Walkthrough (based on Bankline/SOAP) -->
+        <div class="work-item">
+          <div class="work-item__image">
+            <div class="work-item__image-placeholder">Video thumbnail</div>
+          </div>
+          <div class="work-item__info">
+            <div class="work-item__tags">
+              <span class="work-item__tag">Software</span>
+              <span class="work-item__tag">Animation</span>
+            </div>
+            <h3 class="work-item__title" data-i18n="work.p1.title">Enterprise Platform Walkthrough</h3>
+            <p class="work-item__desc" data-i18n="work.p1.desc">Animated walkthrough for a global logistics platform. We recreated the full interface and guided 4,000+ employees through every feature — reducing support tickets by 40% in the first quarter.</p>
+            <div class="work-item__meta">
+              <div class="work-item__meta-item">
+                <span class="work-item__meta-label">Type</span>
+                <span class="work-item__meta-value">Product Explainer</span>
+              </div>
+              <div class="work-item__meta-item">
+                <span class="work-item__meta-label">Duration</span>
+                <span class="work-item__meta-value">2:30 min</span>
+              </div>
+              <div class="work-item__meta-item">
+                <span class="work-item__meta-label">Industry</span>
+                <span class="work-item__meta-value">Logistics</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2: Product Launch (based on Collagen & BCAA) -->
+        <div class="work-item">
+          <div class="work-item__image">
+            <div class="work-item__image-placeholder">Video thumbnail</div>
+          </div>
+          <div class="work-item__info">
+            <div class="work-item__tags">
+              <span class="work-item__tag">Motion Graphics</span>
+              <span class="work-item__tag">3D</span>
+            </div>
+            <h3 class="work-item__title" data-i18n="work.p2.title">Nutraceutical Product Showcase</h3>
+            <p class="work-item__desc" data-i18n="work.p2.desc">3D motion graphics combined with technical infographics to introduce a new supplement line to internal sales teams. The video became the go-to training material across 12 regional offices.</p>
+            <div class="work-item__meta">
+              <div class="work-item__meta-item">
+                <span class="work-item__meta-label">Type</span>
+                <span class="work-item__meta-value">Product Launch</span>
+              </div>
+              <div class="work-item__meta-item">
+                <span class="work-item__meta-label">Duration</span>
+                <span class="work-item__meta-value">1:45 min</span>
+              </div>
+              <div class="work-item__meta-item">
+                <span class="work-item__meta-label">Industry</span>
+                <span class="work-item__meta-value">Healthcare</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3: Medical Explainer (based on Chemical Peels) -->
+        <div class="work-item">
+          <div class="work-item__image">
+            <div class="work-item__image-placeholder">Video thumbnail</div>
+          </div>
+          <div class="work-item__info">
+            <div class="work-item__tags">
+              <span class="work-item__tag">Explainer</span>
+              <span class="work-item__tag">Educational</span>
+            </div>
+            <h3 class="work-item__title" data-i18n="work.p3.title">Clinical Procedure Training</h3>
+            <p class="work-item__desc" data-i18n="work.p3.desc">Educational animation breaking down a multi-step clinical procedure into a clear visual guide. Used across training programs for new practitioners, replacing a 40-page manual.</p>
+            <div class="work-item__meta">
+              <div class="work-item__meta-item">
+                <span class="work-item__meta-label">Type</span>
+                <span class="work-item__meta-value">Training Video</span>
+              </div>
+              <div class="work-item__meta-item">
+                <span class="work-item__meta-label">Duration</span>
+                <span class="work-item__meta-value">3:10 min</span>
+              </div>
+              <div class="work-item__meta-item">
+                <span class="work-item__meta-label">Industry</span>
+                <span class="work-item__meta-value">Medical</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Contact ── -->
+    <section class="contact" id="contact">
+      <div class="contact__inner">
+        <div class="contact__left">
+          <p class="contact__label" data-i18n="contact.label">Get in touch</p>
+          <h2 class="contact__title" data-i18n-html="contact.title"><strong>Let's make</strong><br>something clear</h2>
+          <p class="contact__text" data-i18n="contact.text">Have a project in mind? We'd love to hear about it. Tell us what you need and we'll get back to you within 24 hours.</p>
+          <a href="mailto:hello@arcmediahouse.com" class="contact__email">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/></svg>
+            hello@arcmediahouse.com
+          </a>
+        </div>
+
+        <form class="contact__form" onsubmit="event.preventDefault()">
+          <div class="contact__form-group">
+            <label class="contact__form-label" data-i18n="contact.form.name">Name</label>
+            <input type="text" class="contact__form-input" placeholder="Your name" data-i18n-ph="contact.form.name_ph">
+          </div>
+          <div class="contact__form-group">
+            <label class="contact__form-label" data-i18n="contact.form.email">Email</label>
+            <input type="email" class="contact__form-input" placeholder="your@email.com">
+          </div>
+          <div class="contact__form-group">
+            <label class="contact__form-label" data-i18n="contact.form.company">Company</label>
+            <input type="text" class="contact__form-input" placeholder="Your company" data-i18n-ph="contact.form.company_ph">
+          </div>
+          <div class="contact__form-group">
+            <label class="contact__form-label" data-i18n="contact.form.message">Message</label>
+            <textarea class="contact__form-textarea" placeholder="Tell us about your project..." data-i18n-ph="contact.form.message_ph"></textarea>
+          </div>
+          <button type="submit" class="contact__form-submit">
+            <span data-i18n="contact.form.submit">Send message</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+          </button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer ── -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <span class="footer__logo"><img src="Logos/Logo White Alpha.png" alt="ARC Media House"></span>
+        <p class="footer__tagline" data-i18n="footer.tagline">Corporate video production. We turn complex into clear.</p>
+      </div>
+      <div class="footer__right">
+        <div class="footer__links">
+          <a href="#services" data-i18n="nav.services">Services</a>
+          <a href="#work" data-i18n="nav.work">Work</a>
+          <a href="#contact" data-i18n="nav.contact">Contact</a>
+        </div>
+        <p class="footer__copy">&copy; 2025 ARC Media House. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── Animated diagonal lines with mouse interaction ──
+    (function () {
+      var canvas = document.getElementById('bgCanvas');
+      var ctx = canvas.getContext('2d');
+      var mouseX = -1000, mouseY = -1000;
+      var mouseRadius = 250;
+      var offset1 = 0, offset2 = 0;
+      var dpr = window.devicePixelRatio || 1;
+
+      function resize() {
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      document.addEventListener('mousemove', function (e) {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      document.addEventListener('mouseleave', function () {
+        mouseX = -1000;
+        mouseY = -1000;
+      });
+
+      // Line sets with different spacings and speeds
+      var lineSets = [
+        { spacing: 50, speed: 1.8, baseAlpha: 0.018, baseWidth: 0.8, maxAlpha: 0.07, maxWidth: 2.5 },
+        { spacing: 70, speed: -1.2, baseAlpha: 0.012, baseWidth: 0.6, maxAlpha: 0.05, maxWidth: 2.0 },
+        { spacing: 110, speed: 2.5, baseAlpha: 0.022, baseWidth: 1.0, maxAlpha: 0.08, maxWidth: 3.0 },
+        { spacing: 160, speed: -0.8, baseAlpha: 0.008, baseWidth: 0.5, maxAlpha: 0.04, maxWidth: 1.5 }
+      ];
+
+      function isDark() {
+        return document.body.classList.contains('dark');
+      }
+
+      function distToLine(px, py, x1, y1, x2, y2) {
+        var A = px - x1, B = py - y1, C = x2 - x1, D = y2 - y1;
+        var dot = A * C + B * D;
+        var lenSq = C * C + D * D;
+        var t = lenSq !== 0 ? dot / lenSq : -1;
+        t = Math.max(0, Math.min(1, t));
+        var closestX = x1 + t * C;
+        var closestY = y1 + t * D;
+        var dx = px - closestX, dy = py - closestY;
+        return Math.sqrt(dx * dx + dy * dy);
+      }
+
+      function draw() {
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        var dark = isDark();
+        var colorBase = dark ? '255,255,255' : '0,0,0';
+
+        ctx.clearRect(0, 0, w, h);
+
+        // Diagonal extent: lines go from top-right to bottom-left at -45deg
+        var diag = w + h;
+
+        for (var s = 0; s < lineSets.length; s++) {
+          var set = lineSets[s];
+          var off = (set.speed > 0 ? offset1 : offset2) * Math.abs(set.speed);
+          var spacing = set.spacing;
+          var numLines = Math.ceil(diag / spacing) + 2;
+
+          for (var i = -2; i < numLines; i++) {
+            // Perpendicular offset along the -45deg direction
+            var perpOff = (i * spacing + (off % spacing));
+            // Line start and end points (extending well beyond viewport)
+            var x1 = perpOff - h;
+            var y1 = 0 - 100;
+            var x2 = perpOff + w;
+            var y2 = h + w + 100;
+
+            // Calculate distance from mouse to this line for interactivity
+            var dist = distToLine(mouseX, mouseY, x1, y1, x2, y2);
+            var influence = Math.max(0, 1 - dist / mouseRadius);
+            // Smooth easing
+            influence = influence * influence * (3 - 2 * influence);
+
+            var alpha = set.baseAlpha + (set.maxAlpha - set.baseAlpha) * influence;
+            var lineW = set.baseWidth + (set.maxWidth - set.baseWidth) * influence;
+
+            // Dark mode boost
+            if (dark) {
+              alpha *= 1.4;
+            }
+
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = 'rgba(' + colorBase + ',' + alpha.toFixed(4) + ')';
+            ctx.lineWidth = lineW;
+            ctx.stroke();
+          }
+        }
+
+        // Advance offsets for animation
+        offset1 += 0.4;
+        offset2 += 0.4;
+
+        requestAnimationFrame(draw);
+      }
+
+      requestAnimationFrame(draw);
+    })();
+  </script>
+
+  <script>
+    // Nav scroll effect
+    const nav = document.getElementById('nav');
+    let ticking = false;
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) {
+        window.requestAnimationFrame(function () {
+          nav.classList.toggle('scrolled', window.scrollY > 10);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    // Mobile menu
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileNav = document.getElementById('mobileNav');
+
+    menuToggle.addEventListener('click', function () {
+      menuToggle.classList.toggle('open');
+      mobileNav.classList.toggle('open');
+      document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
+    });
+
+    function closeMobile() {
+      menuToggle.classList.remove('open');
+      mobileNav.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', function () {
+      document.body.classList.toggle('dark');
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    // Check saved theme
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+    }
+
+    // i18n translations
+    var translations = {
+      en: {
+        'nav.services': 'Services',
+        'nav.work': 'Work',
+        'nav.contact': 'Contact',
+        'hero.headline': '<span class="bold">We turn complex</span><br>into clear',
+        'hero.subtitle': 'Corporate video production that transforms internal communications into content your team actually watches.',
+        'hero.cta': 'See our work',
+        'services.label': 'What we do',
+        'services.title': 'Four ways we help your team <strong>communicate better</strong>',
+        'services.s1.title': 'Event Recaps',
+        'services.s1.desc': 'We capture your corporate events and transform them into compelling recaps that keep the momentum alive long after the applause.',
+        'services.s2.title': 'Product Explainers',
+        'services.s2.desc': 'Animated walkthroughs of your tools and software. We make your platform intuitive before anyone even opens it.',
+        'services.s3.title': 'FY Reviews',
+        'services.s3.desc': 'Year-end results and next-year projections presented in a format that actually keeps your audience engaged through the last slide.',
+        'services.s4.title': 'Training Videos',
+        'services.s4.desc': 'Onboarding and educational content that turns complex processes into clear, watchable guides your team will actually remember.',
+        'work.label': 'Selected work',
+        'work.title': 'Projects that <strong>speak for themselves</strong>',
+        'work.p1.title': 'Enterprise Platform Walkthrough',
+        'work.p1.desc': 'Animated walkthrough for a global logistics platform. We recreated the full interface and guided 4,000+ employees through every feature — reducing support tickets by 40% in the first quarter.',
+        'work.p2.title': 'Nutraceutical Product Showcase',
+        'work.p2.desc': '3D motion graphics combined with technical infographics to introduce a new supplement line to internal sales teams. The video became the go-to training material across 12 regional offices.',
+        'work.p3.title': 'Clinical Procedure Training',
+        'work.p3.desc': 'Educational animation breaking down a multi-step clinical procedure into a clear visual guide. Used across training programs for new practitioners, replacing a 40-page manual.',
+        'contact.label': 'Get in touch',
+        'contact.title': '<strong>Let\'s make</strong><br>something clear',
+        'contact.text': 'Have a project in mind? We\'d love to hear about it. Tell us what you need and we\'ll get back to you within 24 hours.',
+        'contact.form.name': 'Name',
+        'contact.form.name_ph': 'Your name',
+        'contact.form.email': 'Email',
+        'contact.form.company': 'Company',
+        'contact.form.company_ph': 'Your company',
+        'contact.form.message': 'Message',
+        'contact.form.message_ph': 'Tell us about your project...',
+        'contact.form.submit': 'Send message',
+        'footer.tagline': 'Corporate video production. We turn complex into clear.'
+      },
+      es: {
+        'nav.services': 'Servicios',
+        'nav.work': 'Proyectos',
+        'nav.contact': 'Contacto',
+        'hero.headline': '<span class="bold">We turn complex</span><br>into clear',
+        'hero.subtitle': 'Producción de video corporativo que transforma las comunicaciones internas en contenido que tu equipo realmente ve.',
+        'hero.cta': 'Ver proyectos',
+        'services.label': 'Lo que hacemos',
+        'services.title': 'Cuatro formas de ayudar a tu equipo a <strong>comunicar mejor</strong>',
+        'services.s1.title': 'Resúmenes de Eventos',
+        'services.s1.desc': 'Capturamos tus eventos corporativos y los transformamos en resúmenes que mantienen el impulso mucho después de los aplausos.',
+        'services.s2.title': 'Explainers de Producto',
+        'services.s2.desc': 'Recorridos animados de tus herramientas y software. Hacemos que tu plataforma sea intuitiva antes de que alguien la abra.',
+        'services.s3.title': 'Resúmenes Anuales',
+        'services.s3.desc': 'Resultados de fin de año y proyecciones presentadas en un formato que realmente mantiene a tu audiencia comprometida hasta el final.',
+        'services.s4.title': 'Videos de Capacitación',
+        'services.s4.desc': 'Contenido de onboarding y educativo que convierte procesos complejos en guías claras y visuales que tu equipo recordará.',
+        'work.label': 'Proyectos destacados',
+        'work.title': 'Proyectos que <strong>hablan por sí solos</strong>',
+        'work.p1.title': 'Recorrido de Plataforma Empresarial',
+        'work.p1.desc': 'Recorrido animado para una plataforma logística global. Recreamos toda la interfaz y guiamos a 4,000+ empleados por cada función — reduciendo tickets de soporte un 40% en el primer trimestre.',
+        'work.p2.title': 'Showcase de Producto Nutracéutico',
+        'work.p2.desc': 'Motion graphics 3D combinados con infografías técnicas para presentar una nueva línea de suplementos a equipos de ventas internos. El video se convirtió en material de referencia en 12 oficinas regionales.',
+        'work.p3.title': 'Capacitación en Procedimiento Clínico',
+        'work.p3.desc': 'Animación educativa que desglosa un procedimiento clínico en una guía visual clara. Utilizado en programas de formación para nuevos profesionales, reemplazando un manual de 40 páginas.',
+        'contact.label': 'Contáctanos',
+        'contact.title': '<strong>Let\'s make</strong><br>something clear',
+        'contact.text': '¿Tienes un proyecto en mente? Nos encantaría escucharlo. Cuéntanos qué necesitas y te responderemos en 24 horas.',
+        'contact.form.name': 'Nombre',
+        'contact.form.name_ph': 'Tu nombre',
+        'contact.form.email': 'Email',
+        'contact.form.company': 'Empresa',
+        'contact.form.company_ph': 'Tu empresa',
+        'contact.form.message': 'Mensaje',
+        'contact.form.message_ph': 'Cuéntanos sobre tu proyecto...',
+        'contact.form.submit': 'Enviar mensaje',
+        'footer.tagline': 'Producción de video corporativo. Convertimos lo complejo en claro.'
+      }
+    };
+
+    var currentLang = localStorage.getItem('lang') || 'en';
+
+    function setLang(lang) {
+      currentLang = lang;
+      localStorage.setItem('lang', lang);
+      document.documentElement.lang = lang;
+      var t = translations[lang];
+
+      // Text content
+      document.querySelectorAll('[data-i18n]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n');
+        if (t[key]) el.textContent = t[key];
+      });
+
+      // HTML content (for bold/br tags)
+      document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n-html');
+        if (t[key]) el.innerHTML = t[key];
+      });
+
+      // Placeholders
+      document.querySelectorAll('[data-i18n-ph]').forEach(function (el) {
+        var key = el.getAttribute('data-i18n-ph');
+        if (t[key]) el.placeholder = t[key];
+      });
+
+      // Update active state on lang toggles
+      document.querySelectorAll('.nav__lang').forEach(function (group) {
+        group.querySelectorAll('span:not(.nav__lang-divider)').forEach(function (s) {
+          s.classList.toggle('active', s.textContent === lang.toUpperCase());
+        });
+      });
+    }
+
+    // Language toggle clicks
+    document.querySelectorAll('.nav__lang').forEach(function (langGroup) {
+      langGroup.querySelectorAll('span:not(.nav__lang-divider)').forEach(function (el) {
+        el.addEventListener('click', function () {
+          setLang(el.textContent.toLowerCase());
+        });
+      });
+    });
+
+    // Apply saved language
+    setLang(currentLang);
+  </script>
+</body>
+</html>
