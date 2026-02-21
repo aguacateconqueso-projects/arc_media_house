@@ -114,7 +114,17 @@ a{text-decoration:none;color:inherit}button{border:none;background:none;cursor:p
 .payment-card__label{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#555;margin-bottom:12px}
 .payment-card__amount{font-size:28px;font-weight:600;color:#e8e8e8;margin-bottom:4px}
 .payment-card__pct{font-size:13px;color:#4a9ece;margin-bottom:16px}.payment-card__desc{font-size:13px;font-weight:300;color:#666;line-height:1.5}
+.payment-card__list{display:flex;flex-direction:column;gap:6px;text-align:left;margin-top:16px}
+.payment-card__list-item{font-size:13px;font-weight:300;color:#666;padding-left:14px;position:relative;line-height:1.5}.payment-card__list-item::before{content:"";position:absolute;left:0;top:8px;width:4px;height:4px;border-radius:50%;background:#333}
 .payment-methods{text-align:center;margin-top:32px;font-size:14px;font-weight:300;color:#555}
+.payment-methods__list{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 24px;margin-top:12px}
+.payment-methods__item{font-size:14px;font-weight:300;color:#666;display:flex;align-items:center;gap:6px}.payment-methods__item::before{content:"\2022";color:#4a9ece}
+.payment-validity{text-align:center;margin-top:20px;font-size:13px;color:#555;font-style:italic}
+.legal-block{margin-top:64px;padding-top:48px;border-top:1px solid rgba(255,255,255,.06)}
+.legal-block__text{font-size:15px;font-weight:300;line-height:1.7;color:#888;margin-bottom:24px}
+.legal-block__list{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.legal-block__list-item{font-size:14px;font-weight:300;color:#777;padding-left:16px;position:relative;line-height:1.5}.legal-block__list-item::before{content:"";position:absolute;left:0;top:9px;width:4px;height:4px;border-radius:50%;background:#4a9ece}
+.legal-block__note{font-size:13px;font-weight:400;color:#666;font-style:italic}
 .nextsteps{text-align:center;padding:120px 48px 80px}
 .nextsteps__text{font-size:17px;font-weight:300;line-height:1.7;color:#888;max-width:640px;margin:0 auto 24px}
 .nextsteps__highlight{font-size:16px;color:#999;font-style:italic;margin-bottom:56px}
@@ -211,7 +221,15 @@ body.light .payment-card{background:rgba(0,0,0,.025)}
 body.light .payment-card__label{color:#999}
 body.light .payment-card__amount{color:#1a1a1a}
 body.light .payment-card__desc{color:#888}
+body.light .payment-card__list-item{color:#666}
+body.light .payment-card__list-item::before{background:#ccc}
 body.light .payment-methods{color:#999}
+body.light .payment-methods__item{color:#555}
+body.light .payment-validity{color:#999}
+body.light .legal-block{border-top-color:rgba(0,0,0,.08)}
+body.light .legal-block__text{color:#666}
+body.light .legal-block__list-item{color:#555}
+body.light .legal-block__note{color:#777}
 body.light .nextsteps__text{color:#666}
 body.light .nextsteps__highlight{color:#777}
 body.light .cta-btn--primary{color:#fff}
@@ -358,11 +376,24 @@ body.light .lang-toggle button{border-color:rgba(0,0,0,.1);color:#999}body.light
 </tbody></table>
 <p class="section-label" style="margin-top:64px" data-es="Estructura de Pago">Payment Structure</p>
 <div class="payment-grid">
-<div class="payment-card"><p class="payment-card__label" data-es="Depósito">Deposit</p><p class="payment-card__amount">$4,250</p><p class="payment-card__pct">50%</p><p class="payment-card__desc" data-es="Al inicio del proyecto. Asegura el cronograma de producción e inicia el desarrollo creativo.">Due at project kickoff. Secures production timeline and initiates creative development.</p></div>
-<div class="payment-card"><p class="payment-card__label" data-es="Hito">Milestone</p><p class="payment-card__amount">$2,125</p><p class="payment-card__pct">25%</p><p class="payment-card__desc" data-es="Al entregar el Video 2. Confirma satisfacción con el trabajo realizado.">Due upon delivery of Video 2. Confirms satisfaction with work to date.</p></div>
-<div class="payment-card"><p class="payment-card__label" data-es="Pago Final">Final Payment</p><p class="payment-card__amount">$2,125</p><p class="payment-card__pct">25%</p><p class="payment-card__desc" data-es="Al entregar el paquete final. Todos los assets organizados y entregados.">Due upon final delivery. Complete package with all assets organized.</p></div>
+<div class="payment-card"><p class="payment-card__label" data-es="Depósito">Deposit</p><p class="payment-card__amount">$4,250</p><p class="payment-card__pct" data-es="50% &#x2014; USD">50% &#x2014; USD</p><div class="payment-card__list"><p class="payment-card__list-item" data-es="Al firmar el contrato">Due upon contract signature</p><p class="payment-card__list-item" data-es="Asegura el cronograma de producción">Secures production timeline</p><p class="payment-card__list-item" data-es="Inicia la fase de desarrollo creativo">Initiates creative development phase</p></div></div>
+<div class="payment-card"><p class="payment-card__label" data-es="Pago de Hito">Milestone Payment</p><p class="payment-card__amount">$2,125</p><p class="payment-card__pct" data-es="25% &#x2014; USD">25% &#x2014; USD</p><div class="payment-card__list"><p class="payment-card__list-item" data-es="Al entregar el Video 2">Due upon delivery of Video 2</p><p class="payment-card__list-item" data-es="Confirma satisfacción con el trabajo realizado">Confirms satisfaction with work to date</p><p class="payment-card__list-item" data-es="Libera la producción del Video 3">Releases production of Video 3</p></div></div>
+<div class="payment-card"><p class="payment-card__label" data-es="Pago Final">Final Payment</p><p class="payment-card__amount">$2,125</p><p class="payment-card__pct" data-es="25% &#x2014; USD">25% &#x2014; USD</p><div class="payment-card__list"><p class="payment-card__list-item" data-es="Al entregar el paquete final">Due upon final delivery</p><p class="payment-card__list-item" data-es="Paquete completo con todos los assets">Complete package with all assets</p><p class="payment-card__list-item" data-es="Estructura de archivos organizada para fácil acceso">Organized file structure for easy access</p></div></div>
 </div>
-<p class="payment-methods" data-es="Aceptamos: Transferencia bancaria / Wire &#x2022; PayPal &#x2022; Tarjeta de crédito (vía factura) &#x2022; Todos los pagos en USD">Accepted: Bank transfer / Wire &#x2022; PayPal &#x2022; Credit card (via invoice) &#x2022; All payments in USD</p>
+<p class="payment-methods" data-es="Métodos de Pago Aceptados:">Accepted Payment Methods:</p>
+<div class="payment-methods__list"><span class="payment-methods__item" data-es="Transferencia bancaria / Wire">Bank transfer / Wire</span><span class="payment-methods__item">PayPal</span><span class="payment-methods__item" data-es="Tarjeta de crédito (vía factura)">Credit card (via invoice)</span></div>
+<p class="payment-validity" data-es="Todos los pagos en USD. Precios válidos hasta el 7 de marzo de 2026.">All payments in USD. Prices valid through March 7, 2026.</p>
+<div class="legal-block">
+<p class="section-label" data-es="Legal y Confidencialidad">Legal &amp; Confidentiality</p>
+<p class="legal-block__text" data-es="Este proyecto se formalizará mediante:">This project will be formalized through:</p>
+<div class="legal-block__list">
+<p class="legal-block__list-item" data-es="Acuerdo Marco de Servicios (MSA) que describe el alcance, entregables y términos">Master Services Agreement (MSA) outlining scope, deliverables, and terms</p>
+<p class="legal-block__list-item" data-es="Acuerdo Mutuo de Confidencialidad (NDA) que protege la información propietaria">Mutual Non-Disclosure Agreement (NDA) protecting proprietary information</p>
+<p class="legal-block__list-item" data-es="Acuerdo de Derechos de Uso que define la propiedad del contenido y licenciamiento">Usage Rights Agreement defining content ownership and licensing</p>
+</div>
+<p class="legal-block__text" data-es="Los documentos se proporcionarán al aceptar la propuesta.">Documents will be provided upon acceptance of proposal.</p>
+<p class="legal-block__note" data-es="Todo el trabajo es confidencial hasta que FENEX autorice su publicación.">All work is confidential until public release is authorized by FENEX.</p>
+</div>
 </section>
 <div class="divider"></div>
 <section class="nextsteps" id="next">
