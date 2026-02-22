@@ -559,6 +559,30 @@
       width: 14px;
       height: 14px;
     }
+    .contact__form-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .contact__form-status {
+      font-size: 14px;
+      font-weight: 400;
+      margin-top: 4px;
+      min-height: 20px;
+      transition: opacity 0.3s ease;
+    }
+    .contact__form-status.success {
+      color: #2a9d4a;
+    }
+    .contact__form-status.error {
+      color: #d14;
+    }
+    body.dark .contact__form-status.success {
+      color: #4ade80;
+    }
+    body.dark .contact__form-status.error {
+      color: #f87171;
+    }
     /* ── Footer ── */
     .footer {
       background: #1a1a1a;
@@ -1114,27 +1138,32 @@
             hello@arcmediahouse.com
           </a>
         </div>
-        <form class="contact__form" onsubmit="event.preventDefault()">
+        <form class="contact__form" id="contactForm" action="https://formsubmit.co/hello@arcmediahouse.com" method="POST">
+          <input type="hidden" name="_subject" value="New message from ARC Media House website">
+          <input type="hidden" name="_captcha" value="false">
+          <input type="hidden" name="_next" value="">
+          <input type="text" name="_honey" style="display:none">
           <div class="contact__form-group">
             <label class="contact__form-label" data-i18n="contact.form.name">Name</label>
-            <input type="text" class="contact__form-input" placeholder="Your name" data-i18n-ph="contact.form.name_ph">
+            <input type="text" name="name" class="contact__form-input" placeholder="Your name" data-i18n-ph="contact.form.name_ph" required>
           </div>
           <div class="contact__form-group">
             <label class="contact__form-label" data-i18n="contact.form.email">Email</label>
-            <input type="email" class="contact__form-input" placeholder="your@email.com">
+            <input type="email" name="email" class="contact__form-input" placeholder="your@email.com" required>
           </div>
           <div class="contact__form-group">
             <label class="contact__form-label" data-i18n="contact.form.company">Company</label>
-            <input type="text" class="contact__form-input" placeholder="Your company" data-i18n-ph="contact.form.company_ph">
+            <input type="text" name="company" class="contact__form-input" placeholder="Your company" data-i18n-ph="contact.form.company_ph">
           </div>
           <div class="contact__form-group">
             <label class="contact__form-label" data-i18n="contact.form.message">Message</label>
-            <textarea class="contact__form-textarea" placeholder="Tell us about your project..." data-i18n-ph="contact.form.message_ph"></textarea>
+            <textarea name="message" class="contact__form-textarea" placeholder="Tell us about your project..." data-i18n-ph="contact.form.message_ph" required></textarea>
           </div>
-          <button type="submit" class="contact__form-submit">
+          <button type="submit" class="contact__form-submit" id="contactSubmitBtn">
             <span data-i18n="contact.form.submit">Send message</span>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
           </button>
+          <p class="contact__form-status" id="formStatus"></p>
         </form>
       </div>
     </section>
@@ -1404,6 +1433,40 @@
     });
     // Apply saved language
     setLang(currentLang);
+    // Contact form AJAX submission
+    var contactForm = document.getElementById('contactForm');
+    var formStatus = document.getElementById('formStatus');
+    var submitBtn = document.getElementById('contactSubmitBtn');
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      submitBtn.querySelector('span').textContent = currentLang === 'es' ? 'Enviando...' : 'Sending...';
+      formStatus.textContent = '';
+      formStatus.className = 'contact__form-status';
+      fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { 'Accept': 'application/json' }
+      }).then(function(res) {
+        if (res.ok) {
+          formStatus.textContent = currentLang === 'es'
+            ? 'Mensaje enviado. Te responderemos pronto.'
+            : 'Message sent! We\'ll get back to you soon.';
+          formStatus.className = 'contact__form-status success';
+          contactForm.reset();
+        } else {
+          throw new Error('Form submission failed');
+        }
+      }).catch(function() {
+        formStatus.textContent = currentLang === 'es'
+          ? 'Error al enviar. Intenta de nuevo o escríbenos directamente.'
+          : 'Failed to send. Please try again or email us directly.';
+        formStatus.className = 'contact__form-status error';
+      }).finally(function() {
+        submitBtn.disabled = false;
+        submitBtn.querySelector('span').textContent = currentLang === 'es' ? 'Enviar mensaje' : 'Send message';
+      });
+    });
   </script>
 </body>
 </html>
