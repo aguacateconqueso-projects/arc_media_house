@@ -564,25 +564,79 @@
       cursor: not-allowed;
       transform: none;
     }
-    .contact__form-status {
+    /* Success overlay */
+    .contact__success-overlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(250,250,250,0.97);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      border-radius: 8px;
+      z-index: 10;
+      animation: fadeInOverlay 0.4s ease;
+    }
+    .contact__success-overlay.visible { display: flex; }
+    body.dark .contact__success-overlay { background: rgba(17,17,17,0.97); }
+    @keyframes fadeInOverlay {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .check-circle {
+      width: 80px;
+      height: 80px;
+    }
+    .check-circle__ring {
+      fill: none;
+      stroke: #2a9d4a;
+      stroke-width: 3;
+      stroke-dasharray: 166;
+      stroke-dashoffset: 166;
+      animation: ringDraw 0.6s 0.15s ease forwards;
+    }
+    .check-circle__check {
+      fill: none;
+      stroke: #2a9d4a;
+      stroke-width: 3.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48;
+      animation: checkDraw 0.35s 0.6s ease forwards;
+    }
+    @keyframes ringDraw {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes checkDraw {
+      to { stroke-dashoffset: 0; }
+    }
+    .contact__success-text {
+      font-size: 18px;
+      font-weight: 500;
+      color: #292929;
+      letter-spacing: -0.01em;
+    }
+    .contact__success-sub {
+      font-size: 14px;
+      font-weight: 300;
+      color: #717984;
+      margin-top: -16px;
+    }
+    body.dark .contact__success-text { color: #e0e0e0; }
+    body.dark .contact__success-sub { color: #888; }
+    .contact__form-error {
       font-size: 14px;
       font-weight: 400;
-      margin-top: 4px;
-      min-height: 20px;
+      color: #d14;
+      margin-top: 8px;
+      opacity: 0;
       transition: opacity 0.3s ease;
     }
-    .contact__form-status.success {
-      color: #2a9d4a;
-    }
-    .contact__form-status.error {
-      color: #d14;
-    }
-    body.dark .contact__form-status.success {
-      color: #4ade80;
-    }
-    body.dark .contact__form-status.error {
-      color: #f87171;
-    }
+    .contact__form-error.visible { opacity: 1; }
+    body.dark .contact__form-error { color: #f87171; }
+    .contact__form { position: relative; }
     /* ── Footer ── */
     .footer {
       background: #1a1a1a;
@@ -1141,7 +1195,7 @@
         <form class="contact__form" id="contactForm" action="https://formsubmit.co/hello@arcmediahouse.com" method="POST">
           <input type="hidden" name="_subject" value="New message from ARC Media House website">
           <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_next" value="">
+          <input type="hidden" name="_template" value="table">
           <input type="text" name="_honey" style="display:none">
           <div class="contact__form-group">
             <label class="contact__form-label" data-i18n="contact.form.name">Name</label>
@@ -1163,7 +1217,15 @@
             <span data-i18n="contact.form.submit">Send message</span>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
           </button>
-          <p class="contact__form-status" id="formStatus"></p>
+          <p class="contact__form-error" id="formError"></p>
+          <div class="contact__success-overlay" id="successOverlay">
+            <svg class="check-circle" viewBox="0 0 52 52">
+              <circle class="check-circle__ring" cx="26" cy="26" r="25"/>
+              <path class="check-circle__check" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+            </svg>
+            <p class="contact__success-text" id="successText">Message sent!</p>
+            <p class="contact__success-sub" id="successSub">We'll get back to you within 24 hours.</p>
+          </div>
         </form>
       </div>
     </section>
@@ -1433,35 +1495,38 @@
     });
     // Apply saved language
     setLang(currentLang);
-    // Contact form AJAX submission
+    // Contact form submission
     var contactForm = document.getElementById('contactForm');
-    var formStatus = document.getElementById('formStatus');
     var submitBtn = document.getElementById('contactSubmitBtn');
+    var formError = document.getElementById('formError');
+    var successOverlay = document.getElementById('successOverlay');
+    var successText = document.getElementById('successText');
+    var successSub = document.getElementById('successSub');
     contactForm.addEventListener('submit', function(e) {
       e.preventDefault();
       submitBtn.disabled = true;
       submitBtn.querySelector('span').textContent = currentLang === 'es' ? 'Enviando...' : 'Sending...';
-      formStatus.textContent = '';
-      formStatus.className = 'contact__form-status';
+      formError.classList.remove('visible');
       fetch(contactForm.action, {
         method: 'POST',
         body: new FormData(contactForm),
         headers: { 'Accept': 'application/json' }
       }).then(function(res) {
         if (res.ok) {
-          formStatus.textContent = currentLang === 'es'
-            ? 'Mensaje enviado. Te responderemos pronto.'
-            : 'Message sent! We\'ll get back to you soon.';
-          formStatus.className = 'contact__form-status success';
+          successText.textContent = currentLang === 'es' ? '¡Mensaje enviado!' : 'Message sent!';
+          successSub.textContent = currentLang === 'es'
+            ? 'Te responderemos en menos de 24 horas.'
+            : 'We\'ll get back to you within 24 hours.';
+          successOverlay.classList.add('visible');
           contactForm.reset();
         } else {
-          throw new Error('Form submission failed');
+          throw new Error('fail');
         }
       }).catch(function() {
-        formStatus.textContent = currentLang === 'es'
-          ? 'Error al enviar. Intenta de nuevo o escríbenos directamente.'
-          : 'Failed to send. Please try again or email us directly.';
-        formStatus.className = 'contact__form-status error';
+        formError.textContent = currentLang === 'es'
+          ? 'Error al enviar. Intenta de nuevo o escríbenos a hello@arcmediahouse.com'
+          : 'Failed to send. Try again or email us at hello@arcmediahouse.com';
+        formError.classList.add('visible');
       }).finally(function() {
         submitBtn.disabled = false;
         submitBtn.querySelector('span').textContent = currentLang === 'es' ? 'Enviar mensaje' : 'Send message';
