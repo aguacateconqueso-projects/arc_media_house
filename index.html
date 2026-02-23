@@ -229,6 +229,47 @@
     .hero__cta:hover svg {
       transform: translateX(2px);
     }
+    /* ── Brands Marquee ── */
+    .brands {
+      padding: 60px 0;
+      overflow: hidden;
+      border-top: 1px solid rgba(0, 0, 0, 0.06);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .brands__label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #999;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .brands__track {
+      display: flex;
+      align-items: center;
+      width: max-content;
+      animation: marquee 35s linear infinite;
+    }
+    .brands__track:hover {
+      animation-play-state: paused;
+    }
+    .brands__logo {
+      height: 28px;
+      width: auto;
+      margin: 0 48px;
+      opacity: 0.4;
+      filter: grayscale(100%);
+      transition: opacity 0.3s, filter 0.3s;
+    }
+    .brands__logo:hover {
+      opacity: 0.8;
+      filter: grayscale(0%);
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
     /* ── Services ── */
     .services {
       padding: 120px 48px;
@@ -782,6 +823,21 @@
     body.dark .hero__cta:hover {
       background: #ccc;
     }
+    body.dark .brands {
+      border-top-color: rgba(255, 255, 255, 0.06);
+      border-bottom-color: rgba(255, 255, 255, 0.06);
+    }
+    body.dark .brands__label {
+      color: #666;
+    }
+    body.dark .brands__logo {
+      filter: grayscale(100%) brightness(0) invert(1);
+      opacity: 0.3;
+    }
+    body.dark .brands__logo:hover {
+      filter: grayscale(0%);
+      opacity: 0.7;
+    }
     body.dark .services__label,
     body.dark .work__label,
     body.dark .contact__label {
@@ -925,6 +981,16 @@
         padding: 13px 28px;
         font-size: 14px;
       }
+      .brands {
+        padding: 40px 0;
+      }
+      .brands__label {
+        margin-bottom: 28px;
+      }
+      .brands__logo {
+        height: 22px;
+        margin: 0 32px;
+      }
       .services {
         padding: 80px 24px;
       }
@@ -1058,6 +1124,22 @@
           <span data-i18n="hero.cta">See our work</span>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
         </a>
+      </div>
+    </section>
+    <!-- ── Brands Marquee ── -->
+    <section class="brands">
+      <p class="brands__label" data-i18n="brands.label">Brands we've worked with</p>
+      <div class="brands__track">
+        <img src="Logos/brands/pg.svg" alt="P&G" class="brands__logo">
+        <img src="Logos/brands/roche.svg" alt="Roche" class="brands__logo">
+        <img src="Logos/brands/novo-nordisk.svg" alt="Novo Nordisk" class="brands__logo">
+        <img src="Logos/brands/schneider-electric.svg" alt="Schneider Electric" class="brands__logo">
+        <img src="Logos/brands/siso.svg" alt="SISO Engineering" class="brands__logo">
+        <img src="Logos/brands/pg.svg" alt="P&G" class="brands__logo" aria-hidden="true">
+        <img src="Logos/brands/roche.svg" alt="Roche" class="brands__logo" aria-hidden="true">
+        <img src="Logos/brands/novo-nordisk.svg" alt="Novo Nordisk" class="brands__logo" aria-hidden="true">
+        <img src="Logos/brands/schneider-electric.svg" alt="Schneider Electric" class="brands__logo" aria-hidden="true">
+        <img src="Logos/brands/siso.svg" alt="SISO Engineering" class="brands__logo" aria-hidden="true">
       </div>
     </section>
     <!-- ── Services ── -->
@@ -1387,6 +1469,7 @@
         'hero.headline': '<span class="bold">We turn complex</span><br>into clear',
         'hero.subtitle': 'Corporate video production that transforms internal communications into content your team actually watches.',
         'hero.cta': 'See our work',
+        'brands.label': 'Brands we\'ve worked with',
         'services.label': 'What we do',
         'services.title': 'Four ways we help your team <strong>communicate better</strong>',
         'services.s1.title': 'Event Recaps',
@@ -1425,6 +1508,7 @@
         'hero.headline': '<span class="bold">We turn complex</span><br>into clear',
         'hero.subtitle': 'Producción de video corporativo que transforma las comunicaciones internas en contenido que tu equipo realmente ve.',
         'hero.cta': 'Ver proyectos',
+        'brands.label': 'Marcas con las que hemos trabajado',
         'services.label': 'Lo que hacemos',
         'services.title': 'Cuatro formas de ayudar a tu equipo a <strong>comunicar mejor</strong>',
         'services.s1.title': 'Resúmenes de Eventos',
