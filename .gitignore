@@ -16,3 +16,6 @@ References/
 *.swp
 *.swo
 *~
+
+# Local Netlify folder
+.netlify
