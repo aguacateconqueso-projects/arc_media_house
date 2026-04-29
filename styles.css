@@ -242,28 +242,28 @@ section { position: relative; }
   letter-spacing: -0.06em;
   line-height: 0.85;
   transform: translateY(110%);
-  animation: introIn 700ms cubic-bezier(.2,.7,.2,1) forwards;
+  animation: introIn 500ms cubic-bezier(.2,.7,.2,1) forwards;
 }
-.intro__char:nth-child(1) { animation-delay: 100ms; }
-.intro__char:nth-child(2) { animation-delay: 220ms; }
-.intro__char:nth-child(3) { animation-delay: 340ms; }
+.intro__char:nth-child(1) { animation-delay: 40ms; }
+.intro__char:nth-child(2) { animation-delay: 120ms; }
+.intro__char:nth-child(3) { animation-delay: 200ms; }
 .intro__line {
   position: absolute; left: var(--pad-x); right: var(--pad-x); bottom: 32px;
   display: flex; justify-content: space-between;
   font-family: 'Geist Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
   color: var(--fg-2);
-  opacity: 0; animation: fadeIn 600ms 600ms forwards;
+  opacity: 0; animation: fadeIn 400ms 300ms forwards;
 }
 .intro__bar {
   position: absolute; left: 0; bottom: 0; height: 2px; background: var(--accent);
-  width: 0%; animation: barIn 1400ms cubic-bezier(.2,.7,.2,1) forwards;
+  width: 0%; animation: barIn 700ms cubic-bezier(.2,.7,.2,1) forwards;
 }
 @keyframes introIn { to { transform: translateY(0); } }
 @keyframes fadeIn { to { opacity: 1; } }
 @keyframes barIn { from { width: 0; } to { width: 100%; } }
 .intro.is-out {
-  animation: introOut 700ms cubic-bezier(.7,0,.3,1) forwards;
-  animation-delay: 1500ms;
+  animation: introOut 500ms cubic-bezier(.7,0,.3,1) forwards;
+  animation-delay: 700ms;
 }
 @keyframes introOut {
   to { transform: translateY(-100%); }

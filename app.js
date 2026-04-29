@@ -125,7 +125,7 @@
     var i = document.querySelector('.intro');
     if (!i) return;
     setTimeout(function() { i.classList.add('is-out'); }, 100);
-    setTimeout(function() { i.remove(); sessionStorage.setItem('arc-intro-shown', '1'); }, 2400);
+    setTimeout(function() { i.remove(); sessionStorage.setItem('arc-intro-shown', '1'); }, 1400);
   });
 })();
 
