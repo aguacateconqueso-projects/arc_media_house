@@ -349,7 +349,7 @@
 /* stats */
 .stats { padding: 80px 0; border-block: 1px solid var(--line); }
 .stats__row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-.stat { display: flex; flex-direction: column; gap: 14px; padding-right: 24px; border-right: 1px solid var(--line); }
+.stat { display: flex; flex-direction: column; gap: 14px; padding-right: 24px; border-right: 1px solid var(--line); align-items: center; text-align: center; }
 .stat:last-child { border-right: 0; }
 .stat__num { font-size: clamp(64px, 9vw, 140px); line-height: 0.85; letter-spacing: -0.05em; }
 .stat__label { font-size: 11px; letter-spacing: 0.1em; color: var(--fg-2); }
