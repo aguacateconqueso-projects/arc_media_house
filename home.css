@@ -218,6 +218,8 @@
 }
 .work-item:hover .work-item__media { transform: scale(0.99); }
 .work-item__meta { display: flex; flex-direction: column; gap: 24px; padding-top: 24px; }
+.work-item__meta .hr-tick > div { display: flex; flex-direction: column; gap: 3px; }
+.work-item__meta .hr-tick > div .mono { display: block; }
 .work__more { padding-top: 60px; display: flex; justify-content: center; }
 @media (max-width: 720px) { .work-item { grid-template-columns: 1fr; } }
 
