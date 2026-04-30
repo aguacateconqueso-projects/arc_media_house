@@ -38,21 +38,3 @@
   });
 })();
 
-/* ---------- TITLE VIDEO STAGE ---------- */
-(function titleStage() {
-  window.addEventListener('DOMContentLoaded', function() {
-    var stage = document.querySelector('.title-stage');
-    if (!stage) return;
-    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) { stage.classList.add('is-done'); return; }
-    var video = stage.querySelector('.title-video');
-    if (video) {
-      video.play().catch(function() {});
-    }
-    /* clip-path wipe: 250ms delay + 1100ms = ~1350ms reveal complete
-       video plays inside letters until 2400ms, then cross-dissolve to clean white */
-    setTimeout(function() {
-      stage.classList.add('is-done');
-    }, 2400);
-  });
-})();
