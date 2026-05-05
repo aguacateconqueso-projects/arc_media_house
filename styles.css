@@ -115,7 +115,7 @@ section { position: relative; }
 .cursor {
   position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
   width: 8px; height: 8px; border-radius: 50%;
-  background: var(--fg);
+  background: #fff;
   transform: translate(-50%, -50%);
   transition: width var(--t-fast), height var(--t-fast), background var(--t-fast);
   mix-blend-mode: difference;
