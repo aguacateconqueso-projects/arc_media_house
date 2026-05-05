@@ -11,21 +11,39 @@
   </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ARC Media House — Studio for Video, Web &amp; AI</title>
-  <meta name="description" content="Independent studio crafting video, web and AI agents for global brands. We turn complex into clear." />
+  <title>ARC Media House — Independent Studio for Web, AI Agents &amp; Video | Madrid</title>
+  <meta name="description" content="Independent studio in Madrid building websites, AI agents and corporate films for companies with something to say. Working in English, Spanish and Portuguese." />
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <!-- Open Graph -->
-  <meta property="og:title" content="ARC Media House — Studio for Video, Web &amp; AI">
-  <meta property="og:description" content="Independent studio crafting video, web and AI agents for global brands. We turn complex into clear.">
-  <meta property="og:image" content="https://arcmediahouse.com/og-image.png">
+  <meta property="og:title" content="ARC Media House — Make something worth experiencing.">
+  <meta property="og:description" content="An independent studio for web, AI agents and corporate film. Madrid · Worldwide.">
+  <meta property="og:image" content="https://arcmediahouse.com/og-image.jpg">
   <meta property="og:url" content="https://arcmediahouse.com">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="ARC Media House">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ARC Media House — Studio for Video, Web &amp; AI">
-  <meta name="twitter:description" content="Independent studio crafting video, web and AI agents for global brands. We turn complex into clear.">
-  <meta name="twitter:image" content="https://arcmediahouse.com/og-image.png">
+  <meta name="twitter:title" content="ARC Media House — Make something worth experiencing.">
+  <meta name="twitter:description" content="An independent studio for web, AI agents and corporate film. Madrid · Worldwide.">
+  <meta name="twitter:image" content="https://arcmediahouse.com/og-image.jpg">
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "ARC Media House",
+    "description": "Independent studio for web design, AI agents and corporate video.",
+    "url": "https://arcmediahouse.com",
+    "areaServed": ["ES", "Worldwide"],
+    "knowsLanguage": ["en", "es", "pt"],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Madrid",
+      "addressCountry": "ES"
+    },
+    "serviceType": ["Web Design", "AI Agent Development", "Corporate Video Production"]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -42,8 +60,8 @@
     <span class="intro__char">C</span>
   </div>
   <div class="intro__line">
-    <span data-en="Media House — Est. 2019" data-es="Media House — Desde 2019">Media House — Est. 2019</span>
-    <span>Loading 2026 reel</span>
+    <span data-en="Media House" data-es="Media House">Media House</span>
+    <span data-en="Madrid · Worldwide" data-es="Madrid · Mundo">Madrid · Worldwide</span>
   </div>
   <div class="intro__bar"></div>
 </div>
@@ -52,9 +70,9 @@
 <nav class="nav">
   <a class="nav__logo" href="index.html"><b>ARC</b><span>/ Media House</span></a>
   <div class="nav__links">
-    <a href="services-video.html" data-en="Video" data-es="Video">Video</a>
     <a href="services-web.html" data-en="Web" data-es="Web">Web</a>
     <a href="services-ai.html" data-en="AI Agents" data-es="Agentes IA">AI Agents</a>
+    <a href="services-video.html" data-en="Video" data-es="Video">Video</a>
     <a href="#team" data-en="People" data-es="Equipo">People</a>
     <a href="#contact" data-en="Contact" data-es="Contacto">Contact</a>
   </div>
@@ -79,36 +97,34 @@
     <div class="hero__topR mono"><span data-clock>—</span></div>
   </div>
 
-  <div class="hero__wordmark container">
-    <div class="hero__row">
-      <span class="hero__char" style="--d:0">A</span>
-      <span class="hero__char" style="--d:1">R</span>
-      <span class="hero__char" style="--d:2">C</span>
-      <div class="hero__reel" aria-hidden="true">
-        <div class="hero__reel-inner">
-          <div class="hero__reel-strip">
-            <div class="reel-dummy" data-label="REEL 01"></div>
-            <div class="reel-dummy" data-label="REEL 02" style="background:#1a1a1a"></div>
-            <div class="reel-dummy" data-label="REEL 03" style="background:#222"></div>
-          </div>
-        </div>
-        <div class="hero__reel-meta mono">
-          <span><span class="dot-live"></span> 2026 REEL</span>
-          <span>03:14</span>
-        </div>
+  <div class="hero__title container">
+    <h1 class="hero__h1">
+      <span class="hero__h1-line" style="--d:0" data-en="We build" data-es="Hacemos">We build</span>
+      <span class="hero__h1-line" style="--d:1" data-en="websites, AI agents" data-es="webs, agentes IA">websites, AI agents</span>
+      <span class="hero__h1-line italic" style="--d:2" data-en="and films" data-es="y films">and films</span>
+      <span class="hero__h1-line" style="--d:3" data-en="for companies with" data-es="para empresas con">for companies with</span>
+      <span class="hero__h1-line italic" style="--d:4" data-en="something to say." data-es="algo que decir.">something to say.</span>
+    </h1>
+    <div class="hero__visual" aria-hidden="true">
+      <!-- Placeholder for future reel/showcase visual -->
+      <div class="hero__visual-frame">
+        <svg viewBox="0 0 400 300" preserveAspectRatio="none" class="hero__visual-svg">
+          <rect x="0" y="0" width="400" height="300" fill="none" stroke="currentColor" stroke-opacity="0.12"/>
+          <line x1="0" y1="0" x2="400" y2="300" stroke="currentColor" stroke-opacity="0.06"/>
+          <line x1="400" y1="0" x2="0" y2="300" stroke="currentColor" stroke-opacity="0.06"/>
+        </svg>
       </div>
-    </div>
-    <div class="hero__row hero__row--2">
-      <span class="hero__line" data-en="Media—" data-es="Media—">Media—</span>
-      <span class="hero__line italic" data-en="House" data-es="House">House</span>
+      <div class="hero__visual-meta mono">
+        <span><span class="dot-live"></span> <span data-en="REEL · Q3 2026" data-es="REEL · Q3 2026">REEL · Q3 2026</span></span>
+        <span data-en="In production" data-es="En producción">In production</span>
+      </div>
     </div>
   </div>
 
   <div class="hero__base container">
     <div class="hero__statement">
-      <p class="h-3 reveal" data-en="A studio for the post-template era." data-es="Un estudio para la era post-plantilla.">A studio for the post-template era.</p>
-      <p class="body-lg reveal" data-delay="1" data-en="We make corporate video, websites and AI agents for teams that refuse to look like everyone else. Quietly cinematic. Obsessively crafted. Shipped on time." data-es="Hacemos vídeo corporativo, webs y agentes de IA para equipos que se niegan a parecerse a los demás. Silenciosamente cinematográfico. Obsesivamente cuidado. Entregado a tiempo.">We make corporate video, websites and AI agents for teams that refuse to look like everyone else. Quietly cinematic. Obsessively crafted. Shipped on time.</p>
-      <div class="hero__cta reveal" data-delay="2">
+      <p class="body-lg reveal" data-en="A small studio that learns the business first and communicates it second. Based in Madrid, working in English, Spanish and Portuguese." data-es="Un estudio pequeño que primero entiende el negocio y luego lo comunica. En Madrid, trabajamos en inglés, español y portugués.">A small studio that learns the business first and communicates it second. Based in Madrid, working in English, Spanish and Portuguese.</p>
+      <div class="hero__cta reveal" data-delay="1">
         <a href="#contact" class="btn btn--primary" data-magnetic>
           <span data-en="Start a project" data-es="Empezar proyecto">Start a project</span>
           <span class="arrow">→</span>
@@ -121,7 +137,7 @@
     <aside class="hero__side">
       <div class="hero__sideblock">
         <span class="bracket-num">[ 001 ]</span>
-        <p class="mono small-cap" data-en="06 yrs / 80+ films / 14 countries" data-es="06 años / 80+ films / 14 países">06 yrs / 80+ films / 14 countries</p>
+        <p class="mono small-cap" data-en="Web · AI Agents · Film" data-es="Web · Agentes IA · Film">Web · AI Agents · Film</p>
       </div>
       <div class="hero__sideblock">
         <span class="bracket-num">[ 002 ]</span>

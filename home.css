@@ -50,6 +50,85 @@
 .hero__line:nth-child(2) { animation-delay: 2200ms; color: var(--fg-2); }
 @keyframes heroLine { to { opacity: 1; transform: translateY(0); } }
 
+/* hero — editorial title (v2) */
+.hero__title {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: clamp(32px, 5vw, 80px);
+  align-items: end;
+  padding-bottom: 24px;
+  position: relative;
+}
+.hero__h1 {
+  font-family: 'Geist', sans-serif;
+  font-weight: 400;
+  font-size: clamp(44px, 7.4vw, 124px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.hero__h1-line {
+  display: block;
+  opacity: 0;
+  transform: translateY(36px);
+  filter: blur(8px);
+  animation: heroLineUp 1100ms cubic-bezier(.2,.7,.2,1) forwards;
+  animation-delay: calc(var(--d, 0) * 110ms + 1700ms);
+}
+.hero__h1-line.italic {
+  font-style: italic;
+  color: var(--fg-2);
+}
+@keyframes heroLineUp {
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+
+.hero__visual {
+  position: relative;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  aspect-ratio: 4/3;
+  opacity: 0;
+  animation: fadeIn 800ms 2400ms forwards;
+  align-self: end;
+  max-width: 420px;
+  width: 100%;
+  justify-self: end;
+}
+.hero__visual-frame {
+  position: absolute;
+  inset: 0;
+  bottom: 32px;
+  overflow: hidden;
+}
+.hero__visual-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  color: var(--fg-3);
+}
+.hero__visual-meta {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  display: flex; justify-content: space-between;
+  padding: 8px 12px;
+  font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  border-top: 1px solid var(--line);
+  color: var(--fg-2);
+}
+
+@media (max-width: 920px) {
+  .hero__title { grid-template-columns: 1fr; gap: 32px; }
+  .hero__visual { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__h1-line { animation: none; opacity: 1; transform: none; filter: none; }
+  .hero__visual { animation: none; opacity: 1; }
+}
+
 .hero__reel {
   position: absolute;
   right: 0;
