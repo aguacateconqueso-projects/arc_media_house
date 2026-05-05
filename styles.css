@@ -196,23 +196,6 @@ section { position: relative; }
 .btn .arrow { display: inline-block; transition: transform var(--t-med); }
 .btn:hover .arrow { transform: translateX(4px); }
 
-/* === marquee === */
-.marquee {
-  overflow: hidden; position: relative; width: 100%;
-  border-block: 1px solid var(--line);
-  padding: 28px 0;
-}
-.marquee__track {
-  display: flex; gap: 80px; align-items: center; width: max-content;
-  animation: scroll 38s linear infinite;
-}
-.marquee__track > * { flex-shrink: 0; }
-.marquee--reverse .marquee__track { animation-direction: reverse; }
-@keyframes scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-.marquee--paused .marquee__track { animation-play-state: paused; }
 
 /* === reveal === */
 .reveal {
