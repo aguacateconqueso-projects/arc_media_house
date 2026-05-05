@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-theme="dark">
 <head>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-09PECRYP3B"></script>
@@ -9,1646 +9,568 @@
     gtag('js', new Date());
     gtag('config', 'G-09PECRYP3B');
   </script>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ARC Media House — Independent Studio for Web, AI Agents &amp; Video | Madrid</title>
+  <meta name="description" content="Independent studio in Madrid building websites, AI agents and corporate films for companies with something to say. Working in English, Spanish and Portuguese." />
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
-  <title>ARC Media House — Corporate Video Production</title>
-  <meta name="description" content="Corporate video production that transforms internal communications into content your team actually watches.">
   <!-- Open Graph -->
-  <meta property="og:title" content="ARC Media House — Corporate Video Production">
-  <meta property="og:description" content="Corporate video production that transforms internal communications into content your team actually watches.">
-  <meta property="og:image" content="https://arcmediahouse.com/og-image.png">
+  <meta property="og:title" content="ARC Media House — Make something worth experiencing.">
+  <meta property="og:description" content="An independent studio for web, AI agents and corporate film. Madrid · Worldwide.">
+  <meta property="og:image" content="https://arcmediahouse.com/og-image.jpg">
   <meta property="og:url" content="https://arcmediahouse.com">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="ARC Media House">
-  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ARC Media House — Corporate Video Production">
-  <meta name="twitter:description" content="Corporate video production that transforms internal communications into content your team actually watches.">
-  <meta name="twitter:image" content="https://arcmediahouse.com/og-image.png">
+  <meta name="twitter:title" content="ARC Media House — Make something worth experiencing.">
+  <meta name="twitter:description" content="An independent studio for web, AI agents and corporate film. Madrid · Worldwide.">
+  <meta name="twitter:image" content="https://arcmediahouse.com/og-image.jpg">
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "ARC Media House",
+    "description": "Independent studio for web design, AI agents and corporate video.",
+    "url": "https://arcmediahouse.com",
+    "areaServed": ["ES", "Worldwide"],
+    "knowsLanguage": ["en", "es", "pt"],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Madrid",
+      "addressCountry": "ES"
+    },
+    "serviceType": ["Web Design", "AI Agent Development", "Corporate Video Production"]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;700&display=swap" rel="stylesheet">
-  <style>
-    /* ── Reset ── */
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
-    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; color: #292929; background: #fafafa; font-weight: 400; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
-    a { text-decoration: none; color: inherit; }
-    ul { list-style: none; }
-    button { border: none; background: none; cursor: pointer; font-family: inherit; }
-    img { max-width: 100%; display: block; }
-    /* ── Nav ── */
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1000;
-      height: 64px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 48px;
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-bottom: 1px solid transparent;
-      transition: border-color 0.3s ease, background 0.3s ease;
-    }
-    .nav.scrolled {
-      border-bottom-color: rgba(0, 0, 0, 0.06);
-      background: rgba(255, 255, 255, 0.88);
-    }
-    .nav__logo {
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-    }
-    .nav__logo img {
-      height: 28px;
-      width: auto;
-    }
-    .nav__right {
-      display: flex;
-      align-items: center;
-      gap: 40px;
-    }
-    .nav__links {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-    }
-    .nav__links a {
-      font-size: 14px;
-      font-weight: 400;
-      color: #717984;
-      transition: color 0.2s ease;
-      letter-spacing: -0.01em;
-    }
-    .nav__links a:hover {
-      color: #292929;
-    }
-    .nav__lang {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      font-weight: 400;
-      color: #717984;
-      margin-left: 8px;
-    }
-    .nav__lang span {
-      cursor: pointer;
-      transition: color 0.2s ease;
-      padding: 2px 0;
-    }
-    .nav__lang span:hover,
-    .nav__lang span.active {
-      color: #292929;
-    }
-    .nav__lang-divider {
-      opacity: 0.3;
-      user-select: none;
-    }
-    /* Mobile menu toggle */
-    .nav__menu-toggle {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      gap: 5px;
-      width: 24px;
-      height: 24px;
-      cursor: pointer;
-    }
-    .nav__menu-toggle span {
-      display: block;
-      width: 100%;
-      height: 1.5px;
-      background: #292929;
-      border-radius: 1px;
-      transition: transform 0.3s ease, opacity 0.3s ease;
-    }
-    .nav__menu-toggle.open span:nth-child(1) {
-      transform: translateY(6.5px) rotate(45deg);
-    }
-    .nav__menu-toggle.open span:nth-child(2) {
-      opacity: 0;
-    }
-    .nav__menu-toggle.open span:nth-child(3) {
-      transform: translateY(-6.5px) rotate(-45deg);
-    }
-    /* Mobile nav overlay */
-    .nav__mobile {
-      display: none;
-      position: fixed;
-      top: 64px;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(255, 255, 255, 0.97);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 36px;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-      z-index: 999;
-    }
-    .nav__mobile.open {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .nav__mobile a {
-      font-size: 28px;
-      font-weight: 300;
-      letter-spacing: -0.02em;
-      color: #292929;
-      transition: color 0.2s ease;
-    }
-    .nav__mobile a:hover {
-      color: #555;
-    }
-    .nav__mobile .nav__lang {
-      font-size: 14px;
-      margin-left: 0;
-      margin-top: 12px;
-    }
-    /* ── Animated diagonal lines (canvas background) ── */
-    #bgCanvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-    }
-    /* ── Hero ── */
-    .hero {
-      min-height: 80vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 64px 24px 0;
-      position: relative;
-    }
-    .hero__content {
-      max-width: 820px;
-      margin: 0 auto;
-    }
-    .hero__headline {
-      font-size: 72px;
-      font-weight: 200;
-      letter-spacing: -0.03em;
-      line-height: 1;
-      color: #292929;
-      margin-bottom: 28px;
-    }
-    .hero__headline .bold {
-      font-weight: 700;
-    }
-    .hero__subtitle {
-      font-size: 19px;
-      font-weight: 300;
-      line-height: 1.55;
-      color: #717984;
-      max-width: 540px;
-      margin: 0 auto 44px;
-      letter-spacing: -0.01em;
-    }
-    .hero__cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 14px 32px;
-      background: #292929;
-      color: #fff;
-      font-size: 15px;
-      font-weight: 400;
-      border-radius: 50px;
-      letter-spacing: -0.01em;
-      transition: background 0.25s ease, transform 0.2s ease;
-    }
-    .hero__cta:hover {
-      background: #444;
-      transform: translateY(-1px);
-    }
-    .hero__cta:active {
-      transform: translateY(0);
-    }
-    .hero__cta svg {
-      width: 16px;
-      height: 16px;
-      transition: transform 0.2s ease;
-    }
-    .hero__cta:hover svg {
-      transform: translateX(2px);
-    }
-    /* ── Brands Marquee ── */
-    .brands {
-      padding: 60px 0;
-      overflow: hidden;
-      border-top: 1px solid rgba(0, 0, 0, 0.06);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    }
-    .brands__label {
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #999;
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    .brands__track {
-      display: flex;
-      align-items: center;
-      width: max-content;
-      animation: marquee 35s linear infinite;
-    }
-    .brands__track:hover {
-      animation-play-state: paused;
-    }
-    .brands__logo {
-      height: 60px;
-      width: auto;
-      margin: 0 64px;
-      flex-shrink: 0;
-      opacity: 0.4;
-      filter: grayscale(100%);
-      transition: opacity 0.3s, filter 0.3s;
-    }
-    .brands__logo:hover {
-      opacity: 0.8;
-      filter: grayscale(0%);
-    }
-    @keyframes marquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-25%); }
-    }
-    /* ── Services ── */
-    .services {
-      padding: 120px 48px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .services__header {
-      margin-bottom: 80px;
-    }
-    .services__label {
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #999;
-      margin-bottom: 20px;
-    }
-    .services__title {
-      font-size: 40px;
-      font-weight: 200;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      color: #292929;
-      max-width: 600px;
-    }
-    .services__title strong {
-      font-weight: 700;
-    }
-    .services__grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: rgba(0, 0, 0, 0.06);
-      border-top: 1px solid rgba(0, 0, 0, 0.06);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    }
-    .service-card {
-      background: #fafafa;
-      padding: 48px 40px;
-      position: relative;
-      transition: background 0.3s ease;
-    }
-    .service-card:hover {
-      background: #f0f0f0;
-    }
-    .service-card__number {
-      font-size: 13px;
-      font-weight: 400;
-      color: #bbb;
-      letter-spacing: 0.02em;
-      margin-bottom: 24px;
-    }
-    .service-card__title {
-      font-size: 22px;
-      font-weight: 500;
-      letter-spacing: -0.02em;
-      color: #292929;
-      margin-bottom: 14px;
-    }
-    .service-card__desc {
-      font-size: 15px;
-      font-weight: 300;
-      line-height: 1.6;
-      color: #717984;
-      max-width: 380px;
-    }
-    .service-card__icon {
-      position: absolute;
-      top: 48px;
-      right: 40px;
-      width: 32px;
-      height: 32px;
-      color: #ccc;
-      transition: color 0.3s ease;
-    }
-    .service-card:hover .service-card__icon {
-      color: #292929;
-    }
-    /* ── Work / Portfolio ── */
-    .work {
-      padding: 120px 48px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .work__header {
-      margin-bottom: 72px;
-    }
-    .work__label {
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #999;
-      margin-bottom: 20px;
-    }
-    .work__title {
-      font-size: 40px;
-      font-weight: 200;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      color: #292929;
-      max-width: 500px;
-    }
-    .work__title strong {
-      font-weight: 700;
-    }
-    .work__grid {
-      display: flex;
-      flex-direction: column;
-      gap: 64px;
-    }
-    .work-item {
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 56px;
-      align-items: center;
-    }
-    .work-item:nth-child(even) {
-      direction: rtl;
-    }
-    .work-item:nth-child(even) > * {
-      direction: ltr;
-    }
-    .work-item__image {
-      width: 100%;
-      aspect-ratio: 16 / 10;
-      background: #e8e8e8;
-      border-radius: 16px;
-      overflow: hidden;
-      position: relative;
-    }
-    .work-item__image-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #bbb;
-      font-size: 14px;
-      font-weight: 400;
-      letter-spacing: 0.05em;
-    }
-    .work-item__video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .work-item__info {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-    .work-item__tags {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .work-item__tag {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: #717984;
-      background: #f0f0f0;
-      padding: 5px 14px;
-      border-radius: 50px;
-    }
-    .work-item__title {
-      font-size: 26px;
-      font-weight: 500;
-      letter-spacing: -0.02em;
-      color: #292929;
-      line-height: 1.2;
-    }
-    .work-item__desc {
-      font-size: 15px;
-      font-weight: 300;
-      line-height: 1.65;
-      color: #717984;
-    }
-    .work-item__meta {
-      display: flex;
-      gap: 24px;
-      margin-top: 4px;
-    }
-    .work-item__meta-item {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .work-item__meta-label {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #bbb;
-    }
-    .work-item__meta-value {
-      font-size: 14px;
-      font-weight: 400;
-      color: #292929;
-    }
-    /* ── Contact ── */
-    .contact {
-      padding: 120px 48px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    .contact__inner {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: start;
-    }
-    .contact__left {}
-    .contact__label {
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #999;
-      margin-bottom: 20px;
-    }
-    .contact__title {
-      font-size: 40px;
-      font-weight: 200;
-      letter-spacing: -0.03em;
-      line-height: 1.15;
-      color: #292929;
-      margin-bottom: 24px;
-    }
-    .contact__title strong {
-      font-weight: 700;
-    }
-    .contact__text {
-      font-size: 16px;
-      font-weight: 300;
-      line-height: 1.65;
-      color: #717984;
-      margin-bottom: 40px;
-      max-width: 420px;
-    }
-    .contact__email {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 18px;
-      font-weight: 400;
-      color: #292929;
-      letter-spacing: -0.01em;
-      border-bottom: 1px solid rgba(0,0,0,0.15);
-      padding-bottom: 4px;
-      transition: border-color 0.2s ease;
-    }
-    .contact__email:hover {
-      border-bottom-color: #292929;
-    }
-    .contact__email svg {
-      width: 18px;
-      height: 18px;
-      color: #999;
-    }
-    .contact__form {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    .contact__form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .contact__form-label {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: #999;
-    }
-    .contact__form-input,
-    .contact__form-textarea {
-      font-family: 'Inter', sans-serif;
-      font-size: 15px;
-      font-weight: 300;
-      color: #292929;
-      background: transparent;
-      border: none;
-      border-bottom: 1px solid rgba(0,0,0,0.1);
-      padding: 12px 0;
-      outline: none;
-      transition: border-color 0.2s ease;
-    }
-    .contact__form-input:focus,
-    .contact__form-textarea:focus {
-      border-bottom-color: #292929;
-    }
-    .contact__form-input::placeholder,
-    .contact__form-textarea::placeholder {
-      color: #ccc;
-    }
-    .contact__form-textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-    .contact__form-submit {
-      align-self: flex-start;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 14px 36px;
-      background: #292929;
-      color: #fff;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 400;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      letter-spacing: -0.01em;
-      transition: background 0.25s ease, transform 0.2s ease;
-      margin-top: 8px;
-    }
-    .contact__form-submit:hover {
-      background: #444;
-      transform: translateY(-1px);
-    }
-    .contact__form-submit svg {
-      width: 14px;
-      height: 14px;
-    }
-    .contact__form-submit:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
-    /* Success overlay */
-    .contact__success-overlay {
-      display: none;
-      position: absolute;
-      inset: 0;
-      background: rgba(250,250,250,0.97);
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 24px;
-      border-radius: 8px;
-      z-index: 10;
-      animation: fadeInOverlay 0.4s ease;
-    }
-    .contact__success-overlay.visible { display: flex; }
-    body.dark .contact__success-overlay { background: rgba(17,17,17,0.97); }
-    @keyframes fadeInOverlay {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    .check-circle {
-      width: 80px;
-      height: 80px;
-    }
-    .check-circle__ring {
-      fill: none;
-      stroke: #2a9d4a;
-      stroke-width: 3;
-      stroke-dasharray: 166;
-      stroke-dashoffset: 166;
-      animation: ringDraw 0.6s 0.15s ease forwards;
-    }
-    .check-circle__check {
-      fill: none;
-      stroke: #2a9d4a;
-      stroke-width: 3.5;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      stroke-dasharray: 48;
-      stroke-dashoffset: 48;
-      animation: checkDraw 0.35s 0.6s ease forwards;
-    }
-    @keyframes ringDraw {
-      to { stroke-dashoffset: 0; }
-    }
-    @keyframes checkDraw {
-      to { stroke-dashoffset: 0; }
-    }
-    .contact__success-text {
-      font-size: 18px;
-      font-weight: 500;
-      color: #292929;
-      letter-spacing: -0.01em;
-    }
-    .contact__success-sub {
-      font-size: 14px;
-      font-weight: 300;
-      color: #717984;
-      margin-top: -16px;
-    }
-    body.dark .contact__success-text { color: #e0e0e0; }
-    body.dark .contact__success-sub { color: #888; }
-    .contact__form-error {
-      font-size: 14px;
-      font-weight: 400;
-      color: #d14;
-      margin-top: 8px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .contact__form-error.visible { opacity: 1; }
-    body.dark .contact__form-error { color: #f87171; }
-    .contact__form { position: relative; }
-    /* ── Footer ── */
-    .footer {
-      background: #1a1a1a;
-      padding: 64px 48px;
-      margin-top: 40px;
-    }
-    .footer__inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 40px;
-    }
-    .footer__brand {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .footer__logo {
-      display: flex;
-      align-items: center;
-    }
-    .footer__logo img {
-      height: 28px;
-      width: auto;
-    }
-    .footer__tagline {
-      font-size: 14px;
-      font-weight: 300;
-      color: #666;
-      max-width: 280px;
-      line-height: 1.5;
-    }
-    .footer__right {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 16px;
-    }
-    .footer__links {
-      display: flex;
-      gap: 28px;
-    }
-    .footer__links a {
-      font-size: 14px;
-      font-weight: 400;
-      color: #666;
-      transition: color 0.2s ease;
-    }
-    .footer__links a:hover {
-      color: #fff;
-    }
-    .footer__copy {
-      font-size: 12px;
-      font-weight: 300;
-      color: #444;
-    }
-    /* ── Theme Toggle ── */
-    .theme-toggle {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      cursor: pointer;
-      color: #717984;
-      transition: color 0.2s ease, background 0.2s ease;
-      margin-left: 4px;
-    }
-    .theme-toggle:hover {
-      color: #292929;
-      background: rgba(0,0,0,0.04);
-    }
-    .theme-toggle svg {
-      width: 18px;
-      height: 18px;
-    }
-    .theme-toggle .icon-moon { display: block; }
-    .theme-toggle .icon-sun { display: none; }
-    /* Logo swap */
-    .nav__logo .logo-dark { display: block; }
-    .nav__logo .logo-light { display: none; }
-    /* ── Dark Mode ── */
-    body.dark {
-      background: #111;
-      color: #e0e0e0;
-    }
-    body.dark .nav {
-      background: rgba(17, 17, 17, 0.7);
-    }
-    body.dark .nav.scrolled {
-      border-bottom-color: rgba(255, 255, 255, 0.08);
-      background: rgba(17, 17, 17, 0.88);
-    }
-    body.dark .nav__logo .logo-dark { display: none; }
-    body.dark .nav__logo .logo-light { display: block; }
-    body.dark .nav__links a {
-      color: #888;
-    }
-    body.dark .nav__links a:hover {
-      color: #e0e0e0;
-    }
-    body.dark .nav__lang {
-      color: #888;
-    }
-    body.dark .nav__lang span:hover,
-    body.dark .nav__lang span.active {
-      color: #e0e0e0;
-    }
-    body.dark .nav__menu-toggle span {
-      background: #e0e0e0;
-    }
-    body.dark .nav__mobile {
-      background: rgba(17, 17, 17, 0.97);
-    }
-    body.dark .nav__mobile a {
-      color: #e0e0e0;
-    }
-    body.dark .nav__mobile a:hover {
-      color: #999;
-    }
-    body.dark .theme-toggle {
-      color: #888;
-    }
-    body.dark .theme-toggle:hover {
-      color: #e0e0e0;
-      background: rgba(255,255,255,0.06);
-    }
-    body.dark .theme-toggle .icon-moon { display: none; }
-    body.dark .theme-toggle .icon-sun { display: block; }
-    body.dark .hero__headline {
-      color: #e0e0e0;
-    }
-    body.dark .hero__subtitle {
-      color: #888;
-    }
-    body.dark .hero__cta {
-      background: #e0e0e0;
-      color: #111;
-    }
-    body.dark .hero__cta:hover {
-      background: #ccc;
-    }
-    body.dark .brands {
-      border-top-color: rgba(255, 255, 255, 0.06);
-      border-bottom-color: rgba(255, 255, 255, 0.06);
-    }
-    body.dark .brands__label {
-      color: #666;
-    }
-    body.dark .brands__logo {
-      filter: grayscale(100%) brightness(0) invert(1);
-      opacity: 0.3;
-    }
-    body.dark .brands__logo:hover {
-      filter: grayscale(0%);
-      opacity: 0.7;
-    }
-    body.dark .services__label,
-    body.dark .work__label,
-    body.dark .contact__label {
-      color: #666;
-    }
-    body.dark .services__title,
-    body.dark .work__title,
-    body.dark .contact__title {
-      color: #e0e0e0;
-    }
-    body.dark .services__grid {
-      background: rgba(255, 255, 255, 0.06);
-      border-top-color: rgba(255, 255, 255, 0.06);
-      border-bottom-color: rgba(255, 255, 255, 0.06);
-    }
-    body.dark .service-card {
-      background: #111;
-    }
-    body.dark .service-card:hover {
-      background: #1a1a1a;
-    }
-    body.dark .service-card__number {
-      color: #444;
-    }
-    body.dark .service-card__title {
-      color: #e0e0e0;
-    }
-    body.dark .service-card__desc {
-      color: #888;
-    }
-    body.dark .service-card__icon {
-      color: #333;
-    }
-    body.dark .service-card:hover .service-card__icon {
-      color: #e0e0e0;
-    }
-    body.dark .work-item__image {
-      background: #1e1e1e;
-    }
-    body.dark .work-item__image-placeholder {
-      color: #444;
-    }
-    body.dark .work-item__tag {
-      color: #999;
-      background: #1e1e1e;
-    }
-    body.dark .work-item__title {
-      color: #e0e0e0;
-    }
-    body.dark .work-item__desc {
-      color: #888;
-    }
-    body.dark .work-item__meta-label {
-      color: #555;
-    }
-    body.dark .work-item__meta-value {
-      color: #ccc;
-    }
-    body.dark .contact__title {
-      color: #e0e0e0;
-    }
-    body.dark .contact__text {
-      color: #888;
-    }
-    body.dark .contact__email {
-      color: #e0e0e0;
-      border-bottom-color: rgba(255,255,255,0.15);
-    }
-    body.dark .contact__email:hover {
-      border-bottom-color: #e0e0e0;
-    }
-    body.dark .contact__email svg {
-      color: #666;
-    }
-    body.dark .contact__form-label {
-      color: #666;
-    }
-    body.dark .contact__form-input,
-    body.dark .contact__form-textarea {
-      color: #e0e0e0;
-      border-bottom-color: rgba(255,255,255,0.1);
-    }
-    body.dark .contact__form-input:focus,
-    body.dark .contact__form-textarea:focus {
-      border-bottom-color: #e0e0e0;
-    }
-    body.dark .contact__form-input::placeholder,
-    body.dark .contact__form-textarea::placeholder {
-      color: #444;
-    }
-    body.dark .contact__form-submit {
-      background: #e0e0e0;
-      color: #111;
-    }
-    body.dark .contact__form-submit:hover {
-      background: #ccc;
-    }
-    body.dark .footer {
-      background: #0a0a0a;
-    }
-    body.dark .footer__tagline {
-      color: #555;
-    }
-    body.dark .footer__links a {
-      color: #555;
-    }
-    body.dark .footer__links a:hover {
-      color: #e0e0e0;
-    }
-    body.dark .footer__copy {
-      color: #333;
-    }
-    /* ── Responsive ── */
-    @media (max-width: 768px) {
-      .nav {
-        padding: 0 24px;
-      }
-      .nav__right {
-        display: none;
-      }
-      .nav__menu-toggle {
-        display: flex;
-      }
-      .nav__mobile {
-        display: flex;
-      }
-      .hero {
-        min-height: 75vh;
-        padding-top: 64px;
-      }
-      .hero__headline {
-        font-size: 42px;
-        margin-bottom: 22px;
-      }
-      .hero__subtitle {
-        font-size: 17px;
-        margin-bottom: 36px;
-        max-width: 400px;
-      }
-      .hero__cta {
-        padding: 13px 28px;
-        font-size: 14px;
-      }
-      .brands {
-        padding: 40px 0;
-      }
-      .brands__label {
-        margin-bottom: 28px;
-      }
-      .brands__logo {
-        height: 40px;
-        margin: 0 40px;
-      }
-      .services {
-        padding: 80px 24px;
-      }
-      .services__header {
-        margin-bottom: 48px;
-      }
-      .services__title {
-        font-size: 30px;
-      }
-      .services__grid {
-        grid-template-columns: 1fr;
-      }
-      .service-card {
-        padding: 36px 28px;
-      }
-      .service-card__icon {
-        top: 36px;
-        right: 28px;
-      }
-      .work {
-        padding: 80px 24px;
-      }
-      .work__header {
-        margin-bottom: 48px;
-      }
-      .work__title {
-        font-size: 30px;
-      }
-      .work__grid {
-        gap: 48px;
-      }
-      .work-item {
-        grid-template-columns: 1fr;
-        gap: 28px;
-      }
-      .work-item:nth-child(even) {
-        direction: ltr;
-      }
-      .work-item__title {
-        font-size: 22px;
-      }
-      .contact {
-        padding: 80px 24px;
-      }
-      .contact__inner {
-        grid-template-columns: 1fr;
-        gap: 48px;
-      }
-      .contact__title {
-        font-size: 30px;
-      }
-      .footer {
-        padding: 48px 24px;
-      }
-      .footer__inner {
-        flex-direction: column;
-        gap: 32px;
-      }
-      .footer__right {
-        align-items: flex-start;
-      }
-    }
-    @media (max-width: 480px) {
-      .hero__headline {
-        font-size: 36px;
-      }
-      .hero__subtitle {
-        font-size: 16px;
-      }
-      .services__title {
-        font-size: 26px;
-      }
-      .service-card__title {
-        font-size: 20px;
-      }
-      .work__title {
-        font-size: 26px;
-      }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="home.css" />
+  <link rel="stylesheet" href="hero-bloom.css" />
 </head>
 <body>
-  <!-- Animated background lines (canvas) -->
-  <canvas id="bgCanvas" aria-hidden="true"></canvas>
-  <!-- ── Navigation ── -->
-  <nav class="nav" id="nav">
-    <a href="#" class="nav__logo">
-      <img src="Logos/Logo Black Alpha.png" alt="ARC Media House" class="logo-dark">
-      <img src="Logos/Logo White Alpha.png" alt="ARC Media House" class="logo-light">
-    </a>
-    <div class="nav__right">
-      <ul class="nav__links">
-        <li><a href="#services" data-i18n="nav.services">Services</a></li>
-        <li><a href="#work" data-i18n="nav.work">Work</a></li>
-        <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
-      </ul>
-      <div class="nav__lang">
-        <span class="active">EN</span>
-        <span class="nav__lang-divider">/</span>
-        <span>ES</span>
-      </div>
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
-        <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"/></svg>
-        <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"/></svg>
-      </button>
+
+<!-- INTRO -->
+<div class="intro" aria-hidden="true">
+  <div class="intro__inner">
+    <span class="intro__char">A</span>
+    <span class="intro__char">R</span>
+    <span class="intro__char">C</span>
+  </div>
+  <div class="intro__line">
+    <span data-en="Media House" data-es="Media House">Media House</span>
+    <span data-en="Madrid · Worldwide" data-es="Madrid · Mundo">Madrid · Worldwide</span>
+  </div>
+  <div class="intro__bar"></div>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <a class="nav__logo" href="index.html"><b>ARC</b><span>/ Media House</span></a>
+  <div class="nav__links">
+    <a href="services-web.html" data-en="Web" data-es="Web">Web</a>
+    <a href="services-ai.html" data-en="AI Agents" data-es="Agentes IA">AI Agents</a>
+    <a href="services-video.html" data-en="Video" data-es="Video">Video</a>
+    <a href="#team" data-en="People" data-es="Equipo">People</a>
+    <a href="#contact" data-en="Contact" data-es="Contacto">Contact</a>
+  </div>
+  <div class="nav__tools">
+    <div class="lang-switch" role="group" aria-label="Language">
+      <button data-lang="en" class="is-active" onclick="setLang('en')"><span>EN</span></button>
+      <button data-lang="es" onclick="setLang('es')"><span>ES</span></button>
     </div>
-    <div class="nav__menu-toggle" id="menuToggle" aria-label="Toggle menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  </nav>
-  <!-- Mobile nav overlay -->
-  <div class="nav__mobile" id="mobileNav">
-    <a href="#services" onclick="closeMobile()" data-i18n="nav.services">Services</a>
-    <a href="#work" onclick="closeMobile()" data-i18n="nav.work">Work</a>
-    <a href="#contact" onclick="closeMobile()" data-i18n="nav.contact">Contact</a>
-    <div class="nav__lang">
-      <span class="active">EN</span>
-      <span class="nav__lang-divider">/</span>
-      <span>ES</span>
+    <div class="theme-switch" role="group" aria-label="Theme">
+      <button data-theme="dark" class="is-active" onclick="setTheme('dark')">●</button>
+      <button data-theme="light" onclick="setTheme('light')">○</button>
     </div>
   </div>
-  <main>
-    <!-- ── Hero ── -->
-    <section class="hero" id="hero">
-      <div class="hero__content">
-        <h1 class="hero__headline" data-i18n-html="hero.headline"><span class="bold">We turn complex</span><br>into clear</h1>
-        <p class="hero__subtitle" data-i18n="hero.subtitle">Corporate video production that transforms internal communications into content your team actually watches.</p>
-        <a href="#work" class="hero__cta">
-          <span data-i18n="hero.cta">See our work</span>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero__top container">
+    <div class="hero__topL">
+      <span class="eyebrow"><span class="dot"></span><span data-en="Independent Studio" data-es="Estudio Independiente">Independent Studio</span> · <span data-en="Madrid / Worldwide" data-es="Madrid / Global">Madrid / Worldwide</span></span>
+    </div>
+    <div class="hero__topR mono"><span data-clock>—</span></div>
+  </div>
+
+  <div class="hero__title container">
+    <h1 class="hero__h1">
+      <span class="hero__h1-line" style="--d:0" data-en="We build" data-es="Hacemos">We build</span>
+      <span class="hero__h1-line" style="--d:1" data-en="websites, AI agents" data-es="webs, agentes IA">websites, AI agents</span>
+      <span class="hero__h1-line italic" style="--d:2" data-en="and films" data-es="y films">and films</span>
+      <span class="hero__h1-line" style="--d:3" data-en="for companies with" data-es="para empresas con">for companies with</span>
+      <span class="hero__h1-line italic" style="--d:4" data-en="something to say." data-es="algo que decir.">something to say.</span>
+    </h1>
+  </div>
+
+  <div class="hero__base container">
+    <div class="hero__statement">
+      <p class="body-lg reveal" data-en="A small studio that learns the business first and communicates it second. Based in Madrid, working in English, Spanish and Portuguese." data-es="Un estudio pequeño que primero entiende el negocio y luego lo comunica. En Madrid, trabajamos en inglés, español y portugués.">A small studio that learns the business first and communicates it second. Based in Madrid, working in English, Spanish and Portuguese.</p>
+      <div class="hero__cta reveal" data-delay="1">
+        <a href="#contact" class="btn btn--primary" data-magnetic>
+          <span data-en="Start a project" data-es="Empezar proyecto">Start a project</span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="#work" class="btn" data-magnetic>
+          <span data-en="See selected work" data-es="Ver proyectos">See selected work</span>
         </a>
       </div>
-    </section>
-    <!-- ── Brands Marquee ── -->
-    <section class="brands">
-      <p class="brands__label" data-i18n="brands.label">Brands we've worked with</p>
-      <div class="brands__track">
-        <img src="Logos/brands/pg.png" alt="P&G" class="brands__logo">
-        <img src="Logos/brands/roche.png" alt="Roche" class="brands__logo">
-        <img src="Logos/brands/novo-nordisk.png" alt="Novo Nordisk" class="brands__logo">
-        <img src="Logos/brands/schneider-electric.png" alt="Schneider Electric" class="brands__logo">
-        <img src="Logos/brands/siso.png" alt="SISO Engineering" class="brands__logo">
-        <img src="Logos/brands/pg.png" alt="P&G" class="brands__logo" aria-hidden="true">
-        <img src="Logos/brands/roche.png" alt="Roche" class="brands__logo" aria-hidden="true">
-        <img src="Logos/brands/novo-nordisk.png" alt="Novo Nordisk" class="brands__logo" aria-hidden="true">
-        <img src="Logos/brands/schneider-electric.png" alt="Schneider Electric" class="brands__logo" aria-hidden="true">
-        <img src="Logos/brands/siso.png" alt="SISO Engineering" class="brands__logo" aria-hidden="true">
-        <img src="Logos/brands/pg.png" alt="P&G" class="brands__logo" aria-hidden="true">
-        <img src="Logos/brands/roche.png" alt="Roche" class="brands__logo" aria-hidden="true">
-        <img src="Logos/brands/novo-nordisk.png" alt="Novo Nordisk" class="brands__logo" aria-hidden="true">
-        <img src="Logos/brands/schneider-electric.png" alt="Schneider Electric" class="brands__logo" aria-hidden="true">
-        <img src="Logos/brands/siso.png" alt="SISO Engineering" class="brands__logo" aria-hidden="true">
-        <img src="Logos/brands/pg.png" alt="P&G" class="brands__logo" aria-hidden="true">
-        <img src="Logos/brands/roche.png" alt="Roche" class="brands__logo" aria-hidden="true">
-        <img src="Logos/brands/novo-nordisk.png" alt="Novo Nordisk" class="brands__logo" aria-hidden="true">
-        <img src="Logos/brands/schneider-electric.png" alt="Schneider Electric" class="brands__logo" aria-hidden="true">
-        <img src="Logos/brands/siso.png" alt="SISO Engineering" class="brands__logo" aria-hidden="true">
+    </div>
+    <aside class="hero__side">
+      <div class="hero__sideblock">
+        <span class="bracket-num">[ 001 ]</span>
+        <p class="mono small-cap" data-en="Web · AI Agents · Film" data-es="Web · Agentes IA · Film">Web · AI Agents · Film</p>
       </div>
-    </section>
-    <!-- ── Services ── -->
-    <section class="services" id="services">
-      <div class="services__header">
-        <p class="services__label" data-i18n="services.label">What we do</p>
-        <h2 class="services__title" data-i18n-html="services.title">Four ways we help your team <strong>communicate better</strong></h2>
+      <div class="hero__sideblock">
+        <span class="bracket-num">[ 002 ]</span>
+        <p class="mono small-cap" data-en="Now booking Q3 2026" data-es="Reservas Q3 2026">Now booking Q3 2026</p>
       </div>
-      <div class="services__grid">
-        <div class="service-card">
-          <p class="service-card__number">01</p>
-          <svg class="service-card__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z"/></svg>
-          <h3 class="service-card__title" data-i18n="services.s1.title">Event Recaps</h3>
-          <p class="service-card__desc" data-i18n="services.s1.desc">We capture your corporate events and transform them into compelling recaps that keep the momentum alive long after the applause.</p>
-        </div>
-        <div class="service-card">
-          <p class="service-card__number">02</p>
-          <svg class="service-card__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 0 1-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 0 1 4.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0 1 12 15a9.065 9.065 0 0 0-6.23.693L5 14.5m14.8.8 1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0 1 12 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/></svg>
-          <h3 class="service-card__title" data-i18n="services.s2.title">Product Explainers</h3>
-          <p class="service-card__desc" data-i18n="services.s2.desc">Animated walkthroughs of your tools and software. We make your platform intuitive before anyone even opens it.</p>
-        </div>
-        <div class="service-card">
-          <p class="service-card__number">03</p>
-          <svg class="service-card__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z"/></svg>
-          <h3 class="service-card__title" data-i18n="services.s3.title">FY Reviews</h3>
-          <p class="service-card__desc" data-i18n="services.s3.desc">Year-end results and next-year projections presented in a format that actually keeps your audience engaged through the last slide.</p>
-        </div>
-        <div class="service-card">
-          <p class="service-card__number">04</p>
-          <svg class="service-card__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.702 50.702 0 0 1 7.74-3.342M6.75 15a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm0 0v-3.675A55.378 55.378 0 0 1 12 8.443m-7.007 11.55A5.981 5.981 0 0 0 6.75 15.75v-1.5"/></svg>
-          <h3 class="service-card__title" data-i18n="services.s4.title">Training Videos</h3>
-          <p class="service-card__desc" data-i18n="services.s4.desc">Onboarding and educational content that turns complex processes into clear, watchable guides your team will actually remember.</p>
-        </div>
+      <div class="hero__sideblock">
+        <span class="bracket-num">[ 003 ]</span>
+        <p class="mono small-cap">hello@arcmediahouse.com</p>
       </div>
-    </section>
-    <!-- ── Work / Portfolio ── -->
-    <section class="work" id="work">
-      <div class="work__header">
-        <p class="work__label" data-i18n="work.label">Selected work</p>
-        <h2 class="work__title" data-i18n-html="work.title">Projects that <strong>speak for themselves</strong></h2>
-      </div>
-      <div class="work__grid">
-        <!-- Project 1: Let Us Pay -->
-        <div class="work-item">
-          <div class="work-item__image">
-            <video class="work-item__video" autoplay loop muted playsinline>
-              <source src="Videos/Let_us_pay.mp4" type="video/mp4">
-            </video>
-          </div>
-          <div class="work-item__info">
-            <div class="work-item__tags">
-              <span class="work-item__tag">Corporate Video</span>
-              <span class="work-item__tag">Motion Graphics</span>
-            </div>
-            <h3 class="work-item__title" data-i18n="work.p1.title">Let Us Pay — Payment Solutions Platform</h3>
-            <p class="work-item__desc" data-i18n="work.p1.desc">Corporate video highlighting a payment facilitation service for event organizers. We brought the platform benefits to life through split-screen storytelling, animated money flow diagrams, and testimonial-style delivery—helping teams understand complex procurement processes in under 90 seconds.</p>
-            <div class="work-item__meta">
-              <div class="work-item__meta-item">
-                <span class="work-item__meta-label" data-i18n="work.meta.type">Type</span>
-                <span class="work-item__meta-value">Product Explainer</span>
-              </div>
-              <div class="work-item__meta-item">
-                <span class="work-item__meta-label" data-i18n="work.meta.industry">Industry</span>
-                <span class="work-item__meta-value">Corporate Event Producer</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Project 2: Annual Results Showcase -->
-        <div class="work-item">
-          <div class="work-item__image">
-            <video class="work-item__video" autoplay loop muted playsinline>
-              <source src="Videos/FY_Motion_Editing_integration_v1_1.mp4" type="video/mp4">
-            </video>
-          </div>
-          <div class="work-item__info">
-            <div class="work-item__tags">
-              <span class="work-item__tag">Motion Graphics</span>
-              <span class="work-item__tag">Data Visualization</span>
-            </div>
-            <h3 class="work-item__title" data-i18n="work.p2.title">Annual Results Showcase — FY Highlights Reel</h3>
-            <p class="work-item__desc" data-i18n="work.p2.desc">Full-production fiscal year recap combining animated slide transitions, data visualization, stock footage integration, and dynamic title sequences. Built to communicate results, milestones, and forward strategy to global teams — keeping executives and frontline employees equally engaged.</p>
-            <div class="work-item__meta">
-              <div class="work-item__meta-item">
-                <span class="work-item__meta-label" data-i18n="work.meta.type">Type</span>
-                <span class="work-item__meta-value">FY Review</span>
-              </div>
-              <div class="work-item__meta-item">
-                <span class="work-item__meta-label" data-i18n="work.meta.industry">Industry</span>
-                <span class="work-item__meta-value">Corporate Communications</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Project 3: Corporate Gathering -->
-        <div class="work-item">
-          <div class="work-item__image">
-            <video class="work-item__video" autoplay loop muted playsinline>
-              <source src="Videos/event_recap_v1.mp4" type="video/mp4">
-            </video>
-          </div>
-          <div class="work-item__info">
-            <div class="work-item__tags">
-              <span class="work-item__tag">Event Recap</span>
-              <span class="work-item__tag">Corporate Video</span>
-            </div>
-            <h3 class="work-item__title" data-i18n="work.p3.title">Corporate Gathering — Team Summit Highlights</h3>
-            <p class="work-item__desc" data-i18n="work.p3.desc">High-energy recap from a multi-day corporate event. Combined on-location footage with animated overlays, app interface mockups, Slack integration visuals, and dynamic icon animations to capture the energy and key takeaways for internal distribution across regional teams.</p>
-            <div class="work-item__meta">
-              <div class="work-item__meta-item">
-                <span class="work-item__meta-label" data-i18n="work.meta.type">Type</span>
-                <span class="work-item__meta-value">Event Recap</span>
-              </div>
-              <div class="work-item__meta-item">
-                <span class="work-item__meta-label" data-i18n="work.meta.industry">Industry</span>
-                <span class="work-item__meta-value">Corporate Communications</span>
-              </div>
-            </div>
-          </div>
+    </aside>
+  </div>
+
+  <div class="hero__scroll mono">
+    <span data-en="Scroll" data-es="Scroll">Scroll</span>
+    <span class="hero__scroll-line"></span>
+  </div>
+</header>
+
+<!-- WHO WE WORK WITH -->
+<section class="clients container">
+  <h2 class="eyebrow clients__eyebrow"><span class="dot"></span><span data-en="Who we work with" data-es="Con quién trabajamos">Who we work with</span></h2>
+  <div class="clients__body">
+    <div class="clients__group">
+      <h3 class="clients__label mono small-cap" data-en="Working with" data-es="Trabajamos con">Working with</h3>
+      <ul class="clients__list" aria-label="Current clients">
+        <li><span data-en="Personal brands" data-es="Marcas personales">Personal brands</span></li>
+        <li><span data-en="Cultural institutions" data-es="Instituciones culturales">Cultural institutions</span></li>
+        <li><span data-en="Pharma" data-es="Farmacéutica">Pharma</span></li>
+        <li><span data-en="Event producers" data-es="Productoras de eventos">Event producers</span></li>
+      </ul>
+    </div>
+    <div class="clients__group clients__group--open">
+      <h3 class="clients__label mono small-cap" data-en="Open for" data-es="Abiertos a">Open for</h3>
+      <ul class="clients__list" aria-label="Open to new sectors">
+        <li>SaaS</li>
+        <li><span data-en="Boutique studios" data-es="Estudios boutique">Boutique studios</span></li>
+      </ul>
+    </div>
+  </div>
+  <p class="clients__footer mono" data-en="Working in English, Spanish &amp; Portuguese · Madrid / Worldwide" data-es="Trabajamos en inglés, español y portugués · Madrid / Global">Working in English, Spanish &amp; Portuguese · Madrid / Worldwide</p>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="services container">
+  <div class="services__head">
+    <div>
+      <span class="eyebrow"><span class="dot"></span>01 — <span data-en="What we do" data-es="Qué hacemos">What we do</span></span>
+    </div>
+    <div class="services__intro">
+      <h2 class="h-1 reveal">
+        <span data-en="Three crafts." data-es="Tres oficios.">Three crafts.</span><br>
+        <span class="italic" data-en="One studio." data-es="Un estudio.">One studio.</span>
+      </h2>
+      <p class="body-lg reveal" data-delay="1" data-en="The brief used to need three vendors. Now it needs one. We build the film, the site that holds it, and the agent that answers when nobody else can." data-es="Antes el brief necesitaba tres proveedores. Ahora necesita uno. Hacemos la pieza, la web que la contiene, y el agente que responde cuando nadie más puede.">The brief used to need three vendors. Now it needs one. We build the film, the site that holds it, and the agent that answers when nobody else can.</p>
+    </div>
+  </div>
+  <div class="services__list">
+    <a href="#contact" class="serv reveal">
+      <div class="serv__num bracket-num">[ 01 ]</div>
+      <div class="serv__title">
+        <h3 class="h-2" data-en="Video &amp; Motion" data-es="Vídeo &amp; Motion">Video &amp; Motion</h3>
+        <p class="body-lg" data-en="Event recaps, product explainers, FY reviews, training. Cinema discipline applied to internal comms." data-es="Recaps de eventos, explicativos de producto, FY reviews, formación. Disciplina de cine aplicada a la comunicación interna.">Event recaps, product explainers, FY reviews, training. Cinema discipline applied to internal comms.</p>
+        <div class="serv__tags mono">
+          <span>Event Recaps</span><span>Product Explainers</span><span>FY Reviews</span><span>Training</span><span>Motion / Data Viz</span>
         </div>
       </div>
-    </section>
-    <!-- ── Contact ── -->
-    <section class="contact" id="contact">
-      <div class="contact__inner">
-        <div class="contact__left">
-          <p class="contact__label" data-i18n="contact.label">Get in touch</p>
-          <h2 class="contact__title" data-i18n-html="contact.title"><strong>Let's make</strong><br>something clear</h2>
-          <p class="contact__text" data-i18n="contact.text">Have a project in mind? We'd love to hear about it. Tell us what you need and we'll get back to you within 24 hours.</p>
-          <a href="mailto:hello@arcmediahouse.com" class="contact__email">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"/></svg>
-            hello@arcmediahouse.com
-          </a>
+      <div class="serv__cta"><span class="mono" data-en="Explore →" data-es="Explorar →">Explore →</span></div>
+    </a>
+    <a href="#contact" class="serv reveal" data-delay="1">
+      <div class="serv__num bracket-num">[ 02 ]</div>
+      <div class="serv__title">
+        <h3 class="h-2" data-en="Web Design" data-es="Diseño Web">Web Design</h3>
+        <p class="body-lg" data-en="Editorial, performant, custom. Sites that feel like films and load like docs. Framer-fluent, code-friendly." data-es="Editorial, performante, custom. Webs que se sienten como films y cargan como documentos. Fluentes en Framer, amistosas con el código.">Editorial, performant, custom. Sites that feel like films and load like docs. Framer-fluent, code-friendly.</p>
+        <div class="serv__tags mono">
+          <span data-en="Brand Sites" data-es="Webs de marca">Brand Sites</span><span>Landing Pages</span><span>Microsites</span><span>SaaS Marketing</span>
         </div>
-        <form class="contact__form" id="contactForm" action="https://formsubmit.co/hello@arcmediahouse.com" method="POST">
-          <input type="hidden" name="_subject" value="New message from ARC Media House website">
-          <input type="hidden" name="_captcha" value="false">
-          <input type="hidden" name="_template" value="table">
-          <input type="text" name="_honey" style="display:none">
-          <div class="contact__form-group">
-            <label class="contact__form-label" data-i18n="contact.form.name">Name</label>
-            <input type="text" name="name" class="contact__form-input" placeholder="Your name" data-i18n-ph="contact.form.name_ph" required>
+      </div>
+      <div class="serv__cta"><span class="mono" data-en="Explore →" data-es="Explorar →">Explore →</span></div>
+    </a>
+    <a href="#ai" class="serv reveal" data-delay="2">
+      <div class="serv__num bracket-num">[ 03 ]</div>
+      <div class="serv__title">
+        <h3 class="h-2"><span data-en="AI Agents" data-es="Agentes IA">AI Agents</span> <span class="badge-new">NEW</span></h3>
+        <p class="body-lg" data-en="Conversational chat and voice agents that book, qualify, and answer 24/7 — wired into your CRM and tone of voice." data-es="Agentes conversacionales de chat y voz que reservan, califican y responden 24/7 — conectados a tu CRM y tono de voz.">Conversational chat and voice agents that book, qualify, and answer 24/7 — wired into your CRM and tone of voice.</p>
+        <div class="serv__tags mono">
+          <span data-en="Chat Agents" data-es="Agentes Chat">Chat Agents</span><span data-en="Voice Agents" data-es="Agentes Voz">Voice Agents</span><span>Custom Workflows</span><span>Integrations</span>
+        </div>
+      </div>
+      <div class="serv__cta"><span class="mono" data-en="Explore →" data-es="Explorar →">Explore →</span></div>
+    </a>
+  </div>
+</section>
+
+<!-- WORK -->
+<section id="work" class="work container">
+  <div class="work__head">
+    <span class="eyebrow"><span class="dot"></span>02 — <span data-en="Selected work" data-es="Proyectos seleccionados">Selected work</span></span>
+    <h2 class="h-1 reveal">
+      <span data-en="Projects that" data-es="Proyectos que">Projects that</span><br>
+      <span class="italic" data-en="speak first." data-es="hablan primero.">speak first.</span>
+    </h2>
+  </div>
+  <div class="work__list">
+    <a href="#" class="work-item reveal" data-cursor="hover">
+      <div class="work-item__index bracket-num">[ 001 / 003 ]</div>
+      <div class="work-item__media">
+        <video autoplay loop muted playsinline style="height:clamp(280px,50vh,560px)">
+          <source src="Videos/Let_us_pay.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="work-item__meta">
+        <h3 class="h-2"><span data-en="Let Us Pay" data-es="Let Us Pay">Let Us Pay</span> — <span class="italic" data-en="Payment Solutions Platform" data-es="Plataforma de Pagos">Payment Solutions Platform</span></h3>
+        <div class="hr-tick">
+          <div><span class="mono" style="color:var(--fg-3)">Type / </span><span data-en="Product Explainer" data-es="Explicativo Producto">Product Explainer</span></div>
+          <div><span class="mono" style="color:var(--fg-3)">Industry / </span><span data-en="Event Producer" data-es="Productor Eventos">Event Producer</span></div>
+          <div><span class="mono" style="color:var(--fg-3)">Year / </span>2025</div>
+          <div><span class="mono" style="color:var(--fg-3)">Length / </span>00:90</div>
+        </div>
+      </div>
+    </a>
+    <a href="#" class="work-item reveal" data-delay="1" data-cursor="hover">
+      <div class="work-item__index bracket-num">[ 002 / 003 ]</div>
+      <div class="work-item__media">
+        <video autoplay loop muted playsinline style="height:clamp(280px,50vh,560px)">
+          <source src="Videos/FY_Motion_Editing_integration_v1_1.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="work-item__meta">
+        <h3 class="h-2"><span data-en="Annual Results" data-es="Resultados Anuales">Annual Results</span> — <span class="italic" data-en="FY Highlights Reel" data-es="FY Highlights Reel">FY Highlights Reel</span></h3>
+        <div class="hr-tick">
+          <div><span class="mono" style="color:var(--fg-3)">Type / </span>FY Review</div>
+          <div><span class="mono" style="color:var(--fg-3)">Industry / </span>Corp Comms</div>
+          <div><span class="mono" style="color:var(--fg-3)">Year / </span>2025</div>
+          <div><span class="mono" style="color:var(--fg-3)">Length / </span>04:20</div>
+        </div>
+      </div>
+    </a>
+    <a href="#" class="work-item reveal" data-delay="2" data-cursor="hover">
+      <div class="work-item__index bracket-num">[ 003 / 003 ]</div>
+      <div class="work-item__media">
+        <video autoplay loop muted playsinline style="height:clamp(280px,50vh,560px)">
+          <source src="Videos/event_recap_v1.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="work-item__meta">
+        <h3 class="h-2"><span data-en="Corporate Gathering" data-es="Encuentro Corporativo">Corporate Gathering</span> — <span class="italic" data-en="Team Summit Highlights" data-es="Highlights del Summit">Team Summit Highlights</span></h3>
+        <div class="hr-tick">
+          <div><span class="mono" style="color:var(--fg-3)">Type / </span>Event Recap</div>
+          <div><span class="mono" style="color:var(--fg-3)">Industry / </span>Corp Comms</div>
+          <div><span class="mono" style="color:var(--fg-3)">Year / </span>2024</div>
+          <div><span class="mono" style="color:var(--fg-3)">Length / </span>02:35</div>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- AI DEMO -->
+<section id="ai" class="ai">
+  <div class="ai__head container">
+    <span class="eyebrow"><span class="dot"></span>03 — <span data-en="Try the agent" data-es="Prueba el agente">Try the agent</span></span>
+    <h2 class="h-1 reveal">
+      <span data-en="Talk to the agent" data-es="Habla con el agente">Talk to the agent</span><br>
+      <span class="italic" data-en="we built for ourselves." data-es="que hicimos para nosotros.">we built for ourselves.</span>
+    </h2>
+    <p class="body-lg reveal" data-delay="1" data-en="This is ARC's intake agent — same model we deploy for clients. Ask about pricing, timelines, the studio, anything. It answers in your language and never sleeps." data-es="Este es el agente de captación de ARC — el mismo modelo que desplegamos a clientes. Pregúntale por precios, plazos, el estudio, lo que quieras. Responde en tu idioma y nunca duerme.">This is ARC's intake agent — same model we deploy for clients. Ask about pricing, timelines, the studio, anything. It answers in your language and never sleeps.</p>
+  </div>
+  <div class="ai__panel container">
+    <div class="ai__chat" id="ai-chat">
+      <div class="ai__head-row">
+        <div class="ai__avatar">
+          <span class="ai__avatar-dot"></span>
+          <div>
+            <div class="mono" style="font-size:11px;letter-spacing:.1em;text-transform:uppercase">ARC // INTAKE-AGENT-01</div>
+            <div class="ai__status mono"><span class="ai__live"></span> <span data-en="Online · responds in &lt;2s" data-es="Online · responde en &lt;2s">Online · responds in &lt;2s</span></div>
           </div>
-          <div class="contact__form-group">
-            <label class="contact__form-label" data-i18n="contact.form.email">Email</label>
-            <input type="email" name="email" class="contact__form-input" placeholder="your@email.com" required>
-          </div>
-          <div class="contact__form-group">
-            <label class="contact__form-label" data-i18n="contact.form.company">Company</label>
-            <input type="text" name="company" class="contact__form-input" placeholder="Your company" data-i18n-ph="contact.form.company_ph">
-          </div>
-          <div class="contact__form-group">
-            <label class="contact__form-label" data-i18n="contact.form.message">Message</label>
-            <textarea name="message" class="contact__form-textarea" placeholder="Tell us about your project..." data-i18n-ph="contact.form.message_ph" required></textarea>
-          </div>
-          <button type="submit" class="contact__form-submit" id="contactSubmitBtn">
-            <span data-i18n="contact.form.submit">Send message</span>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+        </div>
+        <div class="ai__head-meta mono"><span data-en="Model: claude-haiku-4-5" data-es="Modelo: claude-haiku-4-5">Model: claude-haiku-4-5</span></div>
+      </div>
+      <div class="ai__log" id="ai-log">
+        <div class="ai__msg ai__msg--bot">
+          <div class="ai__msg-label mono">AGENT</div>
+          <div class="ai__msg-body" data-en="Hi — I'm ARC's agent. I help teams scope video, web and AI work. What are you working on?" data-es="Hola — soy el agente de ARC. Ayudo a equipos a definir proyectos de vídeo, web e IA. ¿En qué estás trabajando?">Hi — I'm ARC's agent. I help teams scope video, web and AI work. What are you working on?</div>
+        </div>
+      </div>
+      <form class="ai__form" id="ai-form">
+        <div class="ai__suggest" id="ai-suggest">
+          <button type="button" data-q-en="What's a typical timeline for a 90s explainer?" data-q-es="¿Cuál es el plazo típico para un explainer de 90s?" data-en="Timeline for an explainer?" data-es="¿Plazo para un explainer?">Timeline for an explainer?</button>
+          <button type="button" data-q-en="How much does a website cost?" data-q-es="¿Cuánto cuesta una web?" data-en="Pricing for a site?" data-es="¿Precio de una web?">Pricing for a site?</button>
+          <button type="button" data-q-en="Can you build a voice agent?" data-q-es="¿Podéis hacer un agente de voz?" data-en="Voice agent?" data-es="¿Agente de voz?">Voice agent?</button>
+        </div>
+        <div class="ai__input-row">
+          <input id="ai-input" type="text" autocomplete="off" placeholder="Ask anything…" data-en-placeholder="Ask anything — projects, pricing, process…" data-es-placeholder="Pregunta lo que quieras — proyectos, precios, proceso…" />
+          <button type="submit" class="ai__send">
+            <span data-en="Send" data-es="Enviar">Send</span>
+            <span class="arrow">↗</span>
           </button>
-          <p class="contact__form-error" id="formError"></p>
-          <div class="contact__success-overlay" id="successOverlay">
-            <svg class="check-circle" viewBox="0 0 52 52">
-              <circle class="check-circle__ring" cx="26" cy="26" r="25"/>
-              <path class="check-circle__check" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-            </svg>
-            <p class="contact__success-text" id="successText">Message sent!</p>
-            <p class="contact__success-sub" id="successSub">We'll get back to you within 24 hours.</p>
-          </div>
-        </form>
-      </div>
-    </section>
-  </main>
-  <!-- ── Footer ── -->
-  <footer class="footer">
-    <div class="footer__inner">
-      <div class="footer__brand">
-        <span class="footer__logo"><img src="Logos/Logo White Alpha.png" alt="ARC Media House"></span>
-        <p class="footer__tagline" data-i18n="footer.tagline">Corporate video production. We turn complex into clear.</p>
-      </div>
-      <div class="footer__right">
-        <div class="footer__links">
-          <a href="#services" data-i18n="nav.services">Services</a>
-          <a href="#work" data-i18n="nav.work">Work</a>
-          <a href="#contact" data-i18n="nav.contact">Contact</a>
         </div>
-        <p class="footer__copy">&copy; 2025 ARC Media House. All rights reserved.</p>
+      </form>
+    </div>
+    <aside class="ai__side">
+      <div class="ai__side-block">
+        <span class="bracket-num">[ a ]</span>
+        <h4 class="mono small-cap" data-en="What it can do" data-es="Qué puede hacer">What it can do</h4>
+        <ul class="ai__list">
+          <li data-en="Quote ranges &amp; timelines" data-es="Estimar precios y plazos">Quote ranges &amp; timelines</li>
+          <li data-en="Recommend service mix" data-es="Recomendar combinación de servicios">Recommend service mix</li>
+          <li data-en="Book a 30-min intro call" data-es="Agendar una llamada de 30 min">Book a 30-min intro call</li>
+          <li data-en="Hand off to a human" data-es="Pasar a un humano">Hand off to a human</li>
+        </ul>
+      </div>
+      <div class="ai__side-block">
+        <span class="bracket-num">[ b ]</span>
+        <h4 class="mono small-cap" data-en="Behind the curtain" data-es="Tras el telón">Behind the curtain</h4>
+        <p class="body-sm" data-en="Custom Claude agent · trained on ARC's brand voice · multilingual · &lt;2s latency." data-es="Agente Claude custom · entrenado con la voz de ARC · multiidioma · latencia &lt;2s.">Custom Claude agent · trained on ARC's brand voice · multilingual · &lt;2s latency.</p>
+      </div>
+      <a href="#contact" class="btn" data-magnetic style="width:100%;justify-content:space-between">
+        <span data-en="Build me one" data-es="Hazme uno">Build me one</span>
+        <span class="arrow">→</span>
+      </a>
+    </aside>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process container">
+  <div class="process__head">
+    <span class="eyebrow"><span class="dot"></span>04 — <span data-en="The way we work" data-es="Cómo trabajamos">The way we work</span></span>
+    <h2 class="h-1 reveal">
+      <span data-en="No deck of decks." data-es="Cero deck de decks.">No deck of decks.</span><br>
+      <span class="italic" data-en="One studio, one thread." data-es="Un estudio, un hilo.">One studio, one thread.</span>
+    </h2>
+  </div>
+  <div class="process__steps">
+    <div class="step reveal">
+      <div class="step__num mono">01</div>
+      <h4 class="h-3" data-en="Listen" data-es="Escuchar">Listen</h4>
+      <p class="body" data-en="A call. A messy doc. The thing nobody else asked. We start with what's actually true, not what's already been briefed." data-es="Una llamada. Un doc desordenado. La pregunta que nadie hizo. Empezamos por lo que es verdad, no por lo que ya estaba en el brief.">A call. A messy doc. The thing nobody else asked. We start with what's actually true, not what's already been briefed.</p>
+      <span class="step__time mono">~ 48h</span>
+    </div>
+    <div class="step reveal" data-delay="1">
+      <div class="step__num mono">02</div>
+      <h4 class="h-3" data-en="Frame" data-es="Encuadrar">Frame</h4>
+      <p class="body" data-en="One page. The story, the shape, the ship date. If we can't fit it on one page, we don't understand it yet." data-es="Una sola página. La historia, la forma, la fecha. Si no cabe en una página, aún no lo hemos entendido.">One page. The story, the shape, the ship date. If we can't fit it on one page, we don't understand it yet.</p>
+      <span class="step__time mono">~ 5d</span>
+    </div>
+    <div class="step reveal" data-delay="2">
+      <div class="step__num mono">03</div>
+      <h4 class="h-3" data-en="Make" data-es="Hacer">Make</h4>
+      <p class="body" data-en="Small team, full ownership. The same hands that designed it cut the picture and shipped the agent." data-es="Equipo pequeño, ownership total. Las mismas manos que lo diseñaron montan la imagen y entregan el agente.">Small team, full ownership. The same hands that designed it cut the picture and shipped the agent.</p>
+      <span class="step__time mono">~ 4–8 wk</span>
+    </div>
+    <div class="step reveal" data-delay="3">
+      <div class="step__num mono">04</div>
+      <h4 class="h-3" data-en="Hand off" data-es="Entregar">Hand off</h4>
+      <p class="body" data-en="Source files, CMS keys, agent prompts. Yours forever. We stay on retainer if you want us to — most clients do." data-es="Archivos fuente, claves del CMS, prompts del agente. Tuyos para siempre. Nos quedamos en retainer si quieres — la mayoría de clientes sí.">Source files, CMS keys, agent prompts. Yours forever. We stay on retainer if you want us to — most clients do.</p>
+      <span class="step__time mono">∞</span>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats container">
+  <div class="stats__row">
+    <div class="stat reveal"><div class="stat__num h-display">80<span class="italic">+</span></div><div class="stat__label mono" data-en="Films delivered" data-es="Films entregados">Films delivered</div></div>
+    <div class="stat reveal" data-delay="1"><div class="stat__num h-display">14</div><div class="stat__label mono" data-en="Countries" data-es="Países">Countries</div></div>
+    <div class="stat reveal" data-delay="2"><div class="stat__num h-display">06</div><div class="stat__label mono" data-en="Years independent" data-es="Años independientes">Years independent</div></div>
+    <div class="stat reveal" data-delay="3"><div class="stat__num h-display">24<span class="mono" style="font-size:.5em;vertical-align:super">/7</span></div><div class="stat__label mono" data-en="Agent uptime" data-es="Uptime del agente">Agent uptime</div></div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section id="team" class="team-section container">
+  <div class="team-section__head">
+    <span class="eyebrow reveal"><span class="dot"></span><span data-en="The People" data-es="El Equipo">The People</span></span>
+    <h2 class="h-1 reveal" data-delay="1">
+      <span data-en="Small team." data-es="Equipo pequeño.">Small team.</span><br>
+      <span class="italic" data-en="Big output." data-es="Gran resultado.">Big output.</span>
+    </h2>
+  </div>
+  <div class="team-grid">
+
+    <div class="team-card reveal">
+      <div class="team-card__photo">
+        <div class="team-card__placeholder" aria-label="Photo of Adrian Mendoza">AM</div>
+      </div>
+      <div class="team-card__body">
+        <div class="team-card__header">
+          <h3 class="h-2">Adrian Mendoza</h3>
+          <div class="team-card__roles mono">
+            <span data-en="Creative Director" data-es="Director Creativo">Creative Director</span>
+            <span>·</span>
+            <span data-en="Video Editor" data-es="Editor de Vídeo">Video Editor</span>
+          </div>
+        </div>
+        <p class="body" data-en="Grew up in Caracas. Spent formative years between São Paulo and Buenos Aires — somehow as a reggae music assistant producing operas. That contrast stuck. Moved to Madrid and built ARC to make corporate work that doesn't feel corporate. Detail-obsessed to a fault: the kerning, the cut point, the half-second that changes everything. Has lived on four continents worth of opinions about how things should look." data-es="Creció en Caracas. Pasó años formativos entre São Paulo y Buenos Aires — de alguna manera como asistente de música reggae produciendo óperas. Esa contradicción lo marcó. Se mudó a Madrid y construyó ARC para hacer trabajo corporativo que no se sienta corporativo. Obsesionado con el detalle: el kerning, el punto de corte, el medio segundo que cambia todo.">Grew up in Caracas. Spent formative years between São Paulo and Buenos Aires — somehow as a reggae music assistant producing operas. That contrast stuck. Moved to Madrid and built ARC to make corporate work that doesn't feel corporate. Detail-obsessed to a fault: the kerning, the cut point, the half-second that changes everything. Has lived on four continents worth of opinions about how things should look.</p>
+        <div class="team-card__meta mono small-cap">
+          <span>Venezuela · Brasil · Argentina · España</span>
+        </div>
       </div>
     </div>
-  </footer>
-  <script>
-    // ── Animated diagonal lines with mouse interaction ──
-    (function () {
-      var canvas = document.getElementById('bgCanvas');
-      var ctx = canvas.getContext('2d');
-      var mouseX = -1000, mouseY = -1000;
-      var mouseRadius = 250;
-      var offset1 = 0, offset2 = 0;
-      var dpr = window.devicePixelRatio || 1;
-      function resize() {
-        canvas.width = window.innerWidth * dpr;
-        canvas.height = window.innerHeight * dpr;
-        canvas.style.width = window.innerWidth + 'px';
-        canvas.style.height = window.innerHeight + 'px';
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      }
-      resize();
-      window.addEventListener('resize', resize);
-      document.addEventListener('mousemove', function (e) {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-      });
-      document.addEventListener('mouseleave', function () {
-        mouseX = -1000;
-        mouseY = -1000;
-      });
-      // Line sets with different spacings and speeds
-      var lineSets = [
-        { spacing: 50, speed: 1.8, baseAlpha: 0.018, baseWidth: 0.8, maxAlpha: 0.07, maxWidth: 2.5 },
-        { spacing: 70, speed: -1.2, baseAlpha: 0.012, baseWidth: 0.6, maxAlpha: 0.05, maxWidth: 2.0 },
-        { spacing: 110, speed: 2.5, baseAlpha: 0.022, baseWidth: 1.0, maxAlpha: 0.08, maxWidth: 3.0 },
-        { spacing: 160, speed: -0.8, baseAlpha: 0.008, baseWidth: 0.5, maxAlpha: 0.04, maxWidth: 1.5 }
-      ];
-      function isDark() {
-        return document.body.classList.contains('dark');
-      }
-      function distToLine(px, py, x1, y1, x2, y2) {
-        var A = px - x1, B = py - y1, C = x2 - x1, D = y2 - y1;
-        var dot = A * C + B * D;
-        var lenSq = C * C + D * D;
-        var t = lenSq !== 0 ? dot / lenSq : -1;
-        t = Math.max(0, Math.min(1, t));
-        var closestX = x1 + t * C;
-        var closestY = y1 + t * D;
-        var dx = px - closestX, dy = py - closestY;
-        return Math.sqrt(dx * dx + dy * dy);
-      }
-      function draw() {
-        var w = window.innerWidth;
-        var h = window.innerHeight;
-        var dark = isDark();
-        var colorBase = dark ? '255,255,255' : '0,0,0';
-        ctx.clearRect(0, 0, w, h);
-        // Diagonal extent: lines go from top-right to bottom-left at -45deg
-        var diag = w + h;
-        for (var s = 0; s < lineSets.length; s++) {
-          var set = lineSets[s];
-          var off = (set.speed > 0 ? offset1 : offset2) * Math.abs(set.speed);
-          var spacing = set.spacing;
-          var numLines = Math.ceil(diag / spacing) + 2;
-          for (var i = -2; i < numLines; i++) {
-            // Perpendicular offset along the -45deg direction
-            var perpOff = (i * spacing + (off % spacing));
-            // Line start and end points (extending well beyond viewport)
-            var x1 = perpOff - h;
-            var y1 = 0 - 100;
-            var x2 = perpOff + w;
-            var y2 = h + w + 100;
-            // Calculate distance from mouse to this line for interactivity
-            var dist = distToLine(mouseX, mouseY, x1, y1, x2, y2);
-            var influence = Math.max(0, 1 - dist / mouseRadius);
-            // Smooth easing
-            influence = influence * influence * (3 - 2 * influence);
-            var alpha = set.baseAlpha + (set.maxAlpha - set.baseAlpha) * influence;
-            var lineW = set.baseWidth + (set.maxWidth - set.baseWidth) * influence;
-            // Dark mode boost
-            if (dark) {
-              alpha *= 1.4;
-            }
-            ctx.beginPath();
-            ctx.moveTo(x1, y1);
-            ctx.lineTo(x2, y2);
-            ctx.strokeStyle = 'rgba(' + colorBase + ',' + alpha.toFixed(4) + ')';
-            ctx.lineWidth = lineW;
-            ctx.stroke();
-          }
-        }
-        // Advance offsets for animation
-        offset1 += 0.4;
-        offset2 += 0.4;
-        requestAnimationFrame(draw);
-      }
-      requestAnimationFrame(draw);
-    })();
-  </script>
-  <script>
-    // Nav scroll effect
-    const nav = document.getElementById('nav');
-    let ticking = false;
-    window.addEventListener('scroll', function () {
-      if (!ticking) {
-        window.requestAnimationFrame(function () {
-          nav.classList.toggle('scrolled', window.scrollY > 10);
-          ticking = false;
-        });
-        ticking = true;
-      }
+
+    <div class="team-card reveal" data-delay="1">
+      <div class="team-card__photo">
+        <div class="team-card__placeholder" aria-label="Photo of Robs">R</div>
+      </div>
+      <div class="team-card__body">
+        <div class="team-card__header">
+          <h3 class="h-2">Robs</h3>
+          <div class="team-card__roles mono">
+            <span data-en="Coming soon" data-es="Próximamente">Coming soon</span>
+          </div>
+        </div>
+        <p class="body" data-en="Bio incoming." data-es="Bio próximamente.">Bio incoming.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact container">
+  <div class="contact__head">
+    <span class="eyebrow"><span class="dot"></span>05 — <span data-en="Get in touch" data-es="Contacta">Get in touch</span></span>
+  </div>
+  <h2 class="contact__display">
+    <span class="word-reveal"><span data-en="Let's make" data-es="Hagamos algo">Let's make</span></span><br>
+    <span class="word-reveal italic" data-delay="1"><span data-en="something clear." data-es="claro.">something clear.</span></span>
+  </h2>
+  <div class="contact__grid">
+    <form class="contact__form" id="contact-form" action="https://formsubmit.co/hello@arcmediahouse.com" method="POST">
+      <input type="hidden" name="_subject" value="New message from ARC Media House website">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+      <input type="text" name="_honey" style="display:none">
+      <input type="hidden" name="service" id="selected-service" value="">
+      <label>
+        <span class="mono small-cap" data-en="01 / Name" data-es="01 / Nombre">01 / Name</span>
+        <input type="text" name="name" required placeholder="Jane Cooper" />
+      </label>
+      <label>
+        <span class="mono small-cap">02 / Email</span>
+        <input type="email" name="email" required placeholder="jane@company.com" />
+      </label>
+      <label>
+        <span class="mono small-cap" data-en="03 / Company" data-es="03 / Empresa">03 / Company</span>
+        <input type="text" name="company" placeholder="Acme Inc." />
+      </label>
+      <label>
+        <span class="mono small-cap" data-en="04 / What can we do?" data-es="04 / ¿En qué podemos ayudar?">04 / What can we do?</span>
+        <div class="chips">
+          <button type="button" class="chip" data-en="Video" data-es="Vídeo">Video</button>
+          <button type="button" class="chip" data-en="Web" data-es="Web">Web</button>
+          <button type="button" class="chip" data-en="AI Agent" data-es="Agente IA">AI Agent</button>
+          <button type="button" class="chip" data-en="All three" data-es="Las tres">All three</button>
+          <button type="button" class="chip" data-en="Not sure yet" data-es="No estoy seguro">Not sure yet</button>
+        </div>
+      </label>
+      <label>
+        <span class="mono small-cap" data-en="05 / Tell us more" data-es="05 / Cuéntanos más">05 / Tell us more</span>
+        <textarea name="message" rows="4" placeholder="A few lines about the project, the deadline, the audience…"></textarea>
+      </label>
+      <button type="submit" class="btn btn--primary" data-magnetic>
+        <span data-en="Send message" data-es="Enviar mensaje">Send message</span>
+        <span class="arrow">→</span>
+      </button>
+    </form>
+    <aside class="contact__side">
+      <div class="contact__block">
+        <span class="mono small-cap" data-en="Direct" data-es="Directo">Direct</span>
+        <a href="mailto:hello@arcmediahouse.com" class="h-3" data-magnetic>hello@<br>arcmediahouse.com</a>
+      </div>
+      <div class="contact__block">
+        <span class="mono small-cap" data-en="Studio" data-es="Estudio">Studio</span>
+        <p class="body-lg">Madrid, ES<br><span class="mono" style="color:var(--fg-3)">40.4168° N · 3.7038° W</span></p>
+      </div>
+      <div class="contact__block">
+        <span class="mono small-cap" data-en="Hours" data-es="Horario">Hours</span>
+        <p class="body-lg" data-en="Mon–Fri · 09:00–19:00 CET" data-es="Lun–Vie · 09:00–19:00 CET">Mon–Fri · 09:00–19:00 CET</p>
+        <p class="mono" style="font-size:11px;color:var(--fg-3)" data-en="The agent is here on weekends" data-es="El agente está los fines de semana">The agent is here on weekends</p>
+      </div>
+      <div class="contact__block">
+        <span class="mono small-cap" data-en="Booking" data-es="Reservas">Booking</span>
+        <p class="body-lg" data-en="Q3 2026 — taking 2 more projects" data-es="Q3 2026 — quedan 2 proyectos">Q3 2026 — taking 2 more projects</p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="hr-tick">
+      <div>ARC / Media House</div>
+      <div data-en="Madrid · Worldwide" data-es="Madrid · Global">Madrid · Worldwide</div>
+      <div><span data-clock>—</span></div>
+      <div data-en="© 2026 — All rights reserved" data-es="© 2026 — Todos los derechos reservados">© 2026 — All rights reserved</div>
+    </div>
+    <h2 class="foot-display">
+      <span data-en="Make—" data-es="Crear—">Make—</span>
+      <span class="italic" data-en="something." data-es="algo.">something.</span>
+    </h2>
+    <div class="foot-cols">
+      <div>
+        <h5 data-en="Studio" data-es="Estudio">Studio</h5>
+        <a href="#work" data-en="Work" data-es="Proyectos">Work</a>
+        <a href="#" data-en="About" data-es="Sobre">About</a>
+        <a href="#contact" data-en="Contact" data-es="Contacto">Contact</a>
+      </div>
+      <div>
+        <h5 data-en="Services" data-es="Servicios">Services</h5>
+        <a href="#services" data-en="Video &amp; Motion" data-es="Vídeo &amp; Motion">Video &amp; Motion</a>
+        <a href="#services" data-en="Web Design" data-es="Diseño Web">Web Design</a>
+        <a href="#ai" data-en="AI Agents" data-es="Agentes IA">AI Agents</a>
+      </div>
+      <div>
+        <h5 data-en="Elsewhere" data-es="En otros sitios">Elsewhere</h5>
+        <a href="#">Instagram <span class="mono" style="color:var(--fg-3)">↗</span></a>
+        <a href="#">Vimeo <span class="mono" style="color:var(--fg-3)">↗</span></a>
+        <a href="#">LinkedIn <span class="mono" style="color:var(--fg-3)">↗</span></a>
+      </div>
+      <div>
+        <h5 data-en="Direct" data-es="Directo">Direct</h5>
+        <a href="mailto:hello@arcmediahouse.com">hello@arcmediahouse.com</a>
+      </div>
+    </div>
+    <div class="foot-meta">
+      <span>ARC / 2019—2026</span>
+      <span data-en="Made in Madrid · Built by hand" data-es="Hecho en Madrid · Construido a mano">Made in Madrid · Built by hand</span>
+      <span>v 2.0</span>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+<script src="ai-chat.js"></script>
+<script src="home.js"></script>
+<script src="hero-bloom.js" defer></script>
+<script>
+  /* sync chip selection to hidden form field */
+  document.querySelectorAll('.chips .chip').forEach(function(c) {
+    c.addEventListener('click', function() {
+      var field = document.getElementById('selected-service');
+      if (field) field.value = c.textContent.trim();
     });
-    // Mobile menu
-    const menuToggle = document.getElementById('menuToggle');
-    const mobileNav = document.getElementById('mobileNav');
-    menuToggle.addEventListener('click', function () {
-      menuToggle.classList.toggle('open');
-      mobileNav.classList.toggle('open');
-      document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
-    });
-    function closeMobile() {
-      menuToggle.classList.remove('open');
-      mobileNav.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-    // Theme toggle
-    const themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener('click', function () {
-      document.body.classList.toggle('dark');
-      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
-    });
-    // Check saved theme
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark');
-    }
-    // i18n translations
-    var translations = {
-      en: {
-        'nav.services': 'Services',
-        'nav.work': 'Work',
-        'nav.contact': 'Contact',
-        'hero.headline': '<span class="bold">We turn complex</span><br>into clear',
-        'hero.subtitle': 'Corporate video production that transforms internal communications into content your team actually watches.',
-        'hero.cta': 'See our work',
-        'brands.label': 'Brands we\'ve worked with',
-        'services.label': 'What we do',
-        'services.title': 'Four ways we help your team <strong>communicate better</strong>',
-        'services.s1.title': 'Event Recaps',
-        'services.s1.desc': 'We capture your corporate events and transform them into compelling recaps that keep the momentum alive long after the applause.',
-        'services.s2.title': 'Product Explainers',
-        'services.s2.desc': 'Animated walkthroughs of your tools and software. We make your platform intuitive before anyone even opens it.',
-        'services.s3.title': 'FY Reviews',
-        'services.s3.desc': 'Year-end results and next-year projections presented in a format that actually keeps your audience engaged through the last slide.',
-        'services.s4.title': 'Training Videos',
-        'services.s4.desc': 'Onboarding and educational content that turns complex processes into clear, watchable guides your team will actually remember.',
-        'work.label': 'Selected work',
-        'work.title': 'Projects that <strong>speak for themselves</strong>',
-        'work.p1.title': 'Let Us Pay — Payment Solutions Platform',
-        'work.p1.desc': 'Corporate video highlighting a payment facilitation service for event organizers. We brought the platform benefits to life through split-screen storytelling, animated money flow diagrams, and testimonial-style delivery—helping teams understand complex procurement processes in under 90 seconds.',
-        'work.p2.title': 'Annual Results Showcase — FY Highlights Reel',
-        'work.p2.desc': 'Full-production fiscal year recap combining animated slide transitions, data visualization, stock footage integration, and dynamic title sequences. Built to communicate results, milestones, and forward strategy to global teams — keeping executives and frontline employees equally engaged.',
-        'work.p3.title': 'Corporate Gathering — Team Summit Highlights',
-        'work.p3.desc': 'High-energy recap from a multi-day corporate event. Combined on-location footage with animated overlays, app interface mockups, Slack integration visuals, and dynamic icon animations to capture the energy and key takeaways for internal distribution across regional teams.',
-        'contact.label': 'Get in touch',
-        'contact.title': '<strong>Let\'s make</strong><br>something clear',
-        'contact.text': 'Have a project in mind? We\'d love to hear about it. Tell us what you need and we\'ll get back to you within 24 hours.',
-        'contact.form.name': 'Name',
-        'contact.form.name_ph': 'Your name',
-        'contact.form.email': 'Email',
-        'contact.form.company': 'Company',
-        'contact.form.company_ph': 'Your company',
-        'contact.form.message': 'Message',
-        'contact.form.message_ph': 'Tell us about your project...',
-        'contact.form.submit': 'Send message',
-        'footer.tagline': 'Corporate video production. We turn complex into clear.'
-      },
-      es: {
-        'nav.services': 'Servicios',
-        'nav.work': 'Proyectos',
-        'nav.contact': 'Contacto',
-        'hero.headline': '<span class="bold">We turn complex</span><br>into clear',
-        'hero.subtitle': 'Producción de video corporativo que transforma las comunicaciones internas en contenido que tu equipo realmente ve.',
-        'hero.cta': 'Ver proyectos',
-        'brands.label': 'Marcas con las que hemos trabajado',
-        'services.label': 'Lo que hacemos',
-        'services.title': 'Cuatro formas de ayudar a tu equipo a <strong>comunicar mejor</strong>',
-        'services.s1.title': 'Resúmenes de Eventos',
-        'services.s1.desc': 'Capturamos tus eventos corporativos y los transformamos en resúmenes que mantienen el impulso mucho después de los aplausos.',
-        'services.s2.title': 'Explainers de Producto',
-        'services.s2.desc': 'Recorridos animados de tus herramientas y software. Hacemos que tu plataforma sea intuitiva antes de que alguien la abra.',
-        'services.s3.title': 'Resúmenes Anuales',
-        'services.s3.desc': 'Resultados de fin de año y proyecciones presentadas en un formato que realmente mantiene a tu audiencia comprometida hasta el final.',
-        'services.s4.title': 'Videos de Capacitación',
-        'services.s4.desc': 'Contenido de onboarding y educativo que convierte procesos complejos en guías claras y visuales que tu equipo recordará.',
-        'work.label': 'Proyectos destacados',
-        'work.title': 'Proyectos que <strong>hablan por sí solos</strong>',
-        'work.p1.title': 'Let Us Pay — Plataforma de Soluciones de Pago',
-        'work.p1.desc': 'Video corporativo que destaca un servicio de facilitación de pagos para organizadores de eventos. Dimos vida a los beneficios de la plataforma con narrativa en pantalla dividida, diagramas animados de flujo de dinero y entrega estilo testimonial — ayudando a los equipos a entender procesos complejos de compras en menos de 90 segundos.',
-        'work.p2.title': 'Resumen Anual de Resultados — Reel de Highlights del Año Fiscal',
-        'work.p2.desc': 'Resumen del año fiscal con transiciones animadas, visualización de datos, integración de stock footage y secuencias de títulos dinámicas. Diseñado para comunicar resultados, hitos y estrategia a equipos globales — manteniendo a ejecutivos y empleados igualmente comprometidos.',
-        'work.p3.title': 'Encuentro Corporativo — Highlights del Summit de Equipo',
-        'work.p3.desc': 'Recap de alta energía de un evento corporativo de varios días. Combinamos footage en locación con overlays animados, mockups de interfaz de app, visuales de integración con Slack y animaciones dinámicas de íconos para capturar la energía y los puntos clave para distribución interna entre equipos regionales.',
-        'contact.label': 'Contáctanos',
-        'contact.title': '<strong>Let\'s make</strong><br>something clear',
-        'contact.text': '¿Tienes un proyecto en mente? Nos encantaría escucharlo. Cuéntanos qué necesitas y te responderemos en 24 horas.',
-        'contact.form.name': 'Nombre',
-        'contact.form.name_ph': 'Tu nombre',
-        'contact.form.email': 'Email',
-        'contact.form.company': 'Empresa',
-        'contact.form.company_ph': 'Tu empresa',
-        'contact.form.message': 'Mensaje',
-        'contact.form.message_ph': 'Cuéntanos sobre tu proyecto...',
-        'contact.form.submit': 'Enviar mensaje',
-        'footer.tagline': 'Producción de video corporativo. Convertimos lo complejo en claro.'
-      }
-    };
-    var currentLang = localStorage.getItem('lang') || 'en';
-    function setLang(lang) {
-      currentLang = lang;
-      localStorage.setItem('lang', lang);
-      document.documentElement.lang = lang;
-      var t = translations[lang];
-      // Text content
-      document.querySelectorAll('[data-i18n]').forEach(function (el) {
-        var key = el.getAttribute('data-i18n');
-        if (t[key]) el.textContent = t[key];
-      });
-      // HTML content (for bold/br tags)
-      document.querySelectorAll('[data-i18n-html]').forEach(function (el) {
-        var key = el.getAttribute('data-i18n-html');
-        if (t[key]) el.innerHTML = t[key];
-      });
-      // Placeholders
-      document.querySelectorAll('[data-i18n-ph]').forEach(function (el) {
-        var key = el.getAttribute('data-i18n-ph');
-        if (t[key]) el.placeholder = t[key];
-      });
-      // Update active state on lang toggles
-      document.querySelectorAll('.nav__lang').forEach(function (group) {
-        group.querySelectorAll('span:not(.nav__lang-divider)').forEach(function (s) {
-          s.classList.toggle('active', s.textContent === lang.toUpperCase());
-        });
-      });
-    }
-    // Language toggle clicks
-    document.querySelectorAll('.nav__lang').forEach(function (langGroup) {
-      langGroup.querySelectorAll('span:not(.nav__lang-divider)').forEach(function (el) {
-        el.addEventListener('click', function () {
-          setLang(el.textContent.toLowerCase());
-        });
-      });
-    });
-    // Apply saved language
-    setLang(currentLang);
-    // Contact form submission
-    var contactForm = document.getElementById('contactForm');
-    var submitBtn = document.getElementById('contactSubmitBtn');
-    var formError = document.getElementById('formError');
-    var successOverlay = document.getElementById('successOverlay');
-    var successText = document.getElementById('successText');
-    var successSub = document.getElementById('successSub');
-    contactForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      submitBtn.disabled = true;
-      submitBtn.querySelector('span').textContent = currentLang === 'es' ? 'Enviando...' : 'Sending...';
-      formError.classList.remove('visible');
-      fetch(contactForm.action, {
-        method: 'POST',
-        body: new FormData(contactForm),
-        headers: { 'Accept': 'application/json' }
-      }).then(function(res) {
-        if (res.ok) {
-          successText.textContent = currentLang === 'es' ? '¡Mensaje enviado!' : 'Message sent!';
-          successSub.textContent = currentLang === 'es'
-            ? 'Te responderemos en menos de 24 horas.'
-            : 'We\'ll get back to you within 24 hours.';
-          successOverlay.classList.add('visible');
-          contactForm.reset();
-        } else {
-          throw new Error('fail');
-        }
-      }).catch(function() {
-        formError.textContent = currentLang === 'es'
-          ? 'Error al enviar. Intenta de nuevo o escríbenos a hello@arcmediahouse.com'
-          : 'Failed to send. Try again or email us at hello@arcmediahouse.com';
-        formError.classList.add('visible');
-      }).finally(function() {
-        submitBtn.disabled = false;
-        submitBtn.querySelector('span').textContent = currentLang === 'es' ? 'Enviar mensaje' : 'Send message';
-      });
-    });
-  </script>
+  });
+</script>
 </body>
 </html>
