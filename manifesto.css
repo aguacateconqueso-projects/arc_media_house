@@ -96,24 +96,11 @@
   border-top-color: rgba(0,0,0,0.1);
 }
 
-/* ---------- NAV ACTIVE STATE ---------- */
+/* ---------- LANGUAGE TOGGLE ----------
+   app.js sets data-lang on <html>. Show only the matching block. */
 
-.nav-active {
-  opacity: 1 !important;
-  color: var(--fg, #f0f0f0) !important;
-  position: relative;
-}
-
-.nav-active::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: currentColor;
-  opacity: 0.5;
-}
+html[data-lang="en"] .manifesto-es,
+html[data-lang="es"] .manifesto-en { display: none; }
 
 /* ---------- RESPONSIVE ---------- */
 
