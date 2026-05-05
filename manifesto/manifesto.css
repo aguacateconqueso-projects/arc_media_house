@@ -1,0 +1,132 @@
+/* ============================================================
+   MANIFESTO PAGE — manifesto.css
+   Importado en manifesto.html. No tocar styles.css ni service.css.
+   ============================================================ */
+
+/* ---------- LAYOUT ---------- */
+
+.manifesto-main {
+  min-height: 100vh;
+  padding: calc(var(--nav-h, 64px) + 6rem) var(--pad-x, 2rem) 8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ---------- HEADER ---------- */
+
+.manifesto-header {
+  width: 100%;
+  max-width: 680px;
+  margin-bottom: 5rem;
+}
+
+.manifesto-label {
+  display: block;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-muted, #666);
+  margin-bottom: 1.25rem;
+}
+
+.manifesto-title {
+  font-family: 'Geist', sans-serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--fg, #f0f0f0);
+  margin: 0;
+}
+
+/* ---------- BODY ---------- */
+
+.manifesto-body {
+  width: 100%;
+  max-width: 680px;
+}
+
+.manifesto-lang p {
+  font-family: 'Geist', sans-serif;
+  font-size: clamp(1.05rem, 2vw, 1.2rem);
+  font-weight: 300;
+  line-height: 1.75;
+  letter-spacing: -0.01em;
+  color: var(--fg, #f0f0f0);
+  margin: 0 0 1.6rem;
+}
+
+/* ---------- SEPARATOR ---------- */
+
+.manifesto-rule {
+  border: none;
+  border-top: 1px solid var(--line, rgba(255,255,255,0.08));
+  margin: 3rem 0;
+  width: 100%;
+}
+
+/* ---------- CLOSING LINES ---------- */
+
+.manifesto-closing {
+  font-size: clamp(1.15rem, 2.2vw, 1.35rem) !important;
+  font-weight: 400 !important;
+  color: var(--fg, #f0f0f0) !important;
+  letter-spacing: -0.02em !important;
+}
+
+.manifesto-closing-last {
+  color: var(--accent, #e8e0d0) !important;
+  margin-bottom: 0 !important;
+}
+
+/* ---------- LIGHT THEME OVERRIDES ---------- */
+
+[data-theme="light"] .manifesto-label {
+  color: #999;
+}
+
+[data-theme="light"] .manifesto-title,
+[data-theme="light"] .manifesto-lang p {
+  color: var(--fg, #111);
+}
+
+[data-theme="light"] .manifesto-rule {
+  border-top-color: rgba(0,0,0,0.1);
+}
+
+/* ---------- NAV ACTIVE STATE ---------- */
+
+.nav-active {
+  opacity: 1 !important;
+  color: var(--fg, #f0f0f0) !important;
+  position: relative;
+}
+
+.nav-active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media (max-width: 768px) {
+  .manifesto-main {
+    padding: calc(var(--nav-h, 56px) + 3.5rem) 1.5rem 5rem;
+  }
+
+  .manifesto-header {
+    margin-bottom: 3rem;
+  }
+
+  .manifesto-rule {
+    margin: 2.5rem 0;
+  }
+}
