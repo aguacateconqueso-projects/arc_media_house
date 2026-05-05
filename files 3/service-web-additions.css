@@ -1,0 +1,314 @@
+/* =========================================================
+   service-web additions — append to service.css
+   sesión 03 — Madrid 2026
+   ========================================================= */
+
+/* === 01 — The case (3-column argument) === */
+.srv-case { padding-top: 0; }
+.case-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.case-col {
+  padding: 48px;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: relative;
+}
+.case-col:last-child { border-right: 0; }
+.case-col .bracket-num { color: var(--fg-3); font-family: 'Geist Mono', monospace; }
+.case-col h3 { font-weight: 500; }
+.case-col p { color: var(--fg-2); }
+
+/* highlight column — the studio route */
+.case-col--us {
+  background: color-mix(in srgb, var(--accent) 4%, transparent);
+}
+.case-col--us::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--accent);
+}
+.case-col--us p { color: var(--fg); }
+.case-marker {
+  margin-top: 16px;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+
+/* === 02 — format meta (price + timeline pair under each format) === */
+.format__meta {
+  display: flex;
+  gap: 32px;
+  padding: 14px 0;
+  border-top: 1px dashed var(--line);
+  margin-top: 8px;
+}
+.format__meta > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.format__meta .mono { color: var(--fg-3); font-size: 11px; }
+.format__price {
+  font-family: 'Geist', sans-serif;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+}
+
+/* === 03 — What's included (3 columns) === */
+.srv-included { padding-top: 0; }
+.included-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+.included-col {
+  padding: 48px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.included-col:last-child { border-right: 0; }
+.included-col__label {
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  margin-bottom: 24px;
+  display: block;
+}
+.included-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.included-list li {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--fg);
+  padding-left: 20px;
+  position: relative;
+}
+.included-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 11px;
+  width: 8px; height: 1px;
+  background: var(--accent);
+}
+
+/* === 05 — Selected work === */
+.srv-work { padding-top: 0; padding-bottom: 80px; }
+.work-grid {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
+}
+.work-item {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 60px;
+  padding: 48px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: center;
+  position: relative;
+  transition: padding var(--t-med);
+  text-decoration: none;
+  color: inherit;
+}
+.work-item:hover { padding-left: 16px; }
+.work-item::before {
+  content: '';
+  position: absolute;
+  left: -2vw; top: 0; bottom: 0;
+  width: 0;
+  background: var(--accent);
+  opacity: 0;
+  transition: width var(--t-med), opacity var(--t-fast);
+}
+.work-item:hover::before { width: 4px; opacity: 1; }
+.work-item__media {
+  aspect-ratio: 16/10;
+  overflow: hidden;
+  transition: transform var(--t-slow);
+}
+.work-item:hover .work-item__media { transform: scale(1.01); }
+.work-item__media .reel-dummy { height: 100%; }
+.work-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.work-item__info .bracket-num {
+  color: var(--fg-3);
+  font-family: 'Geist Mono', monospace;
+  font-size: 12px;
+}
+.work-item__info h3 {
+  font-weight: 500;
+  transition: color var(--t-fast);
+}
+.work-item:hover .work-item__info h3 { color: var(--accent); }
+.work-item__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--fg-3);
+  font-size: 11px;
+}
+.work-item__note {
+  color: var(--fg-2);
+  margin-top: 8px;
+  max-width: 56ch;
+}
+
+.work-item--soon { cursor: default; }
+.work-item--soon:hover { padding-left: 0; }
+.work-item--soon:hover::before { display: none; }
+.work-item--soon:hover .work-item__media { transform: none; }
+.work-item--soon:hover .work-item__info h3 { color: var(--fg); }
+.work-item--soon .work-item__media .reel-dummy {
+  background: repeating-linear-gradient(
+    45deg,
+    var(--bg-2),
+    var(--bg-2) 12px,
+    color-mix(in srgb, var(--bg-2) 60%, var(--accent) 40%) 12px,
+    color-mix(in srgb, var(--bg-2) 60%, var(--accent) 40%) 13px
+  );
+  opacity: 0.5;
+}
+
+/* === 06 — FAQ === */
+.srv-faq { padding-top: 0; padding-bottom: 100px; }
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
+}
+.faq-item {
+  border-bottom: 1px solid var(--line);
+  padding: 0;
+  position: relative;
+  transition: padding var(--t-med);
+}
+.faq-item::before {
+  content: '';
+  position: absolute;
+  left: -2vw; top: 0; bottom: 0;
+  width: 0;
+  background: var(--accent);
+  opacity: 0;
+  transition: width var(--t-med), opacity var(--t-fast);
+}
+.faq-item[open]::before,
+.faq-item:hover::before { width: 4px; opacity: 1; }
+.faq-item[open],
+.faq-item:hover { padding-left: 16px; }
+
+.faq-item summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 28px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-q {
+  font-family: 'Geist', sans-serif;
+  font-size: clamp(18px, 2.2vw, 26px);
+  font-weight: 500;
+  color: var(--fg);
+  transition: color var(--t-fast);
+  letter-spacing: -0.01em;
+}
+.faq-item:hover .faq-q { color: var(--accent); }
+.faq-toggle {
+  font-family: 'Geist Mono', monospace;
+  font-size: 24px;
+  color: var(--fg-3);
+  flex-shrink: 0;
+  transition: transform var(--t-med), color var(--t-fast);
+  width: 24px;
+  text-align: center;
+}
+.faq-item[open] .faq-toggle { transform: rotate(45deg); color: var(--accent); }
+.faq-a {
+  padding: 0 0 32px 0;
+  max-width: 80ch;
+}
+.faq-a .body {
+  color: var(--fg-2);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* === 07 — CTA refinements === */
+.srv-cta__fineprint {
+  margin-top: 18px;
+  color: var(--fg-3);
+  letter-spacing: 0.12em;
+}
+.srv-cta__nextprev {
+  margin-top: 80px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  justify-content: center;
+}
+.srv-cta__nextprev a {
+  color: var(--fg-2);
+  letter-spacing: 0.1em;
+  transition: color var(--t-fast), letter-spacing var(--t-med);
+}
+.srv-cta__nextprev a:hover {
+  color: var(--accent);
+  letter-spacing: 0.14em;
+}
+
+/* === Responsive === */
+@media (max-width: 920px) {
+  .case-grid {
+    grid-template-columns: 1fr;
+  }
+  .case-col {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 32px;
+  }
+  .case-col:last-child { border-bottom: 0; }
+
+  .included-grid {
+    grid-template-columns: 1fr;
+  }
+  .included-col {
+    border-right: 0;
+    padding: 32px;
+  }
+
+  .work-item {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 32px 0;
+  }
+  .work-item:hover { padding-left: 0; }
+
+  .format__meta { gap: 24px; }
+  .format__price { font-size: 18px; }
+
+  .faq-item summary { padding: 22px 0; }
+  .faq-item[open],
+  .faq-item:hover { padding-left: 0; }
+}
