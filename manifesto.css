@@ -1,119 +1,150 @@
 /* ============================================================
    MANIFESTO PAGE — manifesto.css
-   Importado en manifesto.html. No tocar styles.css ni service.css.
+   Scoped to manifesto.html. Reuses tokens & primitives from styles.css.
    ============================================================ */
 
-/* ---------- LAYOUT ---------- */
+/* ---------- HERO ---------- */
 
-.manifesto-main {
-  min-height: 100vh;
-  padding: calc(var(--nav-h, 64px) + 6rem) var(--pad-x, 2rem) 8rem;
+.mf-hero {
+  padding-top: clamp(140px, 18vh, 220px);
+  padding-bottom: clamp(60px, 10vh, 120px);
+  display: grid;
+  gap: 28px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.mf-hero__crumb {
   display: flex;
-  flex-direction: column;
+  gap: 18px;
+  align-items: center;
+  color: var(--fg-3);
+}
+.mf-hero__crumb a:hover { color: var(--fg); }
+
+.mf-hero__title {
+  font-size: clamp(72px, 16vw, 220px);
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  line-height: 0.92;
+  margin: 0;
+  padding-bottom: 0.06em;
+}
+
+.mf-hero__lead {
+  max-width: 56ch;
+  margin: 8px 0 0;
+  color: var(--fg-2);
+}
+
+/* ---------- MOVEMENT (numbered section) ---------- */
+
+.mf-mvt {
+  padding: clamp(60px, 9vh, 120px) var(--pad-x);
+  display: grid;
+  grid-template-columns: 5fr 7fr;
+  gap: clamp(40px, 6vw, 96px);
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.mf-mvt__head {
+  position: sticky;
+  top: 110px;
+  display: grid;
+  gap: 24px;
+}
+
+.mf-mvt__head .eyebrow {
+  display: inline-flex;
   align-items: center;
 }
 
-/* ---------- HEADER ---------- */
-
-.manifesto-header {
-  width: 100%;
-  max-width: 680px;
-  margin-bottom: 5rem;
+.mf-mvt__body {
+  display: grid;
+  gap: 22px;
+  max-width: 60ch;
 }
 
-.manifesto-label {
-  display: block;
-  font-family: 'Geist Mono', monospace;
-  font-size: 0.72rem;
+.mf-mvt__body .body-lg {
+  font-size: clamp(20px, 1.7vw, 26px);
+  line-height: 1.45;
+  color: var(--fg);
+}
+
+.mf-mvt__body .body-lg + .body-lg { color: var(--fg-2); }
+
+/* ---------- TWIN BLOCK (06) ---------- */
+
+.mf-twin {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.mf-twin__item {
+  display: grid;
+  gap: 14px;
+  padding: 28px;
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  transition: border-color var(--t-med), background var(--t-med), transform var(--t-med);
+}
+.mf-twin__item:hover {
+  border-color: var(--fg-3);
+  background: var(--bg-3);
+  transform: translateY(-2px);
+}
+
+.mf-twin__tag {
+  color: var(--fg-3);
   letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--fg-muted, #666);
-  margin-bottom: 1.25rem;
 }
 
-.manifesto-title {
-  font-family: 'Geist', sans-serif;
-  font-size: clamp(2.5rem, 6vw, 4rem);
-  font-weight: 300;
-  letter-spacing: -0.03em;
-  line-height: 1;
-  color: var(--fg, #f0f0f0);
-  margin: 0;
+.mf-twin__item h3 { color: var(--fg); }
+.mf-twin__item p { color: var(--fg-2); }
+
+/* ---------- CTA / CURTAIN ---------- */
+
+.mf-cta {
+  padding: clamp(80px, 14vh, 180px) var(--pad-x) clamp(80px, 12vh, 140px);
+  display: grid;
+  gap: 32px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-/* ---------- BODY ---------- */
-
-.manifesto-body {
-  width: 100%;
-  max-width: 680px;
+.mf-cta__title {
+  margin: 8px 0 0;
 }
 
-.manifesto-lang p {
-  font-family: 'Geist', sans-serif;
-  font-size: clamp(1.05rem, 2vw, 1.2rem);
-  font-weight: 300;
-  line-height: 1.75;
-  letter-spacing: -0.01em;
-  color: var(--fg, #f0f0f0);
-  margin: 0 0 1.6rem;
+.mf-cta__lead {
+  max-width: 60ch;
+  color: var(--fg-2);
 }
 
-/* ---------- SEPARATOR ---------- */
-
-.manifesto-rule {
-  border: none;
-  border-top: 1px solid var(--line, rgba(255,255,255,0.08));
-  margin: 3rem 0;
-  width: 100%;
+.mf-cta__row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 8px;
 }
-
-/* ---------- CLOSING LINES ---------- */
-
-.manifesto-closing {
-  font-size: clamp(1.15rem, 2.2vw, 1.35rem) !important;
-  font-weight: 400 !important;
-  color: var(--fg, #f0f0f0) !important;
-  letter-spacing: -0.02em !important;
-}
-
-.manifesto-closing-last {
-  color: var(--accent, #e8e0d0) !important;
-  margin-bottom: 0 !important;
-}
-
-/* ---------- LIGHT THEME OVERRIDES ---------- */
-
-[data-theme="light"] .manifesto-label {
-  color: #999;
-}
-
-[data-theme="light"] .manifesto-title,
-[data-theme="light"] .manifesto-lang p {
-  color: var(--fg, #111);
-}
-
-[data-theme="light"] .manifesto-rule {
-  border-top-color: rgba(0,0,0,0.1);
-}
-
-/* ---------- LANGUAGE TOGGLE ----------
-   app.js sets data-lang on <html>. Show only the matching block. */
-
-html[data-lang="en"] .manifesto-es,
-html[data-lang="es"] .manifesto-en { display: none; }
 
 /* ---------- RESPONSIVE ---------- */
 
-@media (max-width: 768px) {
-  .manifesto-main {
-    padding: calc(var(--nav-h, 56px) + 3.5rem) 1.5rem 5rem;
+@media (max-width: 900px) {
+  .mf-mvt {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding-block: 64px;
   }
+  .mf-mvt__head { position: static; }
+  .mf-twin { grid-template-columns: 1fr; }
+}
 
-  .manifesto-header {
-    margin-bottom: 3rem;
-  }
-
-  .manifesto-rule {
-    margin: 2.5rem 0;
-  }
+@media (max-width: 720px) {
+  .mf-hero { padding-top: 120px; }
+  .mf-hero__title { font-size: clamp(56px, 18vw, 96px); }
+  .mf-cta { padding-block: 80px; }
 }
