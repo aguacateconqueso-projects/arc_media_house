@@ -323,68 +323,36 @@
 </section>
 
 <!-- STATS -->
-<!-- CONTACT -->
-<section id="contact" class="contact container">
-  <div class="contact__head">
+<!-- CONTACT (DIRECT) -->
+<section id="contact" class="contact-direct container">
+  <div class="contact-direct__head">
     <span class="eyebrow"><span class="dot"></span>04 — <span data-en="Get in touch" data-es="Contacta">Get in touch</span></span>
+    <h2 class="h-1 reveal">
+      <span data-en="The agent above" data-es="El agente de arriba">The agent above</span><br>
+      <span class="italic" data-en="answers first." data-es="responde primero.">answers first.</span>
+    </h2>
+    <p class="body-lg reveal" data-delay="1" data-en="It quotes ranges, scopes the project, books the intro call. Most conversations start there." data-es="Estima rangos, define el alcance, agenda la llamada inicial. La mayoría de conversaciones empiezan ahí.">It quotes ranges, scopes the project, books the intro call. Most conversations start there.</p>
   </div>
-  <h2 class="contact__display">
-    <span class="word-reveal"><span data-en="Let's make" data-es="Hagamos algo">Let's make</span></span><br>
-    <span class="word-reveal italic" data-delay="1"><span data-en="something clear." data-es="claro.">something clear.</span></span>
-  </h2>
-  <div class="contact__grid">
-    <form class="contact__form" id="contact-form" action="https://formsubmit.co/hello@arcmediahouse.com" method="POST">
-      <input type="hidden" name="_subject" value="New message from ARC Media House website">
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_template" value="table">
-      <input type="text" name="_honey" style="display:none">
-      <input type="hidden" name="service" id="selected-service" value="">
-      <label>
-        <span class="mono small-cap" data-en="01 / Name" data-es="01 / Nombre">01 / Name</span>
-        <input type="text" name="name" required placeholder="Jane Cooper" />
-      </label>
-      <label>
-        <span class="mono small-cap">02 / Email</span>
-        <input type="email" name="email" required placeholder="jane@company.com" />
-      </label>
-      <label>
-        <span class="mono small-cap" data-en="03 / Company" data-es="03 / Empresa">03 / Company</span>
-        <input type="text" name="company" placeholder="Acme Inc." />
-      </label>
-      <label>
-        <span class="mono small-cap" data-en="04 / What can we do?" data-es="04 / ¿En qué podemos ayudar?">04 / What can we do?</span>
-        <div class="chips">
-          <button type="button" class="chip" data-en="Video" data-es="Vídeo">Video</button>
-          <button type="button" class="chip" data-en="Web" data-es="Web">Web</button>
-          <button type="button" class="chip" data-en="AI Agent" data-es="Agente IA">AI Agent</button>
-          <button type="button" class="chip" data-en="All three" data-es="Las tres">All three</button>
-          <button type="button" class="chip" data-en="Not sure yet" data-es="No estoy seguro">Not sure yet</button>
-        </div>
-      </label>
-      <label>
-        <span class="mono small-cap" data-en="05 / Tell us more" data-es="05 / Cuéntanos más">05 / Tell us more</span>
-        <textarea name="message" rows="4" placeholder="A few lines about the project, the deadline, the audience…"></textarea>
-      </label>
-      <button type="submit" class="btn btn--primary" data-magnetic>
-        <span data-en="Send message" data-es="Enviar mensaje">Send message</span>
+
+  <div class="contact-direct__body">
+    <div class="contact-direct__cta-wrap">
+      <p class="mono small-cap contact-direct__paren" data-en="(if you prefer a direct human touch)" data-es="(si prefieres un toque humano directo)">(if you prefer a direct human touch)</p>
+      <a href="mailto:hello@arcmediahouse.com" class="btn btn--primary contact-direct__btn" data-magnetic>
+        <span data-en="Email Adrian directly" data-es="Escríbele a Adrian">Email Adrian directly</span>
         <span class="arrow">→</span>
-      </button>
-    </form>
-    <aside class="contact__side">
-      <div class="contact__block">
-        <span class="mono small-cap" data-en="Direct" data-es="Directo">Direct</span>
-        <a href="mailto:hello@arcmediahouse.com" class="h-3" data-magnetic>hello@<br>arcmediahouse.com</a>
-      </div>
-      <div class="contact__block">
+      </a>
+    </div>
+
+    <aside class="contact-direct__meta">
+      <div class="contact-direct__block">
         <span class="mono small-cap" data-en="Studio" data-es="Estudio">Studio</span>
-        <p class="body-lg">Madrid, ES<br><span class="mono" style="color:var(--fg-3)">40.4168° N · 3.7038° W</span></p>
+        <p class="body-lg">Madrid, ES</p>
       </div>
-      <div class="contact__block">
+      <div class="contact-direct__block">
         <span class="mono small-cap" data-en="Hours" data-es="Horario">Hours</span>
         <p class="body-lg" data-en="Mon–Fri · 09:00–19:00 CET" data-es="Lun–Vie · 09:00–19:00 CET">Mon–Fri · 09:00–19:00 CET</p>
-        <p class="mono" style="font-size:11px;color:var(--fg-3)" data-en="The agent is here on weekends" data-es="El agente está los fines de semana">The agent is here on weekends</p>
       </div>
-      <div class="contact__block">
+      <div class="contact-direct__block">
         <span class="mono small-cap" data-en="Booking" data-es="Reservas">Booking</span>
         <p class="body-lg" data-en="Q3 2026 — taking 2 more projects" data-es="Q3 2026 — quedan 2 proyectos">Q3 2026 — taking 2 more projects</p>
       </div>
