@@ -1,0 +1,52 @@
+/* ==========================================================
+   ARC // Hero Bloom — drop-in styles
+   Add this to your global stylesheet OR import as-is.
+   Does not affect any existing hero rules.
+   ========================================================== */
+
+.hero__bloom {
+  position: absolute;
+  top: 50%;
+  right: -10%;
+  transform: translateY(-50%);
+  width: 70%;
+  height: 110%;
+  z-index: 0;
+  pointer-events: none;
+  /* color is read via currentColor in the SVG — set it on .hero or a parent.
+     Defaults below assume a light foreground on a dark page. Adjust if needed. */
+  color: var(--fg, #f4f4f1);
+  opacity: 0;
+  animation: heroBloomIn 1800ms cubic-bezier(.2, .7, .2, 1) 1200ms forwards;
+  will-change: opacity, transform;
+}
+
+@keyframes heroBloomIn {
+  from { opacity: 0;    transform: translate(40px, -50%) scale(0.92); }
+  to   { opacity: 0.78; transform: translate(0, -50%)    scale(1);    }
+}
+
+/* If you support a light theme, fade the (now-dark) bloom a bit lighter
+   so it doesn't overwhelm a cream background. */
+[data-theme="light"] .hero__bloom { animation-name: heroBloomInLight; }
+@keyframes heroBloomInLight {
+  from { opacity: 0;    transform: translate(40px, -50%) scale(0.92); }
+  to   { opacity: 0.55; transform: translate(0, -50%)    scale(1);    }
+}
+
+@media (max-width: 920px) {
+  .hero__bloom {
+    width: 130%;
+    height: 80%;
+    right: -15%;
+    top: 60%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__bloom {
+    animation: none;
+    opacity: 0.6;
+    transform: translateY(-50%);
+  }
+}
