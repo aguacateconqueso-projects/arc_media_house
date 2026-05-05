@@ -600,7 +600,8 @@
    CONTACT DIRECT (replaces long form)
    ============================================ */
 .contact-direct {
-  padding: clamp(80px, 10vw, 160px) 0;
+  padding-top: clamp(80px, 10vw, 160px);
+  padding-bottom: clamp(80px, 10vw, 160px);
 }
 
 .contact-direct__head {
