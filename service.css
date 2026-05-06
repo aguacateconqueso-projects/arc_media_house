@@ -416,6 +416,43 @@ body { opacity: 0; animation: pageIn 600ms cubic-bezier(.2,.7,.2,1) 80ms forward
     transform: none !important;
   }
   .glitch-in::before, .glitch-in::after { display: none; }
+  .glitch-word::before, .glitch-word::after { display: none; }
+}
+
+/* === Word-level glitch (e.g. "Agents") === */
+.glitch-word {
+  position: relative;
+  display: inline-block;
+  animation: glitchWord 1600ms steps(1) 700ms forwards;
+}
+.glitch-word::before,
+.glitch-word::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  pointer-events: none;
+  font-style: inherit;
+  font-weight: inherit;
+  opacity: 0;
+}
+.glitch-word::before {
+  color: oklch(0.80 0.25 195);
+  animation: glitchRed 1600ms steps(1) 700ms forwards;
+}
+.glitch-word::after {
+  color: oklch(0.65 0.28 0);
+  animation: glitchBlue 1600ms steps(1) 700ms forwards;
+}
+@keyframes glitchWord {
+  0%,100% { transform: translateX(0); filter: none; }
+  6%  { transform: translateX(-6px); filter: hue-rotate(80deg) saturate(2); }
+  10% { transform: translateX(5px);  filter: none; }
+  16% { transform: translateX(-4px); filter: hue-rotate(-90deg); }
+  22% { transform: translateX(4px);  filter: none; }
+  30% { transform: translateX(-2px); filter: hue-rotate(140deg); }
+  40% { transform: translateX(2px);  filter: none; }
+  55% { transform: translateX(0);    }
 }
 /* =========================================================
    service-web additions — append to service.css

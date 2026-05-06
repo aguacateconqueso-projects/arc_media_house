@@ -217,20 +217,31 @@ section { position: relative; }
   display: flex; align-items: center; justify-content: center;
   pointer-events: none;
 }
-.intro__inner { display: flex; align-items: baseline; gap: 4px; overflow: hidden; }
+.intro__logo { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.intro__inner { display: flex; align-items: baseline; gap: 4px; padding: 0 0.08em; overflow: hidden; }
 .intro__char {
   display: inline-block;
   font-family: 'Geist', sans-serif;
   font-weight: 500;
   font-size: clamp(80px, 18vw, 280px);
   letter-spacing: -0.06em;
-  line-height: 0.85;
+  line-height: 1;
   transform: translateY(110%);
   animation: introIn 500ms cubic-bezier(.2,.7,.2,1) forwards;
 }
 .intro__char:nth-child(1) { animation-delay: 40ms; }
 .intro__char:nth-child(2) { animation-delay: 120ms; }
 .intro__char:nth-child(3) { animation-delay: 200ms; }
+.intro__sub {
+  display: flex; gap: 0.4em;
+  font-family: 'Geist Mono', monospace;
+  font-size: clamp(12px, 1.4vw, 18px);
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+  opacity: 0;
+  animation: fadeIn 500ms 380ms forwards;
+}
 .intro__line {
   position: absolute; left: var(--pad-x); right: var(--pad-x); bottom: 32px;
   display: flex; justify-content: space-between;
