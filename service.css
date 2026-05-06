@@ -731,3 +731,112 @@ body { opacity: 0; animation: pageIn 600ms cubic-bezier(.2,.7,.2,1) 80ms forward
   .faq-item[open],
   .faq-item:hover { padding-left: 0; }
 }
+
+/* ============================================
+   SERVICE — AI ADDITIONS (03 RUNNING COSTS)
+   Section unique to services-ai.html.
+   Mirrors the layout language of .srv-included
+   so the page reads as one editorial piece.
+   ============================================ */
+.srv-running { padding-top: 0; }
+.srv-running .running-lead {
+  margin-top: 16px;
+  max-width: 60ch;
+  color: var(--fg-2);
+}
+
+.running-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+  margin-top: 40px;
+}
+.running-col {
+  padding: 48px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: relative;
+  transition: background var(--t-med), padding var(--t-med);
+}
+.running-col:last-child { border-right: 0; }
+.running-col::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--accent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform var(--t-med);
+}
+.running-col:hover::after { transform: scaleY(1); }
+.running-col:hover {
+  background: color-mix(in srgb, var(--bg-2) 60%, transparent);
+  padding-left: 56px;
+}
+.running-col:hover .running-tag { color: var(--accent); }
+
+.running-tag {
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  margin-bottom: 4px;
+  display: block;
+  transition: color var(--t-fast);
+}
+.running-price {
+  font-family: 'Geist', sans-serif;
+  font-size: 36px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  line-height: 1;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.running-price-unit {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--fg-3);
+  font-family: 'Geist Mono', monospace;
+  letter-spacing: 0.04em;
+}
+.running-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.running-list li {
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--fg);
+  padding-left: 20px;
+  position: relative;
+}
+.running-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 8px;
+  height: 1px;
+  background: var(--fg-3);
+}
+
+@media (max-width: 880px) {
+  .running-grid { grid-template-columns: 1fr; }
+  .running-col {
+    border-right: 0;
+    padding: 32px;
+  }
+  .running-col:hover { padding-left: 32px; }
+  .running-price { font-size: 28px; }
+}
