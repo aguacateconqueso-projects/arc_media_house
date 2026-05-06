@@ -31,6 +31,7 @@
         el.style.opacity = '0';
         setTimeout(function() { el.textContent = t; el.style.opacity = '1'; }, 180);
       }
+      if (el.hasAttribute('data-text')) el.setAttribute('data-text', t);
     });
     document.querySelectorAll('.lang-switch button').forEach(function(b) {
       b.classList.toggle('is-active', b.dataset.lang === l);

@@ -505,6 +505,10 @@
   grid-template-columns: repeat(2, 1fr);
   border-top: 1px solid var(--line);
 }
+.team-grid:has(> .team-card:only-child) { grid-template-columns: 1fr; }
+.team-grid:has(> .team-card:only-child) .team-card { grid-template-columns: minmax(280px, 1fr) 2fr; max-width: 1100px; margin: 0 auto; padding-right: 0; border-right: 0; }
+.team-card__img { width: 100%; aspect-ratio: 1/1; object-fit: cover; display: block; border: 1px solid var(--line); background: var(--bg-2); }
+.team-card__caption { display: block; margin-top: 12px; color: var(--fg-3); font-size: 11px; line-height: 1.5; letter-spacing: 0.06em; text-transform: none; }
 .team-card {
   display: grid;
   grid-template-columns: 1fr 1.6fr;
