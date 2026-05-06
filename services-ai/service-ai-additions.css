@@ -1,0 +1,217 @@
+/* ============================================
+   SERVICE-AI ADDITIONS
+   Append to the end of service.css
+   Session 05 · Madrid 2026
+   ============================================ */
+
+/* ---- 03 RUNNING COSTS ---- */
+.running-section {
+  border-top: 1px solid var(--line);
+}
+
+.running-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-top: 3rem;
+}
+
+.running-col {
+  background: var(--bg);
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.running-tag {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--fg);
+  opacity: 0.6;
+  margin-bottom: 1.25rem;
+}
+
+.running-price {
+  font-family: 'Geist', sans-serif;
+  font-size: 2.4rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  line-height: 1;
+  margin-bottom: 2rem;
+}
+
+.running-price-unit {
+  font-size: 1rem;
+  font-weight: 400;
+  opacity: 0.5;
+  margin-left: 0.25rem;
+}
+
+.running-list,
+.running-list-es {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.running-list li,
+.running-list-es li {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  padding: 0.6rem 0;
+  border-top: 1px solid var(--line);
+  color: var(--fg);
+  opacity: 0.85;
+}
+
+.running-list li:first-child,
+.running-list-es li:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+@media (max-width: 880px) {
+  .running-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ---- 04 INCLUDED (renumber adjustment if conflicting) ---- */
+/* Keeps existing .included-grid styles from service.css for services-web.
+   No additional rules needed unless service.css doesn't already have it.
+   If a collision is detected during merge, scope under .included-section
+   from services-ai. */
+
+
+/* ---- TYPE-CARD AI VARIANT ----
+   service-web has 4 site types in a 2x2 grid.
+   service-ai also uses 4 cards. The base .types-grid from service.css
+   should already handle this. These rules are scoped fallbacks
+   in case service.css has a different layout assumption. */
+.types-section .types-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-top: 3rem;
+}
+
+.types-section .type-card {
+  background: var(--bg);
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.types-section .type-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.6;
+}
+
+.types-section .type-num {
+  color: var(--accent);
+}
+
+.types-section .type-title {
+  font-size: 1.4rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+  margin: 0.25rem 0 0.5rem;
+}
+
+.types-section .type-desc {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  opacity: 0.8;
+  flex-grow: 1;
+}
+
+.types-section .type-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.85rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+  margin-top: 1rem;
+}
+
+.types-section .type-price {
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.types-section .type-time {
+  opacity: 0.6;
+}
+
+@media (max-width: 880px) {
+  .types-section .types-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ---- SELECTED-CARD AI VARIANT ----
+   Same anatomy as services-web but with two slots in "In production" status.
+   The .selected-card-pending modifier dims the card slightly. */
+.selected-card-pending {
+  opacity: 0.75;
+}
+
+.selected-card-pending .selected-title {
+  color: var(--fg);
+  opacity: 0.9;
+}
+
+.selected-status {
+  font-family: 'Geist Mono', monospace;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  opacity: 0.65;
+  white-space: nowrap;
+}
+
+.selected-card .selected-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+
+/* ---- HERO META ROW (3 columns instead of 2) ----
+   services-web shows From + Delivery.
+   services-ai adds Languages as a third meta item. */
+.service-hero .service-meta {
+  display: flex;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .service-hero .service-meta {
+    gap: 1.5rem;
+  }
+}
