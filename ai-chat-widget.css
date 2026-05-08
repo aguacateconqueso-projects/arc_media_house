@@ -1,0 +1,206 @@
+/* ============ ARC CHAT WIDGET (floating, all pages) ============ */
+
+.arcw {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  font-family: 'Geist', 'Inter', system-ui, sans-serif;
+  cursor: auto;
+}
+
+.arcw__btn {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--fg);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(0,0,0,.35);
+  transition: transform var(--t-fast), background var(--t-fast);
+  position: relative;
+}
+.arcw__btn:hover { transform: translateY(-2px); }
+.arcw__btn svg { width: 26px; height: 26px; }
+.arcw__live {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: oklch(0.78 0.20 120);
+  box-shadow: 0 0 0 3px var(--bg);
+}
+.arcw__btn--open .arcw__live { display: none; }
+
+.arcw__panel {
+  position: absolute;
+  bottom: 76px;
+  right: 0;
+  width: 380px;
+  height: 560px;
+  max-height: calc(100vh - 120px);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  transform: translateY(8px) scale(.98);
+  pointer-events: none;
+  transition: opacity var(--t-fast), transform var(--t-fast);
+}
+.arcw--open .arcw__panel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.arcw__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+.arcw__head-id {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.arcw__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  position: relative;
+  background: var(--bg-3);
+}
+.arcw__avatar::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: oklch(0.78 0.20 120);
+  border: 2px solid var(--bg-2);
+}
+.arcw__name {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+.arcw__sub {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 10px;
+  color: var(--fg-2);
+  margin-top: 2px;
+}
+.arcw__head-actions {
+  display: flex;
+  gap: 4px;
+}
+.arcw__icon-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg-2);
+  transition: color var(--t-fast);
+}
+.arcw__icon-btn:hover { color: var(--fg); }
+.arcw__icon-btn svg { width: 16px; height: 16px; }
+
+.arcw__log {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.arcw__msg { max-width: 85%; }
+.arcw__msg-label {
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 9px;
+  letter-spacing: .1em;
+  color: var(--fg-3);
+  margin-bottom: 4px;
+}
+.arcw__msg-body {
+  font-size: 14px;
+  line-height: 1.45;
+  padding: 10px 12px;
+  background: var(--bg-3);
+  color: var(--fg);
+  border: 1px solid var(--line);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.arcw__msg--user { align-self: flex-end; text-align: right; }
+.arcw__msg--user .arcw__msg-body {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: var(--fg);
+}
+.arcw__msg--typing .arcw__msg-body::after {
+  content: '●';
+  animation: arcw-pulse 1s infinite;
+}
+@keyframes arcw-pulse { 0%, 100% { opacity: .3 } 50% { opacity: 1 } }
+
+.arcw__form {
+  border-top: 1px solid var(--line);
+  padding: 10px 12px;
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.arcw__input {
+  flex: 1;
+  background: transparent;
+  border: 1px solid var(--line);
+  color: var(--fg);
+  padding: 10px 12px;
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: border-color var(--t-fast);
+}
+.arcw__input:focus { border-color: var(--fg-2); }
+.arcw__send {
+  background: var(--fg);
+  color: var(--bg);
+  padding: 0 14px;
+  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  transition: opacity var(--t-fast);
+}
+.arcw__send:hover { opacity: .85; }
+.arcw__send:disabled { opacity: .4; cursor: not-allowed; }
+
+/* Mobile: full-screen panel */
+@media (max-width: 560px) {
+  .arcw { bottom: 16px; right: 16px; }
+  .arcw__panel {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    max-height: none;
+  }
+}
