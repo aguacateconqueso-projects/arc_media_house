@@ -44,7 +44,11 @@ async function scheduleCall(input) {
     return { success: false, error: 'Unparseable preferred_datetime_iso.' };
   }
   if (start.getTime() <= Date.now()) {
-    return { success: false, error: 'preferred_datetime_iso is in the past.' };
+    const nowIso = new Date().toISOString();
+    return {
+      success: false,
+      error: `preferred_datetime_iso (${preferred_datetime_iso}) is in the past. Server clock is ${nowIso}. Re-read the CURRENT DATE block in the system prompt and pick a date strictly after today, using the correct year.`,
+    };
   }
   if (!scoping_note || !scoping_note.trim()) {
     return { success: false, error: 'Missing scoping_note.' };
