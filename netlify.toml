@@ -8,6 +8,11 @@
   to = "/.netlify/functions/chat"
   status = 200
 
+[[redirects]]
+  from = "/api/admin/conversations"
+  to = "/.netlify/functions/admin-conversations"
+  status = 200
+
 [dev]
   port = 3002
   targetPort = 3000
