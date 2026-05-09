@@ -158,7 +158,7 @@ exports.handler = async (event) => {
     for (let turn = 0; turn < MAX_TOOL_TURNS; turn++) {
       response = await client.messages.create({
         model: 'claude-haiku-4-5',
-        max_tokens: 1024,
+        max_tokens: 4096,
         system: systemWithDate,
         tools,
         messages,
