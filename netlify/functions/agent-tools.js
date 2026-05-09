@@ -69,6 +69,30 @@ async function scheduleCall(input) {
 
   const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
 
+  // Conflict check — refuse to double-book Adrián's primary calendar.
+  try {
+    const fb = await calendar.freebusy.query({
+      requestBody: {
+        timeMin: start.toISOString(),
+        timeMax: end.toISOString(),
+        timeZone: 'Europe/Madrid',
+        items: [{ id: 'primary' }],
+      },
+    });
+    const busy = (fb.data.calendars && fb.data.calendars.primary && fb.data.calendars.primary.busy) || [];
+    if (busy.length > 0) {
+      console.log('[schedule_call] conflict', { start: start.toISOString(), busy });
+      const conflict = busy[0];
+      return {
+        success: false,
+        error: `Adrián is already booked at ${preferred_datetime_iso}. Conflicting block: ${conflict.start} → ${conflict.end}. Ask the visitor for a different window and call schedule_call again with the new datetime.`,
+      };
+    }
+  } catch (err) {
+    console.error('[schedule_call] freebusy check failed', err);
+    return { success: false, error: `Calendar availability check failed: ${err.message || 'unknown error'}` };
+  }
+
   const calendarEvent = {
     summary: copy.title(scoping_note),
     description: [
@@ -123,6 +147,14 @@ async function sendTranscript(input) {
     return { success: false, error: 'Missing full_transcript.' };
   }
 
+  if (!process.env.RESEND_API_KEY) {
+    console.error('[send_transcript] RESEND_API_KEY is not set in env');
+    return { success: false, error: 'RESEND_API_KEY not configured on server.' };
+  }
+
+  const fromAddr = process.env.RESEND_FROM || 'agent@arcmediahouse.com';
+  const toAddr = process.env.RESEND_TO || 'hello@arcmediahouse.com';
+
   const firstSentence = summary.split(/(?<=[.!?])\s/)[0].slice(0, 120);
   const subject = `[ARC Agent] ${firstSentence}`;
   const escape = (s) => String(s)
@@ -140,17 +172,33 @@ async function sendTranscript(input) {
     <pre style="font-family:ui-monospace,Menlo,monospace;font-size:13px;white-space:pre-wrap;">${escape(full_transcript)}</pre>
   `;
 
+  console.log('[send_transcript] sending', { from: fromAddr, to: toAddr, subject });
+
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
-    await resend.emails.send({
-      from: 'agent@arcmediahouse.com',
-      to: 'hello@arcmediahouse.com',
+    const result = await resend.emails.send({
+      from: fromAddr,
+      to: toAddr,
       reply_to: visitor_email && EMAIL_RE.test(visitor_email) ? visitor_email : undefined,
       subject,
       html,
     });
-    return { success: true };
+
+    // The Resend SDK returns { data, error } and does NOT throw on API
+    // errors (e.g. unverified domain, invalid from). Inspect the error
+    // field explicitly — otherwise the email silently never sends.
+    if (result && result.error) {
+      console.error('[send_transcript] Resend API error', result.error);
+      const msg = result.error.message
+        || result.error.name
+        || JSON.stringify(result.error);
+      return { success: false, error: `Resend: ${msg}` };
+    }
+
+    console.log('[send_transcript] sent OK', { id: result && result.data && result.data.id });
+    return { success: true, email_id: result && result.data && result.data.id };
   } catch (err) {
+    console.error('[send_transcript] threw', err);
     return { success: false, error: err.message || 'Resend API error.' };
   }
 }
@@ -162,6 +210,7 @@ async function executeTool(toolName, toolInput) {
 }
 
 exports.executeTool = executeTool;
+exports.sendTranscript = sendTranscript;
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {

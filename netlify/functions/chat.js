@@ -1,6 +1,6 @@
 const Anthropic = require('@anthropic-ai/sdk');
 const SYSTEM = require('./system-prompt');
-const { executeTool } = require('./agent-tools');
+const { executeTool, sendTranscript } = require('./agent-tools');
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
@@ -155,10 +155,13 @@ exports.handler = async (event) => {
     const systemWithDate = `${dateContextBlock()}\n\n${SYSTEM}`;
 
     let response;
+    let scheduledCall = null;
+    let transcriptCalled = false;
+
     for (let turn = 0; turn < MAX_TOOL_TURNS; turn++) {
       response = await client.messages.create({
         model: 'claude-haiku-4-5',
-        max_tokens: 1024,
+        max_tokens: 4096,
         system: systemWithDate,
         tools,
         messages,
@@ -171,7 +174,17 @@ exports.handler = async (event) => {
       const toolResults = [];
       for (const block of response.content) {
         if (block.type !== 'tool_use') continue;
+        console.log('[chat] tool_use', block.name, JSON.stringify(block.input).slice(0, 300));
         const result = await executeTool(block.name, block.input);
+        console.log('[chat] tool_result', block.name, result.success ? 'OK' : `ERR: ${result.error}`);
+
+        if (block.name === 'schedule_call' && result.success) {
+          scheduledCall = { input: block.input, result };
+        }
+        if (block.name === 'send_transcript' && result.success) {
+          transcriptCalled = true;
+        }
+
         toolResults.push({
           type: 'tool_result',
           tool_use_id: block.id,
@@ -180,6 +193,19 @@ exports.handler = async (event) => {
         });
       }
       messages.push({ role: 'user', content: toolResults });
+    }
+
+    // Backstop: if a call was successfully scheduled but the model never
+    // called send_transcript (web chats have no detectable end, so the
+    // model often forgets), synthesize and send it server-side.
+    if (scheduledCall && !transcriptCalled) {
+      console.log('[chat] backstop: schedule_call succeeded but send_transcript was not called — sending server-side');
+      try {
+        const result = await sendTranscript(buildBackstopTranscript(incoming, scheduledCall));
+        console.log('[chat] backstop send_transcript result', result.success ? 'OK' : `ERR: ${result.error}`);
+      } catch (err) {
+        console.error('[chat] backstop send_transcript threw', err);
+      }
     }
 
     const text = (response.content || [])
@@ -194,10 +220,35 @@ exports.handler = async (event) => {
       body: JSON.stringify({ reply: text }),
     };
   } catch (err) {
-    console.error(err);
+    console.error('[chat] handler threw', err);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: 'Agent unavailable. Email hello@arcmediahouse.com' }),
     };
   }
 };
+
+function buildBackstopTranscript(originalMessages, scheduledCall) {
+  const lines = [];
+  for (const m of originalMessages || []) {
+    if (!m || typeof m.content !== 'string') continue;
+    const who = m.role === 'user' ? 'Visitor' : 'Agent';
+    lines.push(`${who}: ${m.content}`);
+  }
+  const transcript = lines.join('\n\n') || '(no prior transcript captured)';
+
+  const { input, result } = scheduledCall;
+  const summary = [
+    `Discovery call booked via the ARC site agent for ${input.visitor_email}.`,
+    `Scoping: ${input.scoping_note}.`,
+    `Confirmed datetime: ${result.confirmed_datetime}.`,
+    'Transcript sent automatically because the model did not invoke send_transcript.',
+  ].join(' ');
+
+  return {
+    summary,
+    visitor_email: input.visitor_email || '',
+    scheduled_call_datetime: result.confirmed_datetime || '',
+    full_transcript: transcript,
+  };
+}
