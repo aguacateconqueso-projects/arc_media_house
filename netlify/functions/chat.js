@@ -4,6 +4,39 @@ const { executeTool } = require('./agent-tools');
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
+function buildSystem() {
+  const now = new Date();
+  const madridFmt = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/Madrid',
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
+  const isoDate = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Europe/Madrid',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(now);
+  const header =
+    `# Current time / Hora actual\n\n` +
+    `Today (Europe/Madrid): ${madridFmt.format(now)}\n` +
+    `ISO date: ${isoDate}\n\n` +
+    `Use this as ground truth when the visitor mentions days of the week ` +
+    `(e.g. "next Monday"). Resolve relative dates against this. When ` +
+    `calling schedule_call, build preferred_datetime_iso from this — ` +
+    `never assume the date based on prior knowledge.\n\n` +
+    `Cuando el visitante mencione días ("el lunes que viene"), resuelve la ` +
+    `fecha contra esta hora actual. Al llamar schedule_call, construye ` +
+    `preferred_datetime_iso a partir de esta referencia — nunca asumas la ` +
+    `fecha desde conocimiento previo.\n\n---\n\n`;
+  return header + SYSTEM;
+}
+
 const tools = [
   {
     name: 'schedule_call',
@@ -80,7 +113,7 @@ exports.handler = async (event) => {
       response = await client.messages.create({
         model: 'claude-haiku-4-5',
         max_tokens: 1024,
-        system: SYSTEM,
+        system: buildSystem(),
         tools,
         messages,
       });
