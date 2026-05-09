@@ -143,11 +143,12 @@
     var v = input.value.trim();
     if (!v) return;
     input.value = '';
+    addMsg('user', v, false);
     var typing = addTyping();
     sendBtn.disabled = true;
 
     window.ARCChat.send(v, {
-      onUser: function () { /* store will trigger render via onChange */ },
+      onUser: function () { /* already rendered above */ },
       onReply: function (reply) {
         typing.remove();
         addMsg('assistant', reply, true);
