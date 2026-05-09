@@ -4,6 +4,83 @@ const { executeTool } = require('./agent-tools');
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
+const MADRID_TZ = 'Europe/Madrid';
+const WEEKDAYS_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const WEEKDAYS_ES = ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'];
+const WEEKDAYS_PT = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'];
+
+function madridDateParts(d) {
+  const fmt = new Intl.DateTimeFormat('en-CA', {
+    timeZone: MADRID_TZ,
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    weekday: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
+  const parts = Object.fromEntries(fmt.formatToParts(d).map((p) => [p.type, p.value]));
+  return {
+    year: parts.year,
+    month: parts.month,
+    day: parts.day,
+    weekdayShort: parts.weekday,
+    hour: parts.hour,
+    minute: parts.minute,
+  };
+}
+
+function dateContextBlock() {
+  const now = new Date();
+  const today = madridDateParts(now);
+  const todayIso = `${today.year}-${today.month}-${today.day}`;
+
+  // Compute weekday index (0=Sun..6=Sat) for the Madrid date.
+  const dow = new Date(`${todayIso}T12:00:00Z`).getUTCDay();
+
+  const upcoming = [];
+  for (let i = 0; i < 8; i++) {
+    const d = new Date(now.getTime() + i * 24 * 60 * 60 * 1000);
+    const p = madridDateParts(d);
+    const iso = `${p.year}-${p.month}-${p.day}`;
+    const idx = new Date(`${iso}T12:00:00Z`).getUTCDay();
+    upcoming.push({
+      iso,
+      en: WEEKDAYS_EN[idx],
+      es: WEEKDAYS_ES[idx],
+      pt: WEEKDAYS_PT[idx],
+      label: i === 0 ? 'today' : i === 1 ? 'tomorrow' : `+${i}d`,
+    });
+  }
+
+  const lines = upcoming
+    .map((u) => `  - ${u.iso} — ${u.en} / ${u.es} / ${u.pt} (${u.label})`)
+    .join('\n');
+
+  return [
+    '# CURRENT DATE & TIME — read this before scheduling',
+    `Today (Europe/Madrid): ${todayIso} — ${WEEKDAYS_EN[dow]} / ${WEEKDAYS_ES[dow]} / ${WEEKDAYS_PT[dow]}.`,
+    `Madrid local time right now: ${today.hour}:${today.minute} CET/CEST.`,
+    '',
+    'Upcoming dates (use these — never invent calendar dates):',
+    lines,
+    '',
+    'When you call schedule_call, preferred_datetime_iso MUST:',
+    '1. Use one of the ISO dates listed above (or further in the future). NEVER a date in the past.',
+    '2. Use the YEAR shown above. Do not default to a previous year.',
+    '3. Preserve the EXACT clock time the visitor proposed. If they said "10 a 11am",',
+    '   the start is 10:00 in their stated timezone — not 16:00, not 11:00.',
+    '4. Use the visitor\'s timezone offset. If they\'re in Madrid: +02:00 (CEST) for',
+    '   dates in CEST window, +01:00 (CET) otherwise. If unsure, default to Madrid CEST.',
+    '5. Pick the FIRST window the visitor proposed that maps to a future date above.',
+    '',
+    'When you confirm a slot back to the visitor, repeat the time EXACTLY as they',
+    'gave it — do not silently shift hours. Read this before every reply involving',
+    'a date, day-of-week, or "this/next Monday" reference.',
+  ].join('\n');
+}
+
 const tools = [
   {
     name: 'schedule_call',
@@ -75,12 +152,14 @@ exports.handler = async (event) => {
     const { messages: incoming } = JSON.parse(event.body);
     const messages = Array.isArray(incoming) ? [...incoming] : [];
 
+    const systemWithDate = `${dateContextBlock()}\n\n${SYSTEM}`;
+
     let response;
     for (let turn = 0; turn < MAX_TOOL_TURNS; turn++) {
       response = await client.messages.create({
         model: 'claude-haiku-4-5',
         max_tokens: 1024,
-        system: SYSTEM,
+        system: systemWithDate,
         tools,
         messages,
       });
