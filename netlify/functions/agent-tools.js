@@ -69,6 +69,30 @@ async function scheduleCall(input) {
 
   const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
 
+  // Conflict check — refuse to double-book Adrián's primary calendar.
+  try {
+    const fb = await calendar.freebusy.query({
+      requestBody: {
+        timeMin: start.toISOString(),
+        timeMax: end.toISOString(),
+        timeZone: 'Europe/Madrid',
+        items: [{ id: 'primary' }],
+      },
+    });
+    const busy = (fb.data.calendars && fb.data.calendars.primary && fb.data.calendars.primary.busy) || [];
+    if (busy.length > 0) {
+      console.log('[schedule_call] conflict', { start: start.toISOString(), busy });
+      const conflict = busy[0];
+      return {
+        success: false,
+        error: `Adrián is already booked at ${preferred_datetime_iso}. Conflicting block: ${conflict.start} → ${conflict.end}. Ask the visitor for a different window and call schedule_call again with the new datetime.`,
+      };
+    }
+  } catch (err) {
+    console.error('[schedule_call] freebusy check failed', err);
+    return { success: false, error: `Calendar availability check failed: ${err.message || 'unknown error'}` };
+  }
+
   const calendarEvent = {
     summary: copy.title(scoping_note),
     description: [
