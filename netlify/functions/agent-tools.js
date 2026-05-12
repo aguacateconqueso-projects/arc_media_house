@@ -193,8 +193,16 @@ async function sendTranscript(input) {
     return { success: false, error: 'Missing full_transcript.' };
   }
 
+  console.log('[send_transcript] entry', {
+    hasApiKey: Boolean(process.env.RESEND_API_KEY),
+    fromEnv: process.env.RESEND_FROM || '(unset — defaulting to agent@arcmediahouse.com)',
+    toEnv: process.env.RESEND_TO || '(unset — defaulting to hello@arcmediahouse.com)',
+    visitor: visitor_email || '(none)',
+    transcriptChars: full_transcript.length,
+  });
+
   if (!process.env.RESEND_API_KEY) {
-    console.error('[send_transcript] RESEND_API_KEY is not set in env');
+    console.error('[send_transcript] RESEND_API_KEY is not set in env — emails cannot be sent');
     return { success: false, error: 'RESEND_API_KEY not configured on server.' };
   }
 
