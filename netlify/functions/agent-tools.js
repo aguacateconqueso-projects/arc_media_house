@@ -70,6 +70,13 @@ async function scheduleCall(input) {
   const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
 
   // Conflict check — refuse to double-book Adrián's primary calendar.
+  // Important: the agent runs stateless across HTTP turns, so on a follow-up
+  // message ("thanks") the model has no memory of the booking it just made.
+  // If it re-issues schedule_call with the same datetime, the freshly-created
+  // event shows up in busy[] and we'd report a fake conflict against ourselves.
+  // Detect that case by listing the actual events in the window and checking
+  // whether one of them has this visitor as an attendee — if so, treat the
+  // call as idempotent and return the existing booking.
   try {
     const fb = await calendar.freebusy.query({
       requestBody: {
@@ -81,11 +88,50 @@ async function scheduleCall(input) {
     });
     const busy = (fb.data.calendars && fb.data.calendars.primary && fb.data.calendars.primary.busy) || [];
     if (busy.length > 0) {
+      let existing = null;
+      try {
+        const events = await calendar.events.list({
+          calendarId: 'primary',
+          timeMin: start.toISOString(),
+          timeMax: end.toISOString(),
+          singleEvents: true,
+          maxResults: 10,
+        });
+        const items = (events.data && events.data.items) || [];
+        existing = items.find((ev) =>
+          (ev.attendees || []).some(
+            (a) => a.email && a.email.toLowerCase() === visitor_email.toLowerCase()
+          )
+        );
+      } catch (lookupErr) {
+        console.error('[schedule_call] events.list lookup failed', lookupErr);
+      }
+
+      if (existing) {
+        console.log('[schedule_call] idempotent re-call — visitor already booked', {
+          eventId: existing.id,
+          start: existing.start && existing.start.dateTime,
+        });
+        return {
+          success: true,
+          already_booked: true,
+          confirmed_datetime: (existing.start && existing.start.dateTime) || start.toISOString(),
+          event_link: existing.htmlLink,
+          meet_link:
+            (existing.conferenceData &&
+              existing.conferenceData.entryPoints &&
+              existing.conferenceData.entryPoints[0] &&
+              existing.conferenceData.entryPoints[0].uri) ||
+            null,
+          note: 'This visitor is already booked at this time. Do not call schedule_call again — confirm conversationally instead.',
+        };
+      }
+
       console.log('[schedule_call] conflict', { start: start.toISOString(), busy });
       const conflict = busy[0];
       return {
         success: false,
-        error: `Adrián is already booked at ${preferred_datetime_iso}. Conflicting block: ${conflict.start} → ${conflict.end}. Ask the visitor for a different window and call schedule_call again with the new datetime.`,
+        error: `Adrián is already booked at ${preferred_datetime_iso}. Conflicting block: ${conflict.start} → ${conflict.end}. Pick a DIFFERENT window from the visitor's other proposed options (or propose an adjacent slot) and call schedule_call again with the new datetime — do not retry the same time.`,
       };
     }
   } catch (err) {

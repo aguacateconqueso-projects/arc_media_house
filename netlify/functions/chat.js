@@ -73,7 +73,10 @@ function dateContextBlock() {
     '   the start is 10:00 in their stated timezone — not 16:00, not 11:00.',
     '4. Use the visitor\'s timezone offset. If they\'re in Madrid: +02:00 (CEST) for',
     '   dates in CEST window, +01:00 (CET) otherwise. If unsure, default to Madrid CEST.',
-    '5. Pick the FIRST window the visitor proposed that maps to a future date above.',
+    '5. Pick the window that best fits Madrid working hours (9:00–19:00) and gives',
+    '   24h+ of buffer when possible — do NOT default to "the first one". If the',
+    '   chosen window comes back as a conflict, try the NEXT proposed window in',
+    '   the same turn before asking the visitor for alternatives.',
     '',
     'When you confirm a slot back to the visitor, repeat the time EXACTLY as they',
     'gave it — do not silently shift hours. Read this before every reply involving',
@@ -98,7 +101,7 @@ const tools = [
         },
         preferred_datetime_iso: {
           type: 'string',
-          description: "The chosen datetime in ISO 8601 format with timezone, e.g. '2026-05-13T16:00:00+02:00'. Pick the first viable window the visitor proposed.",
+          description: "The chosen datetime in ISO 8601 format with timezone, e.g. '2026-05-13T16:00:00+02:00'. Evaluate the windows the visitor offered and pick the one that best fits Madrid working hours (9:00–19:00) with 24h+ of buffer when possible — do NOT default to the first window. On a conflict response, retry with a DIFFERENT window from the visitor's options before asking for alternatives.",
         },
         scoping_note: {
           type: 'string',
