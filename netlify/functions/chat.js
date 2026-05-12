@@ -169,6 +169,19 @@ exports.handler = async (event) => {
 
     const systemWithDate = `${dateContextBlock()}\n\n${SYSTEM}`;
 
+    // Detect whether this conversation already produced a booking in a
+    // prior turn. The front-end only persists text (role + content) across
+    // requests, so the model has no memory of its own tool calls — it has
+    // re-invoked schedule_call on follow-up "gracias" messages, and the
+    // observed-in-prod failure mode was that it ALSO re-invoked
+    // send_transcript, sending Adrián a duplicate email per follow-up
+    // turn. Prompt-only mitigation isn't enough; we intercept tool calls
+    // server-side instead.
+    const priorBookingDetected = detectPriorBooking(incoming);
+    if (priorBookingDetected) {
+      console.log('[chat] prior booking detected in history — tool calls will be intercepted');
+    }
+
     let response;
     let scheduledCall = null;
     let transcriptCalled = false;
@@ -190,10 +203,30 @@ exports.handler = async (event) => {
       for (const block of response.content) {
         if (block.type !== 'tool_use') continue;
         console.log('[chat] tool_use', block.name, JSON.stringify(block.input).slice(0, 300));
-        const result = await executeTool(block.name, block.input);
+
+        let result;
+        if (priorBookingDetected && block.name === 'schedule_call') {
+          console.log('[chat] intercept schedule_call — booking already confirmed in earlier turn');
+          result = {
+            success: true,
+            already_booked: true,
+            intercepted: true,
+            note: 'A booking was confirmed earlier in this conversation. Do NOT call schedule_call or send_transcript again. Reply with a short warm closing message and end your turn.',
+          };
+        } else if (priorBookingDetected && block.name === 'send_transcript') {
+          console.log('[chat] intercept send_transcript — transcript already sent in earlier turn');
+          result = {
+            success: true,
+            intercepted: true,
+            note: 'Transcript was sent in the earlier turn. Suppressing duplicate. Reply with a short warm closing message and end your turn.',
+          };
+          transcriptCalled = true;
+        } else {
+          result = await executeTool(block.name, block.input);
+        }
         console.log('[chat] tool_result', block.name, result.success ? 'OK' : `ERR: ${result.error}`);
 
-        if (block.name === 'schedule_call' && result.success) {
+        if (block.name === 'schedule_call' && result.success && !result.intercepted) {
           // Capture either the original booking or a re-confirmation hit
           // (already_booked === true means the agent re-invoked schedule_call
           // on a follow-up turn against its own existing event — the original
@@ -205,7 +238,7 @@ exports.handler = async (event) => {
             reConfirmation: Boolean(result.already_booked),
           };
         }
-        if (block.name === 'send_transcript' && result.success) {
+        if (block.name === 'send_transcript' && result.success && !result.intercepted) {
           transcriptCalled = true;
         }
 
@@ -240,8 +273,9 @@ exports.handler = async (event) => {
     // bailed to "Adrián will email you" path, or the model never invoked
     // schedule_call at all). If the visitor shared a real email and the
     // assistant has acknowledged a handoff, we still want the transcript
-    // — that lead would otherwise vanish.
-    if (!scheduledCall && !transcriptCalled) {
+    // — that lead would otherwise vanish. Skip when a prior booking was
+    // already confirmed: the original turn's transcript covered the lead.
+    if (!scheduledCall && !transcriptCalled && !priorBookingDetected) {
       const lead = detectLead(incoming, response);
       if (lead) {
         console.log('[chat] secondary backstop: lead captured without booking — sending transcript', { email: lead.email });
@@ -312,6 +346,15 @@ function buildBackstopTranscript(originalMessages, scheduledCall) {
 
 const EMAIL_IN_TEXT = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i;
 const HANDOFF_HINTS_RE = /(adri[áa]n|llamada|calendar|invitaci[oó]n|invite|schedule|book|agend|discovery|confirm|en la llamada|on the call)/i;
+const BOOKING_CONFIRM_RE = /\b(Listo|Done|Booked|Agendado|Confirmed)\b[\s\S]{0,200}?\b\d{1,2}[:h]\d{2}\b[\s\S]{0,200}?(invitaci[oó]n|invite|Calendar|Meet|CET|CEST)/i;
+
+function detectPriorBooking(originalMessages) {
+  for (const m of originalMessages || []) {
+    if (!m || m.role !== 'assistant' || typeof m.content !== 'string') continue;
+    if (BOOKING_CONFIRM_RE.test(m.content)) return true;
+  }
+  return false;
+}
 
 function detectLead(originalMessages, lastResponse) {
   let email = null;
