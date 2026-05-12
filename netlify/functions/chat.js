@@ -1,6 +1,7 @@
 const Anthropic = require('@anthropic-ai/sdk');
 const SYSTEM = require('./system-prompt');
 const { executeTool, sendTranscript } = require('./agent-tools');
+const { logMessages } = require('./supabase-log');
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 
@@ -165,7 +166,11 @@ exports.handler = async (event) => {
   });
 
   try {
-    const { messages: incoming } = JSON.parse(event.body);
+    const body = JSON.parse(event.body);
+    const incoming = body.messages;
+    const sessionId = (body.session_id && String(body.session_id)) || 'anon';
+    const lang = (body.lang && String(body.lang)) || null;
+    const userAgent = (event.headers && (event.headers['user-agent'] || event.headers['User-Agent'])) || null;
     const messages = Array.isArray(incoming) ? [...incoming] : [];
 
     const systemWithDate = `${dateContextBlock()}\n\n${SYSTEM}`;
@@ -186,6 +191,8 @@ exports.handler = async (event) => {
     let response;
     let scheduledCall = null;
     let transcriptCalled = false;
+    const toolEvents = [];
+    let visitorEmailSeen = null;
 
     for (let turn = 0; turn < MAX_TOOL_TURNS; turn++) {
       response = await client.messages.create({
@@ -242,6 +249,15 @@ exports.handler = async (event) => {
         if (block.name === 'send_transcript' && result.success && !result.intercepted) {
           transcriptCalled = true;
         }
+        if (block.input && typeof block.input.visitor_email === 'string') {
+          visitorEmailSeen = block.input.visitor_email;
+        }
+        toolEvents.push({
+          name: block.name,
+          input: block.input,
+          success: !!result.success,
+          error: result.error || null,
+        });
 
         toolResults.push({
           type: 'tool_result',
@@ -303,6 +319,36 @@ exports.handler = async (event) => {
       console.warn('[chat] model returned empty text — using fallback reply');
       text = defaultClosingFor(incoming);
     }
+
+    // Log this turn to Supabase: the latest user message + the assistant
+    // reply, with any tool events captured along the way. Fire-and-forget
+    // so a Supabase outage never blocks the chat reply.
+    const lastUser = [...incoming].reverse().find((m) => m && m.role === 'user' && typeof m.content === 'string');
+    const scheduledAt = scheduledCall && scheduledCall.result && scheduledCall.result.confirmed_datetime
+      ? scheduledCall.result.confirmed_datetime
+      : null;
+    const rows = [];
+    if (lastUser) {
+      rows.push({
+        session_id: sessionId,
+        role: 'user',
+        content: lastUser.content,
+        lang,
+        user_agent: userAgent,
+      });
+    }
+    if (text) {
+      rows.push({
+        session_id: sessionId,
+        role: 'assistant',
+        content: text,
+        tool_events: toolEvents.length ? toolEvents : null,
+        visitor_email: visitorEmailSeen,
+        scheduled_call_at: scheduledAt,
+        lang,
+      });
+    }
+    logMessages(rows).catch((e) => console.error('[chat] logMessages failed', e));
 
     return {
       statusCode: 200,

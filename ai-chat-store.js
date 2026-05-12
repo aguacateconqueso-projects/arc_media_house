@@ -4,8 +4,27 @@
    ========================================================== */
 (function () {
   var KEY = 'arc_chat_history_v1';
+  var SESSION_KEY = 'arc_chat_session_id_v1';
   var MAX = 40; // cap to avoid sending huge payloads to the API
   var listeners = [];
+
+  function uuid() {
+    if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
+    return 'sess-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+  }
+
+  function sessionId() {
+    try {
+      var s = localStorage.getItem(SESSION_KEY);
+      if (!s) {
+        s = uuid();
+        localStorage.setItem(SESSION_KEY, s);
+      }
+      return s;
+    } catch (e) {
+      return 'no-storage-' + Date.now();
+    }
+  }
 
   function read() {
     try {
@@ -68,10 +87,15 @@
       emit();
       if (callbacks.onUser) callbacks.onUser(text);
 
+      var lang = (document.documentElement.getAttribute('data-lang') || 'en');
       return fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: read() })
+        body: JSON.stringify({
+          messages: read(),
+          session_id: sessionId(),
+          lang: lang
+        })
       })
         .then(function (res) { return res.json(); })
         .then(function (data) {
