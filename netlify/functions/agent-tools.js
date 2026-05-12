@@ -197,6 +197,7 @@ async function sendTranscript(input) {
     hasApiKey: Boolean(process.env.RESEND_API_KEY),
     fromEnv: process.env.RESEND_FROM || '(unset — defaulting to agent@arcmediahouse.com)',
     toEnv: process.env.RESEND_TO || '(unset — defaulting to hello@arcmediahouse.com)',
+    toRecipientCount: (process.env.RESEND_TO || 'hello@arcmediahouse.com').split(',').length,
     visitor: visitor_email || '(none)',
     transcriptChars: full_transcript.length,
   });
@@ -207,7 +208,23 @@ async function sendTranscript(input) {
   }
 
   const fromAddr = process.env.RESEND_FROM || 'agent@arcmediahouse.com';
-  const toAddr = process.env.RESEND_TO || 'hello@arcmediahouse.com';
+  // RESEND_TO accepts a single address OR a comma-separated list. Multi-
+  // recipient is the recommended quick-fix when the primary inbox isn't
+  // wired to a real mailbox yet (Resend reports "Sent" once SMTP hands
+  // off, but if the destination silently drops or routes to an internal
+  // Resend Receiving inbox, the lead never reaches a human). Listing a
+  // guaranteed-real backup address (e.g. a personal Gmail) ensures
+  // delivery while DNS / mailbox setup is being finalised.
+  const toRaw = process.env.RESEND_TO || 'hello@arcmediahouse.com';
+  const toList = toRaw
+    .split(',')
+    .map((s) => s.trim())
+    .filter((s) => s && EMAIL_RE.test(s));
+  if (toList.length === 0) {
+    console.error('[send_transcript] RESEND_TO contained no valid addresses', { toRaw });
+    return { success: false, error: 'RESEND_TO has no valid recipient addresses.' };
+  }
+  const toAddr = toList.length === 1 ? toList[0] : toList;
 
   const firstSentence = summary.split(/(?<=[.!?])\s/)[0].slice(0, 120);
   const subject = `[ARC Agent] ${firstSentence}`;
@@ -226,7 +243,7 @@ async function sendTranscript(input) {
     <pre style="font-family:ui-monospace,Menlo,monospace;font-size:13px;white-space:pre-wrap;">${escape(full_transcript)}</pre>
   `;
 
-  console.log('[send_transcript] sending', { from: fromAddr, to: toAddr, subject });
+  console.log('[send_transcript] sending', { from: fromAddr, to: toList, subject });
 
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);

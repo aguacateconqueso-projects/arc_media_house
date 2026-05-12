@@ -161,6 +161,7 @@ exports.handler = async (event) => {
     hasResendKey: Boolean(process.env.RESEND_API_KEY),
     resendFrom: process.env.RESEND_FROM || '(default agent@arcmediahouse.com)',
     resendTo: process.env.RESEND_TO || '(default hello@arcmediahouse.com)',
+    resendToRecipients: (process.env.RESEND_TO || 'hello@arcmediahouse.com').split(',').length,
   });
 
   try {
