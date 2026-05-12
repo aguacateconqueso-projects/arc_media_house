@@ -3,6 +3,84 @@ const { Resend } = require('resend');
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+function getCalendarClient() {
+  const oauth2Client = new google.auth.OAuth2(
+    process.env.GOOGLE_CLIENT_ID,
+    process.env.GOOGLE_CLIENT_SECRET,
+    'http://localhost:3000/oauth/callback'
+  );
+  oauth2Client.setCredentials({ refresh_token: process.env.GOOGLE_REFRESH_TOKEN });
+  return google.calendar({ version: 'v3', auth: oauth2Client });
+}
+
+// Creates a private "[ARC notes] …" event on Adrián's primary calendar at
+// the same time as the discovery call. No attendees → the visitor never
+// receives it and cannot see it. Adrián opens his calendar and finds the
+// full transcript sitting right next to the discovery call event.
+// This is the durable second-channel for the conversation log when email
+// delivery to hello@arcmediahouse.com is unreliable (Resend Receiving /
+// MX routing).
+async function attachTranscriptToCalendar({ scheduled_call_datetime, summary, full_transcript, visitor_email }) {
+  if (!scheduled_call_datetime) {
+    return { skipped: true, reason: 'no scheduled_call_datetime — nothing to attach to' };
+  }
+  const start = new Date(scheduled_call_datetime);
+  if (isNaN(start.getTime())) {
+    return { skipped: true, reason: 'unparseable scheduled_call_datetime' };
+  }
+  // The companion notes event mirrors the call window. visibility=private
+  // hides it from anyone else who might share the calendar.
+  const end = new Date(start.getTime() + 30 * 60000);
+
+  const description = [
+    'ARC site agent — internal conversation log.',
+    'This event has no attendees and is only visible to the calendar owner.',
+    '',
+    `Visitor: ${visitor_email || '—'}`,
+    `Discovery call: ${scheduled_call_datetime}`,
+    '',
+    '— Summary —',
+    summary || '(no summary captured)',
+    '',
+    '— Full transcript —',
+    full_transcript || '(no transcript captured)',
+  ].join('\n');
+
+  const notesEvent = {
+    summary: `[ARC notes] ${visitor_email || 'lead'}`,
+    description,
+    start: { dateTime: start.toISOString(), timeZone: 'Europe/Madrid' },
+    end: { dateTime: end.toISOString(), timeZone: 'Europe/Madrid' },
+    visibility: 'private',
+    transparency: 'transparent',
+    reminders: { useDefault: false, overrides: [] },
+    extendedProperties: {
+      private: {
+        arc_kind: 'transcript',
+        arc_visitor_email: visitor_email || '',
+      },
+    },
+  };
+
+  try {
+    const calendar = getCalendarClient();
+    const response = await calendar.events.insert({
+      calendarId: 'primary',
+      requestBody: notesEvent,
+      sendUpdates: 'none',
+    });
+    console.log('[transcript-calendar] notes event created', {
+      eventId: response.data.id,
+      htmlLink: response.data.htmlLink,
+      visitor: visitor_email,
+    });
+    return { success: true, event_id: response.data.id, event_link: response.data.htmlLink };
+  } catch (err) {
+    console.error('[transcript-calendar] failed to create notes event', err && err.message);
+    return { success: false, error: err && err.message };
+  }
+}
+
 const calendarCopy = (lang) => {
   const l = ['en', 'es', 'pt'].includes(lang) ? lang : 'en';
   return {
@@ -60,14 +138,7 @@ async function scheduleCall(input) {
     ? visitor_name.trim()
     : visitor_email.split('@')[0];
 
-  const oauth2Client = new google.auth.OAuth2(
-    process.env.GOOGLE_CLIENT_ID,
-    process.env.GOOGLE_CLIENT_SECRET,
-    'http://localhost:3000/oauth/callback'
-  );
-  oauth2Client.setCredentials({ refresh_token: process.env.GOOGLE_REFRESH_TOKEN });
-
-  const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
+  const calendar = getCalendarClient();
 
   // Conflict check — refuse to double-book Adrián's primary calendar.
   // Important: the agent runs stateless across HTTP turns, so on a follow-up
@@ -258,18 +329,66 @@ async function sendTranscript(input) {
     // The Resend SDK returns { data, error } and does NOT throw on API
     // errors (e.g. unverified domain, invalid from). Inspect the error
     // field explicitly — otherwise the email silently never sends.
+    let emailOutcome;
     if (result && result.error) {
       console.error('[send_transcript] Resend API error', result.error);
       const msg = result.error.message
         || result.error.name
         || JSON.stringify(result.error);
-      return { success: false, error: `Resend: ${msg}` };
+      emailOutcome = { ok: false, error: `Resend: ${msg}` };
+    } else {
+      console.log('[send_transcript] sent OK', { id: result && result.data && result.data.id });
+      emailOutcome = { ok: true, email_id: result && result.data && result.data.id };
     }
 
-    console.log('[send_transcript] sent OK', { id: result && result.data && result.data.id });
-    return { success: true, email_id: result && result.data && result.data.id };
+    // Always also attach the transcript to Adrián's calendar as a private
+    // companion event. This is the durable second channel: even when
+    // Resend reports "Sent" but the message never reaches a real inbox
+    // (Resend Receiving / MX routing), the transcript is still readable
+    // by opening the calendar event that already exists for the call.
+    const calendarOutcome = await attachTranscriptToCalendar({
+      scheduled_call_datetime,
+      summary,
+      full_transcript,
+      visitor_email,
+    });
+
+    // Treat the overall send_transcript call as successful if EITHER
+    // channel landed — Adrián can always read the calendar event even
+    // when email is misrouted.
+    const success = emailOutcome.ok || calendarOutcome.success;
+    return {
+      success,
+      email_ok: emailOutcome.ok,
+      email_id: emailOutcome.email_id,
+      email_error: emailOutcome.error,
+      calendar_ok: Boolean(calendarOutcome.success),
+      calendar_event_id: calendarOutcome.event_id,
+      calendar_event_link: calendarOutcome.event_link,
+      calendar_error: calendarOutcome.error,
+      calendar_skipped_reason: calendarOutcome.reason,
+      ...(success ? {} : { error: emailOutcome.error || calendarOutcome.error || 'Both channels failed.' }),
+    };
   } catch (err) {
     console.error('[send_transcript] threw', err);
+    // Even if Resend throws, try the calendar attach so the lead isn't lost.
+    const calendarOutcome = await attachTranscriptToCalendar({
+      scheduled_call_datetime,
+      summary,
+      full_transcript,
+      visitor_email,
+    });
+    if (calendarOutcome.success) {
+      console.log('[send_transcript] recovered via calendar attach despite Resend throw');
+      return {
+        success: true,
+        email_ok: false,
+        email_error: err.message || 'Resend API error.',
+        calendar_ok: true,
+        calendar_event_id: calendarOutcome.event_id,
+        calendar_event_link: calendarOutcome.event_link,
+      };
+    }
     return { success: false, error: err.message || 'Resend API error.' };
   }
 }
