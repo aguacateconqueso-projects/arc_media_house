@@ -73,7 +73,10 @@ function dateContextBlock() {
     '   the start is 10:00 in their stated timezone — not 16:00, not 11:00.',
     '4. Use the visitor\'s timezone offset. If they\'re in Madrid: +02:00 (CEST) for',
     '   dates in CEST window, +01:00 (CET) otherwise. If unsure, default to Madrid CEST.',
-    '5. Pick the FIRST window the visitor proposed that maps to a future date above.',
+    '5. Pick the window that best fits Madrid working hours (9:00–19:00) and gives',
+    '   24h+ of buffer when possible — do NOT default to "the first one". If the',
+    '   chosen window comes back as a conflict, try the NEXT proposed window in',
+    '   the same turn before asking the visitor for alternatives.',
     '',
     'When you confirm a slot back to the visitor, repeat the time EXACTLY as they',
     'gave it — do not silently shift hours. Read this before every reply involving',
@@ -98,7 +101,7 @@ const tools = [
         },
         preferred_datetime_iso: {
           type: 'string',
-          description: "The chosen datetime in ISO 8601 format with timezone, e.g. '2026-05-13T16:00:00+02:00'. Pick the first viable window the visitor proposed.",
+          description: "The chosen datetime in ISO 8601 format with timezone, e.g. '2026-05-13T16:00:00+02:00'. Evaluate the windows the visitor offered and pick the one that best fits Madrid working hours (9:00–19:00) with 24h+ of buffer when possible — do NOT default to the first window. On a conflict response, retry with a DIFFERENT window from the visitor's options before asking for alternatives.",
         },
         scoping_note: {
           type: 'string',
@@ -179,7 +182,16 @@ exports.handler = async (event) => {
         console.log('[chat] tool_result', block.name, result.success ? 'OK' : `ERR: ${result.error}`);
 
         if (block.name === 'schedule_call' && result.success) {
-          scheduledCall = { input: block.input, result };
+          // Capture either the original booking or a re-confirmation hit
+          // (already_booked === true means the agent re-invoked schedule_call
+          // on a follow-up turn against its own existing event — the original
+          // transcript may have silently failed, so we still want the backstop
+          // to fire on this turn).
+          scheduledCall = {
+            input: block.input,
+            result,
+            reConfirmation: Boolean(result.already_booked),
+          };
         }
         if (block.name === 'send_transcript' && result.success) {
           transcriptCalled = true;
@@ -197,9 +209,15 @@ exports.handler = async (event) => {
 
     // Backstop: if a call was successfully scheduled but the model never
     // called send_transcript (web chats have no detectable end, so the
-    // model often forgets), synthesize and send it server-side.
+    // model often forgets), synthesize and send it server-side. We also
+    // re-fire on the re-confirmation path: if the model re-invoked
+    // schedule_call on a later turn and we returned already_booked,
+    // that's our last reliable hook to deliver the transcript in case
+    // the original turn's backstop never reached Resend. A duplicate
+    // email to Adrián is cheaper than losing the lead entirely.
     if (scheduledCall && !transcriptCalled) {
-      console.log('[chat] backstop: schedule_call succeeded but send_transcript was not called — sending server-side');
+      const tag = scheduledCall.reConfirmation ? 're-confirmation' : 'initial booking';
+      console.log(`[chat] backstop: schedule_call ${tag} succeeded but send_transcript was not called — sending server-side`);
       try {
         const result = await sendTranscript(buildBackstopTranscript(incoming, scheduledCall));
         console.log('[chat] backstop send_transcript result', result.success ? 'OK' : `ERR: ${result.error}`);
@@ -237,9 +255,11 @@ function buildBackstopTranscript(originalMessages, scheduledCall) {
   }
   const transcript = lines.join('\n\n') || '(no prior transcript captured)';
 
-  const { input, result } = scheduledCall;
+  const { input, result, reConfirmation } = scheduledCall;
   const summary = [
-    `Discovery call booked via the ARC site agent for ${input.visitor_email}.`,
+    reConfirmation
+      ? `Discovery call RE-CONFIRMED via the ARC site agent for ${input.visitor_email} — the agent re-invoked schedule_call on a follow-up turn and hit its own existing event. If you already received an earlier transcript for this visitor, this email is a duplicate; otherwise the original transcript never reached you and this is the recovery copy.`
+      : `Discovery call booked via the ARC site agent for ${input.visitor_email}.`,
     `Scoping: ${input.scoping_note}.`,
     `Confirmed datetime: ${result.confirmed_datetime}.`,
     'Transcript sent automatically because the model did not invoke send_transcript.',
