@@ -152,6 +152,19 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
+  // Top-of-handler heartbeat. If even this line never reaches the Netlify
+  // logs, the function isn't being invoked at all (cached bundle, wrong
+  // site, or the front-end is hitting a different host) — not a logging
+  // issue inside the handler.
+  console.log('[chat] handler invoked', {
+    ts: new Date().toISOString(),
+    method: event.httpMethod,
+    hasResendKey: Boolean(process.env.RESEND_API_KEY),
+    resendFrom: process.env.RESEND_FROM || '(default agent@arcmediahouse.com)',
+    resendTo: process.env.RESEND_TO || '(default hello@arcmediahouse.com)',
+    resendToRecipients: (process.env.RESEND_TO || 'hello@arcmediahouse.com').split(',').length,
+  });
+
   try {
     const body = JSON.parse(event.body);
     const incoming = body.messages;
@@ -161,6 +174,19 @@ exports.handler = async (event) => {
     const messages = Array.isArray(incoming) ? [...incoming] : [];
 
     const systemWithDate = `${dateContextBlock()}\n\n${SYSTEM}`;
+
+    // Detect whether this conversation already produced a booking in a
+    // prior turn. The front-end only persists text (role + content) across
+    // requests, so the model has no memory of its own tool calls — it has
+    // re-invoked schedule_call on follow-up "gracias" messages, and the
+    // observed-in-prod failure mode was that it ALSO re-invoked
+    // send_transcript, sending Adrián a duplicate email per follow-up
+    // turn. Prompt-only mitigation isn't enough; we intercept tool calls
+    // server-side instead.
+    const priorBookingDetected = detectPriorBooking(incoming);
+    if (priorBookingDetected) {
+      console.log('[chat] prior booking detected in history — tool calls will be intercepted');
+    }
 
     let response;
     let scheduledCall = null;
@@ -185,10 +211,30 @@ exports.handler = async (event) => {
       for (const block of response.content) {
         if (block.type !== 'tool_use') continue;
         console.log('[chat] tool_use', block.name, JSON.stringify(block.input).slice(0, 300));
-        const result = await executeTool(block.name, block.input);
+
+        let result;
+        if (priorBookingDetected && block.name === 'schedule_call') {
+          console.log('[chat] intercept schedule_call — booking already confirmed in earlier turn');
+          result = {
+            success: true,
+            already_booked: true,
+            intercepted: true,
+            note: 'A booking was confirmed earlier in this conversation. Do NOT call schedule_call or send_transcript again. Reply with a short warm closing message and end your turn.',
+          };
+        } else if (priorBookingDetected && block.name === 'send_transcript') {
+          console.log('[chat] intercept send_transcript — transcript already sent in earlier turn');
+          result = {
+            success: true,
+            intercepted: true,
+            note: 'Transcript was sent in the earlier turn. Suppressing duplicate. Reply with a short warm closing message and end your turn.',
+          };
+          transcriptCalled = true;
+        } else {
+          result = await executeTool(block.name, block.input);
+        }
         console.log('[chat] tool_result', block.name, result.success ? 'OK' : `ERR: ${result.error}`);
 
-        if (block.name === 'schedule_call' && result.success) {
+        if (block.name === 'schedule_call' && result.success && !result.intercepted) {
           // Capture either the original booking or a re-confirmation hit
           // (already_booked === true means the agent re-invoked schedule_call
           // on a follow-up turn against its own existing event — the original
@@ -200,7 +246,7 @@ exports.handler = async (event) => {
             reConfirmation: Boolean(result.already_booked),
           };
         }
-        if (block.name === 'send_transcript' && result.success) {
+        if (block.name === 'send_transcript' && result.success && !result.intercepted) {
           transcriptCalled = true;
         }
         if (block.input && typeof block.input.visitor_email === 'string') {
@@ -223,30 +269,56 @@ exports.handler = async (event) => {
       messages.push({ role: 'user', content: toolResults });
     }
 
-    // Backstop: if a call was successfully scheduled but the model never
-    // called send_transcript (web chats have no detectable end, so the
-    // model often forgets), synthesize and send it server-side. We also
-    // re-fire on the re-confirmation path: if the model re-invoked
-    // schedule_call on a later turn and we returned already_booked,
-    // that's our last reliable hook to deliver the transcript in case
-    // the original turn's backstop never reached Resend. A duplicate
-    // email to Adrián is cheaper than losing the lead entirely.
+    // Primary backstop: if a call was successfully scheduled but the model
+    // never called send_transcript, synthesize and send it server-side.
+    // Also re-fires on the re-confirmation path (already_booked) as a
+    // recovery hook in case the original turn's email never reached
+    // Resend.
     if (scheduledCall && !transcriptCalled) {
       const tag = scheduledCall.reConfirmation ? 're-confirmation' : 'initial booking';
       console.log(`[chat] backstop: schedule_call ${tag} succeeded but send_transcript was not called — sending server-side`);
       try {
         const result = await sendTranscript(buildBackstopTranscript(incoming, scheduledCall));
         console.log('[chat] backstop send_transcript result', result.success ? 'OK' : `ERR: ${result.error}`);
+        if (result.success) transcriptCalled = true;
       } catch (err) {
         console.error('[chat] backstop send_transcript threw', err);
       }
     }
 
-    const text = (response.content || [])
+    // Secondary backstop: lead captured but no booking happened (model
+    // bailed to "Adrián will email you" path, or the model never invoked
+    // schedule_call at all). If the visitor shared a real email and the
+    // assistant has acknowledged a handoff, we still want the transcript
+    // — that lead would otherwise vanish. Skip when a prior booking was
+    // already confirmed: the original turn's transcript covered the lead.
+    if (!scheduledCall && !transcriptCalled && !priorBookingDetected) {
+      const lead = detectLead(incoming, response);
+      if (lead) {
+        console.log('[chat] secondary backstop: lead captured without booking — sending transcript', { email: lead.email });
+        try {
+          const result = await sendTranscript(buildLeadTranscript(incoming, lead));
+          console.log('[chat] secondary backstop send_transcript result', result.success ? 'OK' : `ERR: ${result.error}`);
+        } catch (err) {
+          console.error('[chat] secondary backstop send_transcript threw', err);
+        }
+      }
+    }
+
+    let text = (response.content || [])
       .filter((b) => b.type === 'text')
       .map((b) => b.text)
       .join('\n')
       .trim();
+
+    // Empty-response safety net: if the model finished without emitting
+    // any conversational text (e.g. tool-only response, or a quirk on
+    // short follow-ups like "gracias"), reply with a safe default so the
+    // visitor never sees an empty bubble.
+    if (!text) {
+      console.warn('[chat] model returned empty text — using fallback reply');
+      text = defaultClosingFor(incoming);
+    }
 
     // Log this turn to Supabase: the latest user message + the assistant
     // reply, with any tool events captured along the way. Fire-and-forget
@@ -317,4 +389,67 @@ function buildBackstopTranscript(originalMessages, scheduledCall) {
     scheduled_call_datetime: result.confirmed_datetime || '',
     full_transcript: transcript,
   };
+}
+
+const EMAIL_IN_TEXT = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i;
+const HANDOFF_HINTS_RE = /(adri[áa]n|llamada|calendar|invitaci[oó]n|invite|schedule|book|agend|discovery|confirm|en la llamada|on the call)/i;
+const BOOKING_CONFIRM_RE = /\b(Listo|Done|Booked|Agendado|Confirmed)\b[\s\S]{0,200}?\b\d{1,2}[:h]\d{2}\b[\s\S]{0,200}?(invitaci[oó]n|invite|Calendar|Meet|CET|CEST)/i;
+
+function detectPriorBooking(originalMessages) {
+  for (const m of originalMessages || []) {
+    if (!m || m.role !== 'assistant' || typeof m.content !== 'string') continue;
+    if (BOOKING_CONFIRM_RE.test(m.content)) return true;
+  }
+  return false;
+}
+
+function detectLead(originalMessages, lastResponse) {
+  let email = null;
+  for (const m of originalMessages || []) {
+    if (!m || m.role !== 'user' || typeof m.content !== 'string') continue;
+    const match = m.content.match(EMAIL_IN_TEXT);
+    if (match) email = match[0];
+  }
+  if (!email) return null;
+
+  const handoff =
+    (originalMessages || []).some(
+      (m) => m && m.role === 'assistant' && typeof m.content === 'string' && HANDOFF_HINTS_RE.test(m.content)
+    ) ||
+    ((lastResponse && lastResponse.content) || []).some(
+      (b) => b.type === 'text' && HANDOFF_HINTS_RE.test(b.text || '')
+    );
+
+  if (!handoff) return null;
+  return { email };
+}
+
+function buildLeadTranscript(originalMessages, lead) {
+  const lines = [];
+  for (const m of originalMessages || []) {
+    if (!m || typeof m.content !== 'string') continue;
+    const who = m.role === 'user' ? 'Visitor' : 'Agent';
+    lines.push(`${who}: ${m.content}`);
+  }
+  const transcript = lines.join('\n\n') || '(no prior transcript captured)';
+  const summary = [
+    `Lead captured via the ARC site agent (${lead.email}) but no calendar booking was completed —`,
+    'the agent reached a handoff intent but never successfully invoked schedule_call,',
+    'so this transcript is the only durable record. Follow up by email if needed.',
+  ].join(' ');
+  return {
+    summary,
+    visitor_email: lead.email,
+    scheduled_call_datetime: '',
+    full_transcript: transcript,
+  };
+}
+
+function defaultClosingFor(originalMessages) {
+  const lastUser = [...(originalMessages || [])].reverse().find((m) => m && m.role === 'user' && typeof m.content === 'string');
+  const text = (lastUser && lastUser.content) || '';
+  const isSpanish = /(gracias|hola|qu[eé]|c[oó]mo|por favor|buenas)/i.test(text);
+  return isSpanish
+    ? 'Gracias a ti — un placer. Cualquier cosa, escríbenos a hello@arcmediahouse.com.'
+    : "Thanks — happy to help. Reach out anytime at hello@arcmediahouse.com.";
 }
