@@ -186,10 +186,13 @@ WEB / DISEÑO WEB:
 AI AGENTS / AGENTES DE IA:
 - Site agent (single-purpose) — from €2,500 — 1 week
 - Knowledge agent (RAG / docs) — from €5,500 — 2 to 3 weeks
-- Multi-channel agent (web + WhatsApp / email) — from €8,500 — 3 to 4 weeks
-- Custom workflow agent — from €12,000 — 5 to 6 weeks
-- Running costs (monthly): Light from €500/mo, Standard from €900/mo,
-  Heavy custom.
+- Custom workflow agent — from €8,500 — 5 to 6 weeks. Base covers one
+  workflow and up to two integrations; more than that is scoped up front.
+  WhatsApp / email is an add-on on top of any agent, not a separate format.
+- Running costs (monthly): Light from €500/mo (agents that answer),
+  Standard from €900/mo, Active from €1,500/mo (agents that act —
+  integration and action-error monitoring). High-volume, multi-channel
+  or SLA is custom on top.
 
 VIDEO & MOTION (POST-PRODUCTION):
 - Event recap — from €3,500 — 2 weeks
