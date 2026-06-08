@@ -130,6 +130,43 @@
   });
 })();
 
+/* ---------- MOBILE MENU ---------- */
+(function mobileMenu() {
+  window.addEventListener('DOMContentLoaded', function() {
+    var nav = document.querySelector('.nav');
+    if (!nav) return;
+    var links = nav.querySelector('.nav__links');
+    if (!links) return;
+
+    var btn = document.createElement('button');
+    btn.className = 'nav__toggle';
+    btn.type = 'button';
+    btn.setAttribute('aria-label', 'Menu');
+    btn.setAttribute('aria-expanded', 'false');
+    btn.innerHTML = '<span></span><span></span><span></span>';
+
+    var tools = nav.querySelector('.nav__tools');
+    nav.insertBefore(btn, tools ? tools.nextSibling : null);
+
+    function close() {
+      nav.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+
+    btn.addEventListener('click', function() {
+      var open = nav.classList.toggle('is-open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    links.querySelectorAll('a').forEach(function(a) {
+      a.addEventListener('click', close);
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') close();
+    });
+  });
+})();
+
 /* ---------- LIVE CLOCK (mono ticker) ---------- */
 (function clock() {
   function tick() {
