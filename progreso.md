@@ -43,7 +43,7 @@ JavaScript: `app.js` (tema, idioma, cursor, apariciones, menú móvil, reloj, an
 
 Once secciones, en este orden:
 
-1. Encabezado — titular, qué se construye, «Desde €2.500.» y el botón
+1. Encabezado — titular a la izquierda, oferta a la derecha
 2. Lo que escucho — cinco frases de clientes
 3. Lo que importa — las tres cosas que deciden si vendes
 4. Qué se construye — las cinco piezas de la plataforma
@@ -56,6 +56,11 @@ Once secciones, en este orden:
 11. Newsletter
 
 Menú: logo, Precio, Preguntas, Contacto. Pie: correo, ciudad y aviso de derechos.
+
+**El encabezado va en diagonal:** el titular grande arriba a la izquierda, ocupando todo el ancho, y
+debajo a la derecha el párrafo, «Desde €2.500.» y el botón, los tres cerrando contra el margen
+derecho. Los tres bloques numerados que había a la derecha se quitaron por decorativos. En móvil
+todo se apila en una columna y vuelve a alinearse a la izquierda.
 
 **El botón «Hablemos quince minutos» aparece tres veces** (encabezado, fin de la prueba, fin del
 precio) y las tres bajan a contacto. El de dentro de contacto abre el correo, porque un botón que
@@ -95,6 +100,22 @@ ponen en Netlify → Site configuration → Environment variables.
 Para desarrollo local: `npm run dev` levanta `server.js` en el puerto 3002 (necesita
 `ANTHROPIC_API_KEY` para que el chat responda). Para ver solo maquetación, sirve la carpeta con
 cualquier servidor estático.
+
+---
+
+## Ramas y PR abiertos
+
+A 2 de agosto de 2026, `main` todavía no tiene nada de esto. Hay tres PR abiertos, y cada rama sale
+de la anterior, así que **los tres tocan los mismos archivos y sus diffs se solapan**:
+
+| PR | Rama | Qué lleva |
+|---|---|---|
+| #68 | `claude/new-sales-home-page-snah0i` | El home nuevo entero + este documento |
+| #69 | `claude/hero-quitar-bloques-laterales` | Fuera los tres bloques laterales del encabezado |
+| #70 | `claude/hero-alinear-derecha` | La oferta alineada a la derecha |
+
+**Fusionando el #70 entran los tres cambios de una vez** y los otros dos quedan vacíos: se cierran y
+listo. En cuanto `main` esté al día, los PR siguientes vuelven a salir cada uno con su diff limpio.
 
 ---
 
@@ -145,6 +166,8 @@ cualquier servidor estático.
 
 ## Cómo se trabaja aquí
 
+- **Cada cambio va en su rama y su PR nuevo, siempre contra `main`.** Sin excepciones: es la única
+  forma de ver el cambio antes de publicarlo. Nada de acumular varios cambios en un mismo PR.
 - Se conserva la familia visual: no se cambian tipografías, colores ni tamaños. Si un bloque nuevo
   se parece a uno que ya existe, se hace igual que ese.
 - El texto se escribe en español primero. Frases cortas. Nada de vocabulario de agencia.
