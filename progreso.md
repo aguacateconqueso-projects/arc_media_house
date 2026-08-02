@@ -127,7 +127,7 @@ limpio.
 
 | PR | Rama | Qué lleva |
 |---|---|---|
-| — | `claude/animated-bg-direction-eb67eb` | El encabezado centrado |
+| #73 | `claude/animated-bg-direction-eb67eb` | El encabezado centrado |
 
 ---
 
