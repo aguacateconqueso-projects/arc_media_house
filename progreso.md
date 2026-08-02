@@ -44,7 +44,7 @@ JavaScript: `app.js` (tema, idioma, cursor, apariciones, menú móvil, reloj, an
 
 Once secciones, en este orden:
 
-1. Encabezado — titular a la izquierda, oferta a la derecha
+1. Encabezado — todo centrado sobre el fondo animado
 2. Lo que escucho — cinco frases de clientes
 3. Lo que importa — las tres cosas que deciden si vendes
 4. Qué se construye — las cinco piezas de la plataforma
@@ -58,10 +58,13 @@ Once secciones, en este orden:
 
 Menú: logo, Precio, Preguntas, Contacto. Pie: correo, ciudad y aviso de derechos.
 
-**El encabezado va en diagonal:** el titular grande arriba a la izquierda, ocupando todo el ancho, y
-debajo a la derecha el párrafo, «Desde €2.500.» y el botón, los tres cerrando contra el margen
-derecho. Los tres bloques numerados que había a la derecha se quitaron por decorativos. En móvil
-todo se apila en una columna y vuelve a alinearse a la izquierda.
+**El encabezado va centrado:** el titular grande arriba, y debajo el párrafo, «Desde €2.500.» y el
+botón, los cuatro sobre el mismo eje. El párrafo se corta a 46rem para que no se estire de margen a
+margen. Los tres bloques numerados que había a la derecha se quitaron por decorativos. En móvil
+sigue centrado, solo se aprieta el espacio entre bloques.
+
+Fuera de ese eje quedan la línea de arriba («Estudio Independiente» a la izquierda, el reloj a la
+derecha) y el «Scroll» de la esquina, que son marcas de encuadre, no parte del mensaje.
 
 **El fondo del encabezado es un shader WebGL** (`hero-shader.js` + `hero-shader.css`). Es un campo
 de luz que corre en diagonal, de la punta superior izquierda a la inferior derecha — es decir, hacia
@@ -118,13 +121,13 @@ cualquier servidor estático.
 
 ## Ramas y PR abiertos
 
-El atasco de PR encadenados (#68 a #71) ya está resuelto: **`main` tiene el home nuevo entero**, sin
-los bloques laterales del encabezado y con la oferta alineada a la derecha. Desde aquí cada rama
-vuelve a salir de `main` con su diff limpio.
+El atasco de PR encadenados (#68 a #71) ya está resuelto: **`main` tiene el home nuevo entero** y,
+con el #72, el shader del encabezado. Desde aquí cada rama vuelve a salir de `main` con su diff
+limpio.
 
 | PR | Rama | Qué lleva |
 |---|---|---|
-| — | `claude/animated-bg-direction-eb67eb` | El shader del encabezado, corriendo en diagonal |
+| — | `claude/animated-bg-direction-eb67eb` | El encabezado centrado |
 
 ---
 
