@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="es" data-theme="dark">
 <head>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-09PECRYP3B"></script>
@@ -11,20 +11,20 @@
   </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ARC Media House — Independent Studio for Web, AI Agents &amp; Video | Madrid</title>
-  <meta name="description" content="Independent studio in Madrid building websites, AI agents and corporate films for brands with a voice of their own. Working in English, Spanish and Portuguese." />
+  <title>ARC Media House — Plataformas para marcas personales que venden cursos y membresías</title>
+  <meta name="description" content="Te construyo la página que vende, el aula donde enseñas, el cobro y el panel desde donde lo manejas todo. A tu nombre y funcionando. Desde €2.500." />
   <link rel="icon" href="Logos/favicon.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="Logos/favicon.jpg">
   <!-- Open Graph -->
-  <meta property="og:title" content="ARC Media House — Make something worth experiencing.">
-  <meta property="og:description" content="An independent studio for web, AI agents and corporate film. Madrid · Worldwide.">
+  <meta property="og:title" content="ARC Media House — Plataformas para marcas personales">
+  <meta property="og:description" content="La página que vende, el aula donde enseñas, el cobro y el panel. A tu nombre y funcionando. Desde €2.500.">
   <meta property="og:image" content="https://arcmediahouse.com/og-image.jpg">
   <meta property="og:url" content="https://arcmediahouse.com">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="ARC Media House">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="ARC Media House — Make something worth experiencing.">
-  <meta name="twitter:description" content="An independent studio for web, AI agents and corporate film. Madrid · Worldwide.">
+  <meta name="twitter:title" content="ARC Media House — Plataformas para marcas personales">
+  <meta name="twitter:description" content="La página que vende, el aula donde enseñas, el cobro y el panel. A tu nombre y funcionando. Desde €2.500.">
   <meta name="twitter:image" content="https://arcmediahouse.com/og-image.jpg">
   <!-- JSON-LD -->
   <script type="application/ld+json">
@@ -32,17 +32,22 @@
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "ARC Media House",
-    "description": "Independent studio for web design, AI agents and corporate video.",
+    "description": "Plataformas y webs para marcas personales que venden cursos y membresías: página de venta, área de miembros, cobro y panel.",
     "url": "https://arcmediahouse.com",
     "areaServed": ["ES", "Worldwide"],
-    "knowsLanguage": ["en", "es", "pt"],
+    "knowsLanguage": ["es", "en"],
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Madrid",
       "addressCountry": "ES"
     },
-    "serviceType": ["Web Design", "AI Agent Development", "Corporate Video Production"]
+    "serviceType": ["Web Design", "Membership Platform", "Course Platform"]
   }
+  </script>
+  <script>
+    /* Spanish is this page's default language. The shared switcher in app.js
+       reads this same key, so it keeps working exactly as it does elsewhere. */
+    try { if (!localStorage.getItem('arc-lang')) localStorage.setItem('arc-lang', 'es'); } catch (e) {}
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -65,8 +70,8 @@
     <div class="intro__sub"><span>Media</span><span>House</span></div>
   </div>
   <div class="intro__line">
-    <span data-en="Independent Studio" data-es="Estudio Independiente">Independent Studio</span>
-    <span data-en="Madrid · Worldwide" data-es="Madrid · Mundo">Madrid · Worldwide</span>
+    <span data-en="Independent Studio" data-es="Estudio Independiente">Estudio Independiente</span>
+    <span data-en="Madrid · Worldwide" data-es="Madrid · Mundo">Madrid · Mundo</span>
   </div>
   <div class="intro__bar"></div>
 </div>
@@ -75,17 +80,14 @@
 <nav class="nav">
   <a class="nav__logo" href="index.html"><b>ARC</b><span>/ Media House</span></a>
   <div class="nav__links">
-    <a href="services-web.html" data-en="Web" data-es="Web">Web</a>
-    <a href="services-ai.html" data-en="AI Agents" data-es="Agentes IA">AI Agents</a>
-    <a href="services-video.html" data-en="Video" data-es="Video">Video</a>
-    <a href="people.html" data-en="People" data-es="Equipo">People</a>
-    <a href="manifesto.html" data-en="Manifesto" data-es="Manifiesto">Manifesto</a>
-    <a href="#contact" data-en="Contact" data-es="Contacto">Contact</a>
+    <a href="#precio" data-en="Price" data-es="Precio">Precio</a>
+    <a href="#preguntas" data-en="Questions" data-es="Preguntas">Preguntas</a>
+    <a href="#contacto" data-en="Contact" data-es="Contacto">Contacto</a>
   </div>
   <div class="nav__tools">
     <div class="lang-switch" role="group" aria-label="Language">
-      <button data-lang="en" class="is-active" onclick="setLang('en')"><span>EN</span></button>
-      <button data-lang="es" onclick="setLang('es')"><span>ES</span></button>
+      <button data-lang="en" onclick="setLang('en')"><span>EN</span></button>
+      <button data-lang="es" class="is-active" onclick="setLang('es')"><span>ES</span></button>
     </div>
     <div class="theme-switch" role="group" aria-label="Theme">
       <button data-theme="dark" class="is-active" onclick="setTheme('dark')">●</button>
@@ -95,33 +97,28 @@
 </nav>
 
 <!-- HERO -->
-<header class="hero">
+<header class="hero hero--sales">
   <div class="hero__top container">
     <div class="hero__topL">
-      <span class="eyebrow"><span class="dot"></span><span data-en="Independent Studio" data-es="Estudio Independiente">Independent Studio</span> · <span data-en="Madrid / Worldwide" data-es="Madrid / Global">Madrid / Worldwide</span></span>
+      <span class="eyebrow"><span class="dot"></span><span data-en="Independent Studio" data-es="Estudio Independiente">Estudio Independiente</span> · <span data-en="Madrid / Worldwide" data-es="Madrid / Global">Madrid / Global</span></span>
     </div>
     <div class="hero__topR mono"><span data-clock>—</span></div>
   </div>
 
   <div class="hero__title container">
     <h1 class="hero__h1">
-      <span class="hero__h1-line" style="--d:0" data-en="We build" data-es="Hacemos">We build</span>
-      <span class="hero__h1-line" style="--d:1" data-en="websites, AI agents" data-es="webs, agentes IA">websites, AI agents</span>
-      <span class="hero__h1-line italic" style="--d:2" data-en="and films" data-es="y films">and films</span>
-      <span class="hero__h1-line" style="--d:3" data-en="for brands with" data-es="para marcas con">for brands with</span>
-      <span class="hero__h1-line italic" style="--d:4" data-en="a voice of their own" data-es="voz propia">a voice of their own</span>
+      <span class="hero__h1-line" style="--d:0" data-en="You're making money" data-es="Ganas dinero">Ganas dinero</span>
+      <span class="hero__h1-line italic" style="--d:1" data-en="and you look like everyone else." data-es="y te ves como todos.">y te ves como todos.</span>
     </h1>
   </div>
 
   <div class="hero__base container">
     <div class="hero__statement">
-      <p class="hero__promise reveal">
-        <span class="hero__promise-lead" data-en="We amplify who you are." data-es="Amplificamos quién eres.">We amplify who you are.</span>
-        <span class="hero__promise-accent" data-en="You sell more." data-es="Vendes más.">You sell more.</span>
-      </p>
-      <div class="hero__cta reveal" data-delay="1">
-        <a href="#contact" class="btn btn--primary" data-magnetic>
-          <span data-en="Start a project" data-es="Empezar proyecto">Start a project</span>
+      <p class="body-lg reveal" data-en="I build you the page that sells, the classroom where you teach, the payments, and the dashboard where you run it all. In your name and working." data-es="Te construyo la página que vende, el aula donde enseñas, el cobro y el panel desde donde lo manejas todo. A tu nombre y funcionando.">Te construyo la página que vende, el aula donde enseñas, el cobro y el panel desde donde lo manejas todo. A tu nombre y funcionando.</p>
+      <p class="hero__price reveal" data-delay="1" data-en="From €2.500." data-es="Desde €2.500.">Desde €2.500.</p>
+      <div class="hero__cta reveal" data-delay="2">
+        <a href="#contacto" class="btn btn--primary" data-magnetic>
+          <span data-en="Let's talk for fifteen minutes" data-es="Hablemos quince minutos">Hablemos quince minutos</span>
           <span class="arrow">→</span>
         </a>
       </div>
@@ -129,11 +126,11 @@
     <aside class="hero__side">
       <div class="hero__sideblock">
         <span class="bracket-num">[ 001 ]</span>
-        <p class="mono small-cap" data-en="Web · AI Agents · Film" data-es="Web · Agentes IA · Film">Web · AI Agents · Film</p>
+        <p class="mono small-cap" data-en="Platforms for personal brands" data-es="Plataformas para marcas personales">Plataformas para marcas personales</p>
       </div>
       <div class="hero__sideblock">
         <span class="bracket-num">[ 002 ]</span>
-        <p class="mono small-cap" data-en="Now booking Q3 2026" data-es="Reservas Q3 2026">Now booking Q3 2026</p>
+        <p class="mono small-cap" data-en="One project at a time" data-es="Un proyecto a la vez">Un proyecto a la vez</p>
       </div>
       <div class="hero__sideblock">
         <span class="bracket-num">[ 003 ]</span>
@@ -148,128 +145,390 @@
   </div>
 </header>
 
-<!-- WHO WE WORK WITH -->
-<section class="clients container">
-  <h2 class="eyebrow clients__eyebrow"><span class="dot"></span><span data-en="Who we work with" data-es="Con quién trabajamos">Who we work with</span></h2>
-  <div class="clients__body">
-    <div class="clients__group">
-      <h3 class="clients__label mono small-cap" data-en="Working with" data-es="Trabajamos con">Working with</h3>
-      <ul class="clients__list" aria-label="Current clients">
-        <li><span data-en="Personal brands" data-es="Marcas personales">Personal brands</span></li>
-        <li><span data-en="Cultural institutions" data-es="Instituciones culturales">Cultural institutions</span></li>
-        <li><span data-en="Pharma" data-es="Farmacéutica">Pharma</span></li>
-        <li><span data-en="Event producers" data-es="Productoras de eventos">Event producers</span></li>
-      </ul>
+<!-- 01 — WHAT I HEAR -->
+<section class="sec sec--voices container">
+  <div class="sec-head">
+    <div>
+      <span class="eyebrow"><span class="dot"></span>01 — <span data-en="What I hear" data-es="Lo que escucho">Lo que escucho</span></span>
     </div>
-    <div class="clients__group clients__group--open">
-      <h3 class="clients__label mono small-cap" data-en="Open for" data-es="Abiertos a">Open for</h3>
-      <ul class="clients__list" aria-label="Open to new sectors">
-        <li>SaaS</li>
-        <li><span data-en="Boutique studios" data-es="Estudios boutique">Boutique studios</span></li>
-      </ul>
+    <div class="sec-head__body">
+      <p class="body-lg reveal" data-en="Before I talk about what I do, here's what I hear." data-es="Antes de hablar de lo que hago, esto es lo que escucho.">Antes de hablar de lo que hago, esto es lo que escucho.</p>
     </div>
   </div>
-  <p class="clients__footer mono" data-en="Working in English, Spanish &amp; Portuguese · Madrid / Worldwide" data-es="Trabajamos en inglés, español y portugués · Madrid / Global">Working in English, Spanish &amp; Portuguese · Madrid / Worldwide</p>
+
+  <div class="voices">
+    <p class="voice reveal" data-en="“I'm embarrassed to send the link.”" data-es="«Me da vergüenza mandar el link.»">«Me da vergüenza mandar el link.»</p>
+    <p class="voice reveal" data-en="“It looks just like everybody else's.”" data-es="«Se ve igual que el de todo el mundo.»">«Se ve igual que el de todo el mundo.»</p>
+    <p class="voice reveal" data-en="“Hotmart takes a cut of every sale.”" data-es="«Hotmart se lleva un porcentaje de cada venta.»">«Hotmart se lleva un porcentaje de cada venta.»</p>
+    <p class="voice reveal" data-en="“I can't write to my own students without logging into the platform.”" data-es="«No puedo escribirle a mis propios alumnos sin entrar a la plataforma.»">«No puedo escribirle a mis propios alumnos sin entrar a la plataforma.»</p>
+    <p class="voice reveal" data-en="“If they close my account tomorrow, I lose everything and there's nobody to complain to.”" data-es="«Si mañana cierran mi cuenta, pierdo todo y no tengo a quién reclamar.»">«Si mañana cierran mi cuenta, pierdo todo y no tengo a quién reclamar.»</p>
+  </div>
+
+  <p class="body-lg voices__close reveal" data-en="The same problem, said five ways." data-es="El mismo problema, dicho de cinco maneras.">El mismo problema, dicho de cinco maneras.</p>
 </section>
 
-<!-- SERVICES -->
-<section id="services" class="services container">
-  <div class="services__head">
+<!-- 02 — WHAT ACTUALLY MATTERS -->
+<section class="sec container">
+  <div class="sec-head">
     <div>
-      <span class="eyebrow"><span class="dot"></span>01 — <span data-en="What we do" data-es="Qué hacemos">What we do</span></span>
+      <span class="eyebrow"><span class="dot"></span>02 — <span data-en="What matters" data-es="Lo que importa">Lo que importa</span></span>
     </div>
-    <div class="services__intro">
+    <div class="sec-head__body">
       <h2 class="h-1 reveal">
-        <span data-en="Three things." data-es="Hacemos tres cosas.">Three things.</span><br>
-        <span class="italic" data-en="Done well." data-es="Bien.">Done well.</span>
+        <span data-en="Almost nobody asks" data-es="Casi nadie pregunta">Casi nadie pregunta</span><br>
+        <span class="italic" data-en="what they should be asking." data-es="lo que habría que preguntar.">lo que habría que preguntar.</span>
       </h2>
-      <p class="body-lg reveal" data-delay="1" data-en="The brief used to need three vendors. Now it needs one. We build the film, the site that holds it, and the agent that answers when nobody else can." data-es="Antes el brief necesitaba tres proveedores. Ahora necesita uno. Hacemos la pieza, la web que la contiene, y el agente que responde cuando nadie más puede.">The brief used to need three vendors. Now it needs one. We build the film, the site that holds it, and the agent that answers when nobody else can.</p>
     </div>
   </div>
+
+  <div class="prose">
+    <p class="body-lg reveal" data-en="They ask which template I use. Whether the payment plugin is this one or that one. What colour the button should be. They're honest questions and they lead nowhere." data-es="Preguntan qué plantilla uso. Si el plugin de pagos es este o el otro. De qué color va el botón. Son preguntas honestas y no llevan a ningún lado.">Preguntan qué plantilla uso. Si el plugin de pagos es este o el otro. De qué color va el botón. Son preguntas honestas y no llevan a ningún lado.</p>
+    <p class="body-lg reveal" data-delay="1" data-en="Looking like everyone else isn't a matter of taste either. It's that the template decided for you — and it decided the same thing for another thousand people." data-es="Verse como todos tampoco es un problema de gusto. Es que la plantilla decidió por ti — y decidió lo mismo para otras mil personas.">Verse como todos tampoco es un problema de gusto. Es que la plantilla decidió por ti — y decidió lo mismo para otras mil personas.</p>
+    <p class="body-lg reveal" data-delay="2" data-en="In the end only three things decide whether you sell:" data-es="Al final solo hay tres cosas que deciden si vendes:">Al final solo hay tres cosas que deciden si vendes:</p>
+  </div>
+
+  <div class="keys">
+    <div class="key reveal">
+      <span class="bracket-num">[ 01 ]</span>
+      <p class="key__text" data-en="That someone shows up." data-es="Que alguien llegue.">Que alguien llegue.</p>
+    </div>
+    <div class="key reveal" data-delay="1">
+      <span class="bracket-num">[ 02 ]</span>
+      <p class="key__text" data-en="That in ten seconds they understand what you're selling them." data-es="Que en diez segundos entienda qué le estás vendiendo.">Que en diez segundos entienda qué le estás vendiendo.</p>
+    </div>
+    <div class="key reveal" data-delay="2">
+      <span class="bracket-num">[ 03 ]</span>
+      <p class="key__text" data-en="That they can pay without leaving your site." data-es="Que pueda pagar sin salir de tu sitio.">Que pueda pagar sin salir de tu sitio.</p>
+    </div>
+  </div>
+
+  <p class="body-lg keys__close reveal" data-en="That's what you hire me for." data-es="Para eso me contratas.">Para eso me contratas.</p>
+
+  <div class="statement">
+    <h2 class="h-1 reveal">
+      <span data-en="I'm not the best at what I do." data-es="No soy el mejor en lo que hago.">No soy el mejor en lo que hago.</span><br>
+      <span class="italic" data-en="That's why I try this hard." data-es="Por eso me esfuerzo bastante.">Por eso me esfuerzo bastante.</span>
+    </h2>
+  </div>
+</section>
+
+<!-- 03 — WHAT GETS BUILT -->
+<section class="sec container">
+  <div class="sec-head">
+    <div>
+      <span class="eyebrow"><span class="dot"></span>03 — <span data-en="What gets built" data-es="Qué se construye">Qué se construye</span></span>
+    </div>
+    <div class="sec-head__body">
+      <h2 class="h-1 reveal">
+        <span data-en="This is what" data-es="Esto es lo que">Esto es lo que</span><br>
+        <span class="italic" data-en="gets built." data-es="se construye.">se construye.</span>
+      </h2>
+    </div>
+  </div>
+
   <div class="services__list">
-    <a href="services-web.html" class="serv reveal" data-delay="0">
+    <article class="serv serv--static reveal">
       <div class="serv__num bracket-num">[ 01 ]</div>
       <div class="serv__title">
-        <h3 class="h-2" data-en="Web Design" data-es="Diseño Web">Web Design</h3>
-        <p class="body-lg" data-en="We build custom websites. No templates. They load fast and they're yours forever. If you come looking for us one day and we're not around, everything still works." data-es="Hacemos webs a medida. No plantillas. Cargan rápido y son tuyas para siempre. Si mañana nos vas a buscar y no estamos, todo sigue funcionando.">We build custom websites. No templates. They load fast and they're yours forever. If you come looking for us one day and we're not around, everything still works.</p>
-        <div class="serv__tags mono">
-          <span data-en="Brand Sites" data-es="Webs de marca">Brand Sites</span><span>Landing Pages</span><span>Microsites</span><span>SaaS Marketing</span>
-        </div>
+        <h3 class="h-2" data-en="The page that sells" data-es="La página que vende">La página que vende</h3>
+        <p class="body-lg" data-en="Just one, made for what you offer. Written, not filled in." data-es="Una sola, hecha para lo que ofreces. Escrita, no rellenada.">Una sola, hecha para lo que ofreces. Escrita, no rellenada.</p>
       </div>
-      <div class="serv__cta"><span class="mono" data-en="Explore →" data-es="Explorar →">Explore →</span></div>
-    </a>
-    <a href="services-ai.html" class="serv reveal" data-delay="1">
+    </article>
+    <article class="serv serv--static reveal" data-delay="1">
       <div class="serv__num bracket-num">[ 02 ]</div>
       <div class="serv__title">
-        <h3 class="h-2"><span data-en="AI Agents" data-es="Agentes IA">AI Agents</span></h3>
-        <p class="body-lg" data-en="An assistant that answers for you when you can't. It sounds like your brand, not like a robot. It helps you sell, book and reply — without resting, without sounding off." data-es="Un asistente que responde por ti cuando no puedes. Habla como tu marca, no como un robot. Te ayuda a vender, agendar y contestar — sin descansar, sin que suene raro.">An assistant that answers for you when you can't. It sounds like your brand, not like a robot. It helps you sell, book and reply — without resting, without sounding off.</p>
-        <div class="serv__tags mono">
-          <span data-en="Chat · Voice · Custom · Connected to your systems" data-es="Chat · Voz · A medida · Conectado a tus sistemas">Chat · Voice · Custom · Connected to your systems</span>
-        </div>
+        <h3 class="h-2" data-en="The place they log into" data-es="El lugar donde entran">El lugar donde entran</h3>
+        <p class="body-lg" data-en="The classes, what you publish every month, the forum where they talk to each other. You upload from your dashboard and schedule when it goes out. In two languages if you need them. With your face on it, nobody else's." data-es="Las clases, lo que publicas cada mes, el foro donde se hablan entre ellos. Subes desde tu panel y programas cuándo sale. En dos idiomas si los necesitas. Con tu cara, no con la de nadie más.">Las clases, lo que publicas cada mes, el foro donde se hablan entre ellos. Subes desde tu panel y programas cuándo sale. En dos idiomas si los necesitas. Con tu cara, no con la de nadie más.</p>
       </div>
-      <div class="serv__cta"><span class="mono" data-en="Explore →" data-es="Explorar →">Explore →</span></div>
-    </a>
-    <a href="services-video.html" class="serv reveal" data-delay="2">
+    </article>
+    <article class="serv serv--static reveal" data-delay="2">
       <div class="serv__num bracket-num">[ 03 ]</div>
       <div class="serv__title">
-        <h3 class="h-2" data-en="Video &amp; Motion" data-es="Vídeo &amp; Motion">Video &amp; Motion</h3>
-        <p class="body-lg" data-en="We make the videos your company needs and never has time to do well. Recap of an event. Explain a product. Wrap up the year. So it looks the way it should look." data-es="Hacemos los videos que tu empresa necesita y nunca tiene tiempo de hacer bien. Recap de un evento. Explicar un producto. Resumir el año. Que se vea como debe verse.">We make the videos your company needs and never has time to do well. Recap of an event. Explain a product. Wrap up the year. So it looks the way it should look.</p>
-        <div class="serv__tags mono">
-          <span>Event Recaps</span><span>Product Explainers</span><span>FY Reviews</span><span>Training</span><span>Motion / Data Viz</span>
-        </div>
+        <h3 class="h-2" data-en="The payments" data-es="El cobro">El cobro</h3>
+        <p class="body-lg" data-en="One-off payment or subscription, straight into your account. Nobody takes a cut of every sale." data-es="Pago único o suscripción, directo a tu cuenta. Nadie se lleva un porcentaje de cada venta.">Pago único o suscripción, directo a tu cuenta. Nadie se lleva un porcentaje de cada venta.</p>
       </div>
-      <div class="serv__cta"><span class="mono" data-en="Explore →" data-es="Explorar →">Explore →</span></div>
+    </article>
+    <article class="serv serv--static reveal" data-delay="3">
+      <div class="serv__num bracket-num">[ 04 ]</div>
+      <div class="serv__title">
+        <h3 class="h-2" data-en="The dashboard" data-es="El panel">El panel</h3>
+        <p class="body-lg" data-en="Who came in, who paid, who left. And you can write to all of them without asking anyone's permission." data-es="Quién entró, quién pagó, quién se fue. Y escribirles a todos sin pedirle permiso a nadie.">Quién entró, quién pagó, quién se fue. Y escribirles a todos sin pedirle permiso a nadie.</p>
+      </div>
+    </article>
+    <article class="serv serv--static reveal" data-delay="4">
+      <div class="serv__num bracket-num">[ 05 ]</div>
+      <div class="serv__title">
+        <h3 class="h-2" data-en="The agent that answers" data-es="El agente que responde">El agente que responde</h3>
+        <p class="body-lg" data-en="It answers questions, books calls and sorts out who's serious, at any hour. It talks like you, not like a robot." data-es="Contesta preguntas, agenda llamadas y califica a quien escribe, a la hora que sea. Habla como tú, no como un robot.">Contesta preguntas, agenda llamadas y califica a quien escribe, a la hora que sea. Habla como tú, no como un robot.</p>
+      </div>
+    </article>
+  </div>
+
+  <p class="body-lg sec__close reveal" data-en="Together, that isn't a website. It's a platform. And it's yours: the domain, the code, the files, the keys. Nobody can shut it down on you." data-es="Junto, eso no es una web. Es una plataforma. Y es tuya: el dominio, el código, los archivos, las claves. Nadie te la puede cerrar.">Junto, eso no es una web. Es una plataforma. Y es tuya: el dominio, el código, los archivos, las claves. Nadie te la puede cerrar.</p>
+</section>
+
+<!-- 04 — THE PROOF -->
+<section class="sec container">
+  <div class="sec-head">
+    <div>
+      <span class="eyebrow"><span class="dot"></span>04 — <span data-en="The proof" data-es="La prueba">La prueba</span></span>
+    </div>
+    <div class="sec-head__body">
+      <h2 class="h-1 reveal">
+        <span data-en="This is already built" data-es="Esto ya está hecho">Esto ya está hecho</span><br>
+        <span class="italic" data-en="and taking money." data-es="y cobrando.">y cobrando.</span>
+      </h2>
+    </div>
+  </div>
+
+  <a class="proof__link reveal" href="https://emilseriosacademy.com" target="_blank" rel="noopener">emilseriosacademy.com</a>
+
+  <div class="prose">
+    <p class="body-lg reveal" data-en="A double bass academy. Sales page, classroom with the lessons, forum where the students talk to each other, subscription payments and a dashboard where she runs it all." data-es="Academia de contrabajo. Página de venta, aula con las clases, foro donde los alumnos se hablan entre ellos, cobro por suscripción y panel desde donde ella lo maneja todo.">Academia de contrabajo. Página de venta, aula con las clases, foro donde los alumnos se hablan entre ellos, cobro por suscripción y panel desde donde ella lo maneja todo.</p>
+    <p class="body-lg reveal" data-delay="1" data-en="She had the material recorded and sitting there. Today she has an online membership, on her own domain, getting paid every month." data-es="Tenía el material grabado y parado. Hoy tiene una membresía en línea, con dominio propio, cobrando todos los meses.">Tenía el material grabado y parado. Hoy tiene una membresía en línea, con dominio propio, cobrando todos los meses.</p>
+  </div>
+
+  <div class="proof__video reveal">
+    <span class="mono" data-en="Video coming" data-es="Video en camino">Video en camino</span>
+  </div>
+
+  <blockquote class="pull-quote reveal">
+    <p data-en="Quote pending" data-es="Cita pendiente">Cita pendiente</p>
+    <cite class="mono">Emil Serios</cite>
+  </blockquote>
+
+  <p class="body-lg sec__close reveal" data-en="Go in and look at it. It's not a mock-up." data-es="Entra y míralo. No es una maqueta.">Entra y míralo. No es una maqueta.</p>
+
+  <div class="sec__cta reveal">
+    <a href="#contacto" class="btn btn--primary" data-magnetic>
+      <span data-en="Let's talk for fifteen minutes" data-es="Hablemos quince minutos">Hablemos quince minutos</span>
+      <span class="arrow">→</span>
     </a>
   </div>
 </section>
 
-<!-- PROCESS -->
+<!-- 05 — HOW I WORK -->
 <section class="process container">
   <div class="process__head">
-    <span class="eyebrow"><span class="dot"></span>02 — <span data-en="The way we work" data-es="Cómo trabajamos">The way we work</span></span>
-    <h2 class="h-1 reveal">
-      <span data-en="We're not the best at what we do." data-es="No somos los mejores en lo que hacemos.">We're not the best at what we do.</span><br>
-      <span class="italic" data-en="That's why we try this hard." data-es="Por eso nos esforzamos bastante.">That's why we try this hard.</span>
-    </h2>
+    <span class="eyebrow"><span class="dot"></span>05 — <span data-en="How I work" data-es="Cómo trabajo">Cómo trabajo</span></span>
+    <h2 class="h-1 reveal" data-en="How I work." data-es="Cómo trabajo.">Cómo trabajo.</h2>
   </div>
   <div class="process__steps">
     <div class="step reveal">
       <div class="step__num mono">01</div>
-      <h4 class="h-3" data-en="Listen" data-es="Escuchar">Listen</h4>
-      <p class="body" data-en="A call. A messy message. The thing nobody usually asks. We start there, not from the brief." data-es="Una llamada. Un mensaje desordenado. Lo que normalmente nadie pregunta. Empezamos por ahí, no por el brief.">A call. A messy message. The thing nobody usually asks. We start there, not from the brief.</p>
-      <span class="step__time mono">~ 48h</span>
+      <h4 class="h-3" data-en="Listen" data-es="Escuchar">Escuchar</h4>
+      <p class="body" data-en="One call. A messy message. What you sell, who to, and why they buy from you." data-es="Una llamada. Un mensaje desordenado. Qué vendes, a quién, y por qué te compran a ti.">Una llamada. Un mensaje desordenado. Qué vendes, a quién, y por qué te compran a ti.</p>
+      <span class="step__time mono">48h</span>
     </div>
     <div class="step reveal" data-delay="1">
       <div class="step__num mono">02</div>
-      <h4 class="h-3" data-en="Frame" data-es="Encuadrar">Frame</h4>
-      <p class="body" data-en="One page. The story, the shape, the delivery date. If it doesn't fit on one page, we don't understand it yet." data-es="Una página. La historia, la forma, la fecha de entrega. Si no cabe en una página, todavía no lo entendemos.">One page. The story, the shape, the delivery date. If it doesn't fit on one page, we don't understand it yet.</p>
-      <span class="step__time mono">~ 5d</span>
+      <h4 class="h-3" data-en="Frame" data-es="Encuadrar">Encuadrar</h4>
+      <p class="body" data-en="I come back with one page of what I understood: what gets built, how it looks, when it's ready. If something isn't what you meant, we fix it there and not in the last week." data-es="Te devuelvo una página con lo que entendí: qué se construye, cómo se ve, cuándo está listo. Si algo no es lo que querías decir, se corrige ahí y no en la última semana.">Te devuelvo una página con lo que entendí: qué se construye, cómo se ve, cuándo está listo. Si algo no es lo que querías decir, se corrige ahí y no en la última semana.</p>
+      <span class="step__time mono" data-en="3 days" data-es="3 días">3 días</span>
     </div>
     <div class="step reveal" data-delay="2">
       <div class="step__num mono">03</div>
-      <h4 class="h-3" data-en="Make" data-es="Hacer">Make</h4>
-      <p class="body" data-en="Small team. The same hands that design it, edit it and ship it. Nothing gets delegated out." data-es="Equipo pequeño. Las mismas manos que diseñan, montan y entregan. Nada se delega.">Small team. The same hands that design it, edit it and ship it. Nothing gets delegated out.</p>
-      <span class="step__time mono">~ 4–8 wk</span>
+      <h4 class="h-3" data-en="Make" data-es="Hacer">Hacer</h4>
+      <p class="body" data-en="The same hands that design it write it and build it. Nothing gets handed off. You see it moving and we talk all the way through." data-es="Las mismas manos que lo diseñan lo escriben y lo montan. Nada se delega. Ves avances y hay comunicación constante.">Las mismas manos que lo diseñan lo escriben y lo montan. Nada se delega. Ves avances y hay comunicación constante.</p>
+      <span class="step__time mono" data-en="3 weeks" data-es="3 semanas">3 semanas</span>
     </div>
     <div class="step reveal" data-delay="3">
       <div class="step__num mono">04</div>
-      <h4 class="h-3" data-en="Hand off" data-es="Entregar">Hand off</h4>
-      <p class="body" data-en="Files, keys, prompts. Yours. If you want us close after, we stay. If not, also fine." data-es="Archivos, claves, prompts. Tuyos. Si nos quieres cerca después, seguimos. Si no, también.">Files, keys, prompts. Yours. If you want us close after, we stay. If not, also fine.</p>
-      <span class="step__time mono">∞</span>
+      <h4 class="h-3" data-en="Hand over" data-es="Entregar">Entregar</h4>
+      <p class="body" data-en="Domain, code, files, keys. All in your name from day one. I teach you to run it, and if you'd rather I run it, that works too." data-es="Dominio, código, archivos, claves. Todo a tu nombre desde el primer día. Te enseño a manejarlo, y si prefieres que lo maneje yo, también.">Dominio, código, archivos, claves. Todo a tu nombre desde el primer día. Te enseño a manejarlo, y si prefieres que lo maneje yo, también.</p>
+      <span class="step__time mono" data-en="always" data-es="siempre">siempre</span>
     </div>
   </div>
 </section>
 
-<!-- AI DEMO -->
-<section id="ai" class="ai">
-  <div class="ai__head container">
-    <span class="eyebrow"><span class="dot"></span>03 — <span data-en="Try the agent" data-es="Prueba el agente">Try the agent</span></span>
-    <h2 class="h-1 reveal">
-      <span data-en="Talk to the agent" data-es="Habla con el agente">Talk to the agent</span><br>
-      <span class="italic" data-en="we built for ourselves." data-es="que hicimos para nosotros.">we built for ourselves.</span>
-    </h2>
-    <p class="body-lg reveal" data-delay="1" data-en="This is ARC's intake agent — same model we deploy for clients. Ask about pricing, timelines, the studio, anything. It answers in your language and never sleeps." data-es="Este es el agente de captación de ARC — el mismo modelo que desplegamos a clientes. Pregúntale por precios, plazos, el estudio, lo que quieras. Responde en tu idioma y nunca duerme.">This is ARC's intake agent — same model we deploy for clients. Ask about pricing, timelines, the studio, anything. It answers in your language and never sleeps.</p>
+<!-- 06 — PRICE -->
+<section id="precio" class="sec container">
+  <div class="sec-head">
+    <div>
+      <span class="eyebrow"><span class="dot"></span>06 — <span data-en="Price" data-es="Precio">Precio</span></span>
+    </div>
+    <div class="sec-head__body">
+      <p class="price-hero reveal" data-en="From €2.500." data-es="Desde €2.500.">Desde €2.500.</p>
+    </div>
   </div>
+
+  <div class="price-cols">
+    <div class="price-col reveal">
+      <h3 class="mono small-cap price-col__label" data-en="What's included" data-es="Qué incluye">Qué incluye</h3>
+      <ul class="price-list">
+        <li data-en="Sales page, written and designed" data-es="Página de venta escrita y diseñada">Página de venta escrita y diseñada</li>
+        <li data-en="Members area with up to three types of content, which you upload and schedule yourself from your dashboard" data-es="Área de miembros con hasta tres tipos de contenido, que subes y programas tú desde tu panel">Área de miembros con hasta tres tipos de contenido, que subes y programas tú desde tu panel</li>
+        <li data-en="One-off or subscription payments, straight into your account" data-es="Cobro único o por suscripción, directo a tu cuenta">Cobro único o por suscripción, directo a tu cuenta</li>
+        <li data-en="Forum" data-es="Foro">Foro</li>
+        <li data-en="Dashboard to see who came in, who paid, and to write to all of them" data-es="Panel para ver quién entró, quién pagó y escribirles a todos">Panel para ver quién entró, quién pagó y escribirles a todos</li>
+        <li data-en="Two rounds of changes on the design" data-es="Dos rondas de cambios sobre el diseño">Dos rondas de cambios sobre el diseño</li>
+        <li data-en="One month of work from the day I get your material" data-es="Un mes de trabajo desde que recibo tu material">Un mes de trabajo desde que recibo tu material</li>
+        <li data-en="Thirty days of guarantee after handover" data-es="Treinta días de garantía después de entregar">Treinta días de garantía después de entregar</li>
+      </ul>
+    </div>
+    <div class="price-col reveal" data-delay="1">
+      <h3 class="mono small-cap price-col__label" data-en="What's not included" data-es="Qué no incluye">Qué no incluye</h3>
+      <ul class="price-list">
+        <li data-en="Loading your material into the dashboard. I show you how and you do it in one afternoon. If you'd rather I load it, it gets quoted." data-es="Cargar tu material dentro del panel. Te enseño a hacerlo y lo haces en una tarde. Si prefieres que lo cargue yo, se cotiza.">Cargar tu material dentro del panel. Te enseño a hacerlo y lo haces en una tarde. Si prefieres que lo cargue yo, se cotiza.</li>
+        <li data-en="A fourth type of content, or anything that isn't on the list next to this one. It gets quoted before we start, never after." data-es="Un cuarto tipo de contenido, o algo que no esté en la lista de al lado. Se cotiza antes de empezar, nunca después.">Un cuarto tipo de contenido, o algo que no esté en la lista de al lado. Se cotiza antes de empezar, nunca después.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="price-extras">
+    <div class="price-extra reveal">
+      <h4 class="mono small-cap price-extra__label" data-en="How you pay" data-es="Cómo se paga">Cómo se paga</h4>
+      <p class="body" data-en="Half to start, half on handover." data-es="Mitad al empezar, mitad al entregar.">Mitad al empezar, mitad al entregar.</p>
+    </div>
+    <div class="price-extra reveal" data-delay="1">
+      <h4 class="mono small-cap price-extra__label" data-en="Maintenance — from €150/month" data-es="Mantenimiento — desde €150/mes">Mantenimiento — desde €150/mes</h4>
+      <p class="body" data-en="Hosting, database, domain and backups on me. Updates and fixes. Up to two hours of changes a month. Twelve months minimum." data-es="Hosting, base de datos, dominio y respaldos a mi cargo. Actualizaciones y arreglos. Hasta dos horas al mes de cambios. Mínimo doce meses.">Hosting, base de datos, dominio y respaldos a mi cargo. Actualizaciones y arreglos. Hasta dos horas al mes de cambios. Mínimo doce meses.</p>
+    </div>
+    <div class="price-extra reveal" data-delay="2">
+      <h4 class="mono small-cap price-extra__label" data-en="An add-on: the agent" data-es="Un añadido: el agente">Un añadido: el agente</h4>
+      <p class="body" data-en="It answers questions, books calls and sorts out who's serious, at any hour. It talks like you. From €1.200, plus €100 a month. Not everyone needs one. If you don't need it, I'll tell you." data-es="Contesta preguntas, agenda llamadas y califica a quien escribe, a la hora que sea. Habla como tú. Desde €1.200, más €100 al mes. No todos lo necesitan. Si no lo necesitas, te lo digo.">Contesta preguntas, agenda llamadas y califica a quien escribe, a la hora que sea. Habla como tú. Desde €1.200, más €100 al mes. No todos lo necesitan. Si no lo necesitas, te lo digo.</p>
+    </div>
+  </div>
+
+  <div class="price-note reveal">
+    <p data-en="The first ten clients keep this price for as long as they stay with me. When it goes up, it goes up for whoever comes after." data-es="Los diez primeros clientes se quedan con este precio mientras sigan conmigo. Cuando suba, sube para los que vengan después.">Los diez primeros clientes se quedan con este precio mientras sigan conmigo. Cuando suba, sube para los que vengan después.</p>
+  </div>
+
+  <div class="sec__cta reveal">
+    <a href="#contacto" class="btn btn--primary" data-magnetic>
+      <span data-en="Let's talk for fifteen minutes" data-es="Hablemos quince minutos">Hablemos quince minutos</span>
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<!-- 07 — HONEST QUESTIONS -->
+<section id="preguntas" class="sec container">
+  <div class="sec-head">
+    <div>
+      <span class="eyebrow"><span class="dot"></span>07 — <span data-en="Honest questions" data-es="Preguntas honestas">Preguntas honestas</span></span>
+    </div>
+    <div class="sec-head__body">
+      <h2 class="h-1 reveal">
+        <span data-en="The questions" data-es="Las preguntas">Las preguntas</span><br>
+        <span class="italic" data-en="I get most." data-es="que más me hacen.">que más me hacen.</span>
+      </h2>
+    </div>
+  </div>
+
+  <div class="faq-list">
+
+    <details class="faq-item reveal" open>
+      <summary>
+        <span class="faq-q" data-en="Do I have to leave Kajabi, Hotmart or wherever I am now?" data-es="¿Tengo que dejar Kajabi, Hotmart o donde esté ahora?">¿Tengo que dejar Kajabi, Hotmart o donde esté ahora?</span>
+        <span class="faq-toggle" aria-hidden="true">+</span>
+      </summary>
+      <div class="faq-a">
+        <p class="body" data-en="It depends what it's doing for you. If it's only the place where you keep your courses, there's no point paying for two: you move and you close it. If it also brings you buyers, it stays as one more channel and your site becomes the main one. You move the content yourself from your dashboard. If it's a lot of courses and you'd rather I load it, that gets quoted separately. And the students already paying somewhere else we go through case by case: those subscriptions don't move on their own." data-es="Depende de para qué te sirve. Si es solo el lugar donde guardas tus cursos, no tiene sentido pagar dos sitios: te mudas y lo cierras. Si además te trae compradores, se queda como un canal más y tu sitio pasa a ser el principal. La mudanza del contenido la haces tú desde tu panel. Si son muchos cursos y prefieres que lo cargue yo, se cotiza aparte. Y los alumnos que ya están pagando en otro sitio los hablamos caso por caso: esas suscripciones no se mueven solas.">Depende de para qué te sirve. Si es solo el lugar donde guardas tus cursos, no tiene sentido pagar dos sitios: te mudas y lo cierras. Si además te trae compradores, se queda como un canal más y tu sitio pasa a ser el principal. La mudanza del contenido la haces tú desde tu panel. Si son muchos cursos y prefieres que lo cargue yo, se cotiza aparte. Y los alumnos que ya están pagando en otro sitio los hablamos caso por caso: esas suscripciones no se mueven solas.</p>
+      </div>
+    </details>
+
+    <details class="faq-item reveal" data-delay="1">
+      <summary>
+        <span class="faq-q" data-en="You have one case. Why would I buy from you?" data-es="Tienes un solo caso. ¿Por qué te lo compro a ti?">Tienes un solo caso. ¿Por qué te lo compro a ti?</span>
+        <span class="faq-toggle" aria-hidden="true">+</span>
+      </summary>
+      <div class="faq-a">
+        <p class="body" data-en="Fair question. I have one public case and it's online: you can go in, see how it works and write to the client if you want. What I do have is twenty years deciding how something looks and feels before it goes out, on productions where a mistake shows. That's what you're hiring. And that's why the first clients keep today's price for good." data-es="Es una pregunta justa. Tengo un caso público y está en línea: puedes entrar, ver cómo funciona y escribirle a la clienta si quieres. Lo que sí tengo son veinte años decidiendo cómo se ve y cómo se siente algo antes de que salga a público, en producciones donde el error se nota. Eso es lo que estás contratando. Y por eso los primeros clientes se llevan el precio de ahora para siempre.">Es una pregunta justa. Tengo un caso público y está en línea: puedes entrar, ver cómo funciona y escribirle a la clienta si quieres. Lo que sí tengo son veinte años decidiendo cómo se ve y cómo se siente algo antes de que salga a público, en producciones donde el error se nota. Eso es lo que estás contratando. Y por eso los primeros clientes se llevan el precio de ahora para siempre.</p>
+      </div>
+    </details>
+
+    <details class="faq-item reveal" data-delay="2">
+      <summary>
+        <span class="faq-q" data-en="There are people who build websites for €500." data-es="Hay gente que hace webs por €500.">Hay gente que hace webs por €500.</span>
+        <span class="faq-toggle" aria-hidden="true">+</span>
+      </summary>
+      <div class="faq-a">
+        <p class="body" data-en="Yes, and plenty of them are fine for what they are: a page that introduces you. What's sold here isn't a page, it's the place where you get paid, where you deliver and where you talk to your students. If what you need is a page that introduces you, don't hire me for this." data-es="Sí, y muchas están bien para lo que son: una página que te presenta. Aquí no se vende una página, se vende el sitio donde cobras, entregas y hablas con tus alumnos. Si lo que necesitas es una página que te presente, no me contrates para esto.">Sí, y muchas están bien para lo que son: una página que te presenta. Aquí no se vende una página, se vende el sitio donde cobras, entregas y hablas con tus alumnos. Si lo que necesitas es una página que te presente, no me contrates para esto.</p>
+      </div>
+    </details>
+
+    <details class="faq-item reveal" data-delay="3">
+      <summary>
+        <span class="faq-q" data-en="I only want the sales page, not the whole platform." data-es="Solo quiero la página de venta, no toda la plataforma.">Solo quiero la página de venta, no toda la plataforma.</span>
+        <span class="faq-toggle" aria-hidden="true">+</span>
+      </summary>
+      <div class="faq-a">
+        <p class="body" data-en="You can, and sometimes that's the right call. If you sell a programme with a start date, or a one-to-one service, you don't need a classroom or a dashboard: you need a page that explains it well and takes the money. From €1.500." data-es="Se puede, y a veces es lo correcto. Si vendes un programa con fecha, o un servicio uno a uno, no necesitas aula ni panel: necesitas una página que explique bien y cobre. Desde €1.500.">Se puede, y a veces es lo correcto. Si vendes un programa con fecha, o un servicio uno a uno, no necesitas aula ni panel: necesitas una página que explique bien y cobre. Desde €1.500.</p>
+      </div>
+    </details>
+
+    <details class="faq-item reveal" data-delay="4">
+      <summary>
+        <span class="faq-q" data-en="I don't know anything about technology." data-es="No sé nada de tecnología.">No sé nada de tecnología.</span>
+        <span class="faq-toggle" aria-hidden="true">+</span>
+      </summary>
+      <div class="faq-a">
+        <p class="body" data-en="You don't need to. If you know how to put a video on YouTube, you know how to use your dashboard. I show you on handover day and you get it on video in case you forget." data-es="No hace falta. Si sabes subir un video a YouTube, sabes usar tu panel. Te enseño el día de la entrega y te queda grabado en video por si se te olvida.">No hace falta. Si sabes subir un video a YouTube, sabes usar tu panel. Te enseño el día de la entrega y te queda grabado en video por si se te olvida.</p>
+      </div>
+    </details>
+
+    <details class="faq-item reveal" data-delay="5">
+      <summary>
+        <span class="faq-q" data-en="And what if I don't like how it turns out?" data-es="¿Y si no me gusta cómo queda?">¿Y si no me gusta cómo queda?</span>
+        <span class="faq-toggle" aria-hidden="true">+</span>
+      </summary>
+      <div class="faq-a">
+        <p class="body" data-en="That's why the second step is a page with everything written down before anything gets built: what gets done, how it looks, when it's ready. If that isn't what you wanted, we fix it there. After that there are two rounds of changes on the design." data-es="Por eso el segundo paso es una página con todo escrito antes de construir nada: qué se hace, cómo se ve, cuándo está listo. Si eso no es lo que querías, se corrige ahí. Después hay dos rondas de cambios sobre el diseño.">Por eso el segundo paso es una página con todo escrito antes de construir nada: qué se hace, cómo se ve, cuándo está listo. Si eso no es lo que querías, se corrige ahí. Después hay dos rondas de cambios sobre el diseño.</p>
+      </div>
+    </details>
+
+    <details class="faq-item reveal" data-delay="5">
+      <summary>
+        <span class="faq-q" data-en="Can I charge people in other countries?" data-es="¿Puedo cobrarle a gente de otros países?">¿Puedo cobrarle a gente de otros países?</span>
+        <span class="faq-toggle" aria-hidden="true">+</span>
+      </summary>
+      <div class="faq-a">
+        <p class="body" data-en="Your students pay by card from wherever they are. What we have to check is where you're registered to take payments, because that's what the options depend on. We look at it on the first call, before you pay anything." data-es="Tus alumnos pagan con tarjeta desde donde estén. Lo que hay que revisar es dónde estás tú dado de alta para cobrar, porque de eso dependen las opciones. Lo miramos en la primera llamada, antes de que pagues nada.">Tus alumnos pagan con tarjeta desde donde estén. Lo que hay que revisar es dónde estás tú dado de alta para cobrar, porque de eso dependen las opciones. Lo miramos en la primera llamada, antes de que pagues nada.</p>
+      </div>
+    </details>
+
+    <details class="faq-item reveal" data-delay="5">
+      <summary>
+        <span class="faq-q" data-en="Who owns all of this when you're done?" data-es="¿De quién es todo esto cuando terminas?">¿De quién es todo esto cuando terminas?</span>
+        <span class="faq-toggle" aria-hidden="true">+</span>
+      </summary>
+      <div class="faq-a">
+        <p class="body" data-en="Yours from day one: the domain, the code, the files, the keys. The accounts are opened in your name from the start and I come in as a guest. Nobody can shut it down on you." data-es="Tuyo desde el primer día: el dominio, el código, los archivos, las claves. Las cuentas se abren a tu nombre desde el principio y yo entro invitado. Nadie te lo puede cerrar.">Tuyo desde el primer día: el dominio, el código, los archivos, las claves. Las cuentas se abren a tu nombre desde el principio y yo entro invitado. Nadie te lo puede cerrar.</p>
+      </div>
+    </details>
+
+  </div>
+</section>
+
+<!-- 08 — CONTACT -->
+<section id="contacto" class="sec container">
+  <div class="sec-head">
+    <div>
+      <span class="eyebrow"><span class="dot"></span>08 — <span data-en="Let's talk" data-es="Hablemos">Hablemos</span></span>
+    </div>
+    <div class="sec-head__body">
+      <h2 class="h-1 reveal">
+        <span data-en="Let's talk" data-es="Hablemos">Hablemos</span><br>
+        <span class="italic" data-en="for fifteen minutes." data-es="quince minutos.">quince minutos.</span>
+      </h2>
+      <p class="body-lg reveal" data-delay="1" data-en="You tell me what you sell and how you're selling it today. I tell you whether this is any use to you or not. If it isn't, I tell you on the call and I don't chase you afterwards." data-es="Me cuentas qué vendes y cómo lo estás vendiendo hoy. Te digo si esto te sirve o no. Si no te sirve, te lo digo en la llamada y no te insisto después.">Me cuentas qué vendes y cómo lo estás vendiendo hoy. Te digo si esto te sirve o no. Si no te sirve, te lo digo en la llamada y no te insisto después.</p>
+    </div>
+  </div>
+
+  <div class="contact-sales__cta reveal">
+    <a href="mailto:hello@arcmediahouse.com?subject=Hablemos%20quince%20minutos" target="_blank" rel="noopener" class="btn btn--primary" data-magnetic>
+      <span data-en="Let's talk for fifteen minutes" data-es="Hablemos quince minutos">Hablemos quince minutos</span>
+      <span class="arrow">→</span>
+    </a>
+    <p class="contact-sales__fine" data-en="Free and with no commitment. You come out of it knowing what you need, whether you hire me or not." data-es="Gratis y sin compromiso. Sales de ahí sabiendo qué necesitas, me contrates o no.">Gratis y sin compromiso. Sales de ahí sabiendo qué necesitas, me contrates o no.</p>
+  </div>
+
+  <p class="body-lg contact-sales__agent reveal" data-en="Would you rather ask first? Write to this site's agent. It's built with the same thing I'm selling you — ask it whatever you like and you get to see it working." data-es="¿Prefieres preguntar antes? Escríbele al agente de este sitio. Está hecho con lo mismo que te vendo — pregúntale lo que sea y de paso lo ves funcionando.">¿Prefieres preguntar antes? Escríbele al agente de este sitio. Está hecho con lo mismo que te vendo — pregúntale lo que sea y de paso lo ves funcionando.</p>
+</section>
+
+<!-- AGENT WIDGET (unchanged) -->
+<section id="ai" class="ai">
   <div class="ai__panel container">
     <div class="ai__chat" id="ai-chat">
       <div class="ai__head-row">
@@ -277,27 +536,27 @@
           <span class="ai__avatar-dot"></span>
           <div>
             <div class="mono" style="font-size:11px;letter-spacing:.1em;text-transform:uppercase">ARC // INTAKE-AGENT-01</div>
-            <div class="ai__status mono"><span class="ai__live"></span> <span data-en="Busy reading Nietzsche · responds in &lt;2s" data-es="Ocupado leyendo a Nietzsche · responde en &lt;2s">Busy reading Nietzsche · responds in &lt;2s</span></div>
+            <div class="ai__status mono"><span class="ai__live"></span> <span data-en="Busy reading Nietzsche · responds in &lt;2s" data-es="Ocupado leyendo a Nietzsche · responde en &lt;2s">Ocupado leyendo a Nietzsche · responde en &lt;2s</span></div>
           </div>
         </div>
-        <div class="ai__head-meta mono"><span data-en="Model: claude-haiku-4-5" data-es="Modelo: claude-haiku-4-5">Model: claude-haiku-4-5</span></div>
+        <div class="ai__head-meta mono"><span data-en="Model: claude-haiku-4-5" data-es="Modelo: claude-haiku-4-5">Modelo: claude-haiku-4-5</span></div>
       </div>
       <div class="ai__log" id="ai-log">
         <div class="ai__msg ai__msg--bot">
           <div class="ai__msg-label mono">AGENT</div>
-          <div class="ai__msg-body" data-en="Hi — I'm ARC's agent. I help teams scope video, web and AI work. What are you working on?" data-es="Hola — soy el agente de ARC. Ayudo a equipos a definir proyectos de vídeo, web e IA. ¿En qué estás trabajando?">Hi — I'm ARC's agent. I help teams scope video, web and AI work. What are you working on?</div>
+          <div class="ai__msg-body" data-en="Hi — I'm ARC's agent. I help teams scope video, web and AI work. What are you working on?" data-es="Hola — soy el agente de ARC. Ayudo a equipos a definir proyectos de vídeo, web e IA. ¿En qué estás trabajando?">Hola — soy el agente de ARC. Ayudo a equipos a definir proyectos de vídeo, web e IA. ¿En qué estás trabajando?</div>
         </div>
       </div>
       <form class="ai__form" id="ai-form">
         <div class="ai__suggest" id="ai-suggest">
-          <button type="button" data-q-en="What's a typical timeline for a 90s explainer?" data-q-es="¿Cuál es el plazo típico para un explainer de 90s?" data-en="Timeline for an explainer?" data-es="¿Plazo para un explainer?">Timeline for an explainer?</button>
-          <button type="button" data-q-en="How much does a website cost?" data-q-es="¿Cuánto cuesta una web?" data-en="Pricing for a site?" data-es="¿Precio de una web?">Pricing for a site?</button>
-          <button type="button" data-q-en="Can you build a voice agent?" data-q-es="¿Podéis hacer un agente de voz?" data-en="Voice agent?" data-es="¿Agente de voz?">Voice agent?</button>
+          <button type="button" data-q-en="What's included for €2.500?" data-q-es="¿Qué incluye por €2.500?" data-en="What's included?" data-es="¿Qué incluye?">¿Qué incluye?</button>
+          <button type="button" data-q-en="Can I leave Hotmart?" data-q-es="¿Puedo dejar Hotmart?" data-en="Leaving Hotmart?" data-es="¿Dejar Hotmart?">¿Dejar Hotmart?</button>
+          <button type="button" data-q-en="How long does it take?" data-q-es="¿Cuánto tarda?" data-en="How long?" data-es="¿Cuánto tarda?">¿Cuánto tarda?</button>
         </div>
         <div class="ai__input-row">
-          <input id="ai-input" type="text" autocomplete="off" placeholder="Ask anything…" data-en-placeholder="Ask anything — projects, pricing, process…" data-es-placeholder="Pregunta lo que quieras — proyectos, precios, proceso…" />
+          <input id="ai-input" type="text" autocomplete="off" placeholder="Pregunta lo que quieras…" data-en-placeholder="Ask anything — projects, pricing, process…" data-es-placeholder="Pregunta lo que quieras — proyectos, precios, proceso…" />
           <button type="submit" class="ai__send">
-            <span data-en="Send" data-es="Enviar">Send</span>
+            <span data-en="Send" data-es="Enviar">Enviar</span>
             <span class="arrow">↗</span>
           </button>
         </div>
@@ -306,62 +565,53 @@
     <aside class="ai__side">
       <div class="ai__side-block">
         <span class="bracket-num">[ a ]</span>
-        <h4 class="mono small-cap" data-en="What it can do" data-es="Qué puede hacer">What it can do</h4>
+        <h4 class="mono small-cap" data-en="What it can do" data-es="Qué puede hacer">Qué puede hacer</h4>
         <ul class="ai__list">
-          <li data-en="Quote ranges &amp; timelines" data-es="Estimar precios y plazos">Quote ranges &amp; timelines</li>
-          <li data-en="Recommend service mix" data-es="Recomendar combinación de servicios">Recommend service mix</li>
-          <li data-en="Book a 30-min intro call" data-es="Agendar una llamada de 30 min">Book a 30-min intro call</li>
-          <li data-en="Hand off to a human" data-es="Pasar a un humano">Hand off to a human</li>
+          <li data-en="Quote ranges &amp; timelines" data-es="Estimar precios y plazos">Estimar precios y plazos</li>
+          <li data-en="Explain what gets built" data-es="Explicar qué se construye">Explicar qué se construye</li>
+          <li data-en="Book a 30-min intro call" data-es="Agendar una llamada de 30 min">Agendar una llamada de 30 min</li>
+          <li data-en="Hand off to a human" data-es="Pasar a un humano">Pasar a un humano</li>
         </ul>
       </div>
       <div class="ai__side-block">
         <span class="bracket-num">[ b ]</span>
-        <h4 class="mono small-cap" data-en="Behind the curtain" data-es="Tras el telón">Behind the curtain</h4>
-        <p class="body-sm" data-en="Custom Claude agent · trained on ARC's brand voice · multilingual · &lt;2s latency." data-es="Agente Claude custom · entrenado con la voz de ARC · multiidioma · latencia &lt;2s.">Custom Claude agent · trained on ARC's brand voice · multilingual · &lt;2s latency.</p>
+        <h4 class="mono small-cap" data-en="Behind the curtain" data-es="Tras el telón">Tras el telón</h4>
+        <p class="body-sm" data-en="Custom Claude agent · trained on ARC's brand voice · multilingual · &lt;2s latency." data-es="Agente Claude custom · entrenado con la voz de ARC · multiidioma · latencia &lt;2s.">Agente Claude custom · entrenado con la voz de ARC · multiidioma · latencia &lt;2s.</p>
       </div>
-      <a href="#contact" class="btn" data-magnetic style="width:100%;justify-content:space-between">
-        <span data-en="Build me one" data-es="Hazme uno">Build me one</span>
+      <a href="#contacto" class="btn" data-magnetic style="width:100%;justify-content:space-between">
+        <span data-en="Build me one" data-es="Hazme uno">Hazme uno</span>
         <span class="arrow">→</span>
       </a>
     </aside>
   </div>
 </section>
 
-<!-- STATS -->
-<!-- CONTACT (DIRECT) -->
-<section id="contact" class="contact-direct container">
-  <div class="contact-direct__head">
-    <span class="eyebrow"><span class="dot"></span>04 — <span data-en="Get in touch" data-es="Contacta">Get in touch</span></span>
-    <h2 class="h-1 reveal">
-      <span data-en="The agent above" data-es="El agente de arriba">The agent above</span><br>
-      <span class="italic" data-en="answers first." data-es="responde primero.">answers first.</span>
-    </h2>
-    <p class="body-lg reveal" data-delay="1" data-en="It quotes ranges, scopes the project, books the intro call. Most conversations start there." data-es="Estima rangos, define el alcance, agenda la llamada inicial. La mayoría de conversaciones empiezan ahí.">It quotes ranges, scopes the project, books the intro call. Most conversations start there.</p>
-  </div>
-
-  <div class="contact-direct__body">
-    <div class="contact-direct__cta-wrap">
-      <p class="mono small-cap contact-direct__paren" data-en="(if you prefer a direct human touch)" data-es="(si prefieres un toque humano directo)">(if you prefer a direct human touch)</p>
-      <a href="mailto:hello@arcmediahouse.com" target="_blank" rel="noopener" class="btn btn--primary contact-direct__btn" data-magnetic>
-        <span data-en="Email Adrian directly" data-es="Escríbele a Adrian">Email Adrian directly</span>
-        <span class="arrow">→</span>
-      </a>
+<!-- 09 — NEWSLETTER -->
+<section class="news container">
+  <div class="sec-head">
+    <div>
+      <span class="eyebrow"><span class="dot"></span>09 — <span data-en="Newsletter" data-es="Newsletter">Newsletter</span></span>
     </div>
+    <div class="sec-head__body">
+      <h2 class="h-1 reveal" data-en="Not yet?" data-es="¿Todavía no?">¿Todavía no?</h2>
+      <p class="body-lg reveal" data-delay="1" data-en="I write one email a week. It nearly always starts with something that happened to me and ends up somewhere useful for selling what you know. Sometimes it's about websites, sometimes not." data-es="Escribo un correo a la semana. Casi siempre arranca con algo que me pasó y termina en algo que sirve para vender lo que sabes. A veces va de webs, a veces no.">Escribo un correo a la semana. Casi siempre arranca con algo que me pasó y termina en algo que sirve para vender lo que sabes. A veces va de webs, a veces no.</p>
 
-    <aside class="contact-direct__meta">
-      <div class="contact-direct__block">
-        <span class="mono small-cap" data-en="Studio" data-es="Estudio">Studio</span>
-        <p class="body-lg">Madrid, ES</p>
-      </div>
-      <div class="contact-direct__block">
-        <span class="mono small-cap" data-en="Hours" data-es="Horario">Hours</span>
-        <p class="body-lg" data-en="Mon–Fri · 09:00–19:00 CET" data-es="Lun–Vie · 09:00–19:00 CET">Mon–Fri · 09:00–19:00 CET</p>
-      </div>
-      <div class="contact-direct__block">
-        <span class="mono small-cap" data-en="Booking" data-es="Reservas">Booking</span>
-        <p class="body-lg" data-en="Q3 2026 — taking 2 more projects" data-es="Q3 2026 — quedan 2 proyectos">Q3 2026 — taking 2 more projects</p>
-      </div>
-    </aside>
+      <form class="news__form reveal" data-delay="2" id="news-form" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="newsletter" />
+        <p class="news__hp" aria-hidden="true"><label>bot-field <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+        <input id="news-email" class="news__input" type="email" name="email" required autocomplete="email"
+               placeholder="tu@correo.com" data-en-placeholder="you@email.com" data-es-placeholder="tu@correo.com"
+               aria-label="Email" />
+        <button type="submit" class="btn btn--primary">
+          <span data-en="Send it to me" data-es="Quiero recibirlo">Quiero recibirlo</span>
+          <span class="arrow">→</span>
+        </button>
+      </form>
+
+      <p class="news__done mono" id="news-done" hidden data-en="Done, I'll write to you soon." data-es="Listo, te escribo pronto.">Listo, te escribo pronto.</p>
+
+      <p class="news__fine" data-en="No welcome gift, no free course. Just the email. You leave whenever you want." data-es="Sin regalo de bienvenida, sin curso gratis. Solo el correo. Te sales cuando quieras.">Sin regalo de bienvenida, sin curso gratis. Solo el correo. Te sales cuando quieras.</p>
+    </div>
   </div>
 </section>
 
@@ -370,41 +620,28 @@
   <div class="container">
     <div class="hr-tick">
       <div>ARC / Media House</div>
-      <div data-en="Madrid · Worldwide" data-es="Madrid · Global">Madrid · Worldwide</div>
+      <div data-en="Madrid · Worldwide" data-es="Madrid · Global">Madrid · Global</div>
       <div><span data-clock>—</span></div>
-      <div data-en="© 2026 — All rights reserved" data-es="© 2026 — Todos los derechos reservados">© 2026 — All rights reserved</div>
+      <div data-en="© 2026 — All rights reserved" data-es="© 2026 — Todos los derechos reservados">© 2026 — Todos los derechos reservados</div>
     </div>
     <h2 class="foot-display">
-      <span data-en="Make—" data-es="Crear—">Make—</span>
-      <span class="italic" data-en="something." data-es="algo.">something.</span>
+      <span data-en="Make—" data-es="Crear—">Crear—</span>
+      <span class="italic" data-en="something." data-es="algo.">algo.</span>
     </h2>
     <div class="foot-cols">
       <div>
-        <h5 data-en="Studio" data-es="Estudio">Studio</h5>
-
-        <a href="people.html" data-en="People" data-es="Equipo">People</a>
-        <a href="manifesto.html" data-en="Manifesto" data-es="Manifiesto">Manifesto</a>
-        <a href="#contact" data-en="Contact" data-es="Contacto">Contact</a>
-      </div>
-      <div>
-        <h5 data-en="Services" data-es="Servicios">Services</h5>
-        <a href="#services" data-en="Video &amp; Motion" data-es="Vídeo &amp; Motion">Video &amp; Motion</a>
-        <a href="#services" data-en="Web Design" data-es="Diseño Web">Web Design</a>
-        <a href="#ai" data-en="AI Agents" data-es="Agentes IA">AI Agents</a>
-      </div>
-      <div>
-        <h5 data-en="Elsewhere" data-es="En otros sitios">Elsewhere</h5>
-        <span class="mono small-cap" style="color:var(--fg-3)" data-en="RRSS coming soon" data-es="RRSS próximamente">RRSS coming soon</span>
-      </div>
-      <div>
-        <h5 data-en="Direct" data-es="Directo">Direct</h5>
+        <h5 data-en="Direct" data-es="Directo">Directo</h5>
         <a href="mailto:hello@arcmediahouse.com" target="_blank" rel="noopener">hello@arcmediahouse.com</a>
+      </div>
+      <div>
+        <h5 data-en="Studio" data-es="Estudio">Estudio</h5>
+        <p data-en="Madrid, Spain" data-es="Madrid, España">Madrid, España</p>
       </div>
     </div>
     <div class="foot-meta">
       <span>ARC / 2019—2026</span>
-      <span data-en="Made in Madrid · Built by hand" data-es="Hecho en Madrid · Construido a mano">Made in Madrid · Built by hand</span>
-      <span>v 2.0</span>
+      <span data-en="Made in Madrid · Built by hand" data-es="Hecho en Madrid · Construido a mano">Hecho en Madrid · Construido a mano</span>
+      <span>v 3.0</span>
     </div>
   </div>
 </footer>
@@ -415,5 +652,61 @@
 <script src="ai-chat-widget.js" defer></script>
 <script src="home.js"></script>
 <script src="hero-bloom.js" defer></script>
+<script>
+/* ---------- NEWSLETTER (no mailing tool wired yet) ----------
+   Keeps a copy in localStorage so nothing is lost, and posts to Netlify Forms
+   (form name: "newsletter") so the addresses land in the Netlify dashboard.
+   Whatever the POST does, the visitor always sees the confirmation. */
+(function newsletter() {
+  var form = document.getElementById('news-form');
+  if (!form) return;
+  var input = document.getElementById('news-email');
+  var done = document.getElementById('news-done');
+
+  function setPlaceholder() {
+    var lang = document.documentElement.getAttribute('data-lang') || 'es';
+    var k = lang === 'es' ? 'data-es-placeholder' : 'data-en-placeholder';
+    if (input.hasAttribute(k)) input.placeholder = input.getAttribute(k);
+  }
+  setPlaceholder();
+  new MutationObserver(setPlaceholder).observe(document.documentElement, {
+    attributes: true, attributeFilter: ['data-lang']
+  });
+
+  function keep(email) {
+    try {
+      var KEY = 'arc_newsletter_v1';
+      var list = JSON.parse(localStorage.getItem(KEY) || '[]');
+      if (!Array.isArray(list)) list = [];
+      list.push({
+        email: email,
+        ts: new Date().toISOString(),
+        lang: document.documentElement.getAttribute('data-lang') || 'es'
+      });
+      localStorage.setItem(KEY, JSON.stringify(list));
+    } catch (e) { /* storage disabled — the POST below still runs */ }
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = (input.value || '').trim();
+    if (!email) return;
+    keep(email);
+
+    var pairs = [];
+    new FormData(form).forEach(function (v, k) {
+      pairs.push(encodeURIComponent(k) + '=' + encodeURIComponent(v));
+    });
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: pairs.join('&')
+    }).catch(function () { /* nothing to do — the address is kept locally */ });
+
+    form.reset();
+    done.hidden = false;
+  });
+})();
+</script>
 </body>
 </html>
