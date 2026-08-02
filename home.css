@@ -795,24 +795,37 @@
   .sec-head__body { padding-right: 0; }
 }
 
-/* 01 — voices */
+/* 01 — voices: las cinco frases repartidas por el ancho, en rejilla de doce columnas */
+.sec--voices .sec-head { padding-bottom: clamp(32px, 4vw, 56px); }
 .voices {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(40px, 6vw, 80px);
-  padding: clamp(24px, 4vw, 48px) 0 clamp(48px, 7vw, 90px);
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--gutter);
+  row-gap: clamp(28px, 3.4vw, 52px);
+  align-items: start;
+  padding: clamp(8px, 1.5vw, 20px) 0 clamp(36px, 5vw, 64px);
 }
 .voice {
-  font-size: clamp(24px, 3.4vw, 46px);
-  line-height: 1.16;
-  letter-spacing: -0.03em;
+  font-size: clamp(20px, 2.1vw, 30px);
+  line-height: 1.22;
+  letter-spacing: -0.02em;
   font-style: italic;
   color: var(--fg);
-  max-width: 22ch;
   margin: 0;
 }
-.voice:nth-child(2n) { margin-left: clamp(16px, 14vw, 260px); }
+.voice:nth-child(1) { grid-column: 1 / span 5; }
+.voice:nth-child(2) { grid-column: 7 / span 6; margin-top: clamp(10px, 2vw, 32px); }
+.voice:nth-child(3) { grid-column: 1 / span 6; }
+.voice:nth-child(4) { grid-column: 7 / span 6; margin-top: clamp(10px, 2vw, 32px); }
+.voice:nth-child(5) { grid-column: 2 / span 7; }
 .voices__close { padding-top: clamp(24px, 3vw, 40px); border-top: 1px solid var(--line); }
+
+/* tablet: dos bandas anchas, se mantiene el desnivel */
+@media (max-width: 920px) {
+  .voices { row-gap: clamp(24px, 3vw, 36px); }
+  .voice:nth-child(2n+1) { grid-column: 1 / span 9; }
+  .voice:nth-child(2n) { grid-column: 4 / span 9; margin-top: 0; }
+}
 
 /* 02 — the three things */
 .keys {
@@ -842,7 +855,10 @@
 
 @media (max-width: 720px) {
   .key { grid-template-columns: 1fr; gap: 10px; }
-  .voice:nth-child(2n) { margin-left: 0; }
+  /* móvil: una sola columna, sin desniveles */
+  .voices { row-gap: 22px; padding: 4px 0 32px; }
+  .voice { font-size: clamp(19px, 5vw, 26px); line-height: 1.25; }
+  .voice:nth-child(n) { grid-column: 1 / -1; margin-top: 0; }
 }
 
 /* 03 — what gets built (same .serv rows, without the link column) */

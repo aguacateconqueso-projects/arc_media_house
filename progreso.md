@@ -78,6 +78,16 @@ un contexto WebGL2. Si el navegador no lo tiene, no pasa nada y se ve la mancha 
 lienzo se para cuando la pestaña se oculta o el encabezado sale de pantalla, y con
 `prefers-reduced-motion` pinta un solo fotograma quieto.
 
+**La sección 01 («Lo que escucho») va en rejilla, no en columna.** Las cinco frases estaban una
+debajo de otra, a 46px y con 80px de aire entre ellas: ocupaba metro y medio de pantalla para decir
+cinco cosas cortas. Ahora es una rejilla de doce columnas y las frases se reparten por el ancho —
+izquierda, derecha, izquierda, derecha, y la última algo entrada. Bajan a 30px como máximo. La
+sección pasa de 1528px a 828px de alto en escritorio.
+
+En tablet (≤920px) se simplifica a dos bandas anchas que se pisan un poco, para que no se estrechen
+las líneas. En móvil (≤720px) es una sola columna, sin desniveles, a 26px como máximo: de 940px a
+726px.
+
 **El botón «Hablemos quince minutos» aparece tres veces** (encabezado, fin de la prueba, fin del
 precio) y las tres bajan a contacto. El de dentro de contacto abre el correo, porque un botón que
 lleva a sí mismo no hace nada.
@@ -127,7 +137,7 @@ limpio.
 
 | PR | Rama | Qué lleva |
 |---|---|---|
-| — | `claude/animated-bg-direction-eb67eb` | El encabezado centrado |
+| — | `claude/seccion-01-text-layout-8j1bzs` | La sección 01 en rejilla, texto más pequeño |
 
 ---
 
