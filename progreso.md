@@ -31,11 +31,12 @@ borradas: se puede entrar por URL directa y se pueden volver a enlazar cuando ha
 
 Hojas de estilo: `styles.css` (sistema de diseño, común a todo), `home.css` (home),
 `service.css` + los `*-additions.css` (páginas de servicio), `manifesto.css`,
-`ai-chat-widget.css`, `hero-bloom.css`.
+`ai-chat-widget.css`, `hero-shader.css`, `hero-bloom.css`.
 
 JavaScript: `app.js` (tema, idioma, cursor, apariciones, menú móvil, reloj, animación de entrada),
 `ai-chat-store.js` (estado compartido del chat), `ai-chat.js` (chat incrustado del home),
-`ai-chat-widget.js` (widget flotante, en todas las páginas), `home.js`, `hero-bloom.js`.
+`ai-chat-widget.js` (widget flotante, en todas las páginas), `home.js`, `hero-shader.js`,
+`hero-bloom.js`.
 
 ---
 
@@ -61,6 +62,18 @@ Menú: logo, Precio, Preguntas, Contacto. Pie: correo, ciudad y aviso de derecho
 debajo a la derecha el párrafo, «Desde €2.500.» y el botón, los tres cerrando contra el margen
 derecho. Los tres bloques numerados que había a la derecha se quitaron por decorativos. En móvil
 todo se apila en una columna y vuelve a alinearse a la izquierda.
+
+**El fondo del encabezado es un shader WebGL** (`hero-shader.js` + `hero-shader.css`). Es un campo
+de luz que corre en diagonal, de la punta superior izquierda a la inferior derecha — es decir, hacia
+el botón de agendar la llamada. La dirección está en la constante `FLOW` del archivo; es lo único
+que hay que tocar para reorientarlo. La luz sale en el verde de acento sobre el negro, y en tema
+claro se invierte: lo que allí brilla, aquí oscurece sobre el hueso.
+
+La mancha SVG anterior (`hero-bloom.js` + `hero-bloom.css`) sigue en el repositorio y **hace de
+respaldo**: los dos archivos se cargan, en ese orden, y el shader solo quita la mancha si consigue
+un contexto WebGL2. Si el navegador no lo tiene, no pasa nada y se ve la mancha de siempre. El
+lienzo se para cuando la pestaña se oculta o el encabezado sale de pantalla, y con
+`prefers-reduced-motion` pinta un solo fotograma quieto.
 
 **El botón «Hablemos quince minutos» aparece tres veces** (encabezado, fin de la prueba, fin del
 precio) y las tres bajan a contacto. El de dentro de contacto abre el correo, porque un botón que
@@ -105,17 +118,13 @@ cualquier servidor estático.
 
 ## Ramas y PR abiertos
 
-A 2 de agosto de 2026, `main` todavía no tiene nada de esto. Hay tres PR abiertos, y cada rama sale
-de la anterior, así que **los tres tocan los mismos archivos y sus diffs se solapan**:
+El atasco de PR encadenados (#68 a #71) ya está resuelto: **`main` tiene el home nuevo entero**, sin
+los bloques laterales del encabezado y con la oferta alineada a la derecha. Desde aquí cada rama
+vuelve a salir de `main` con su diff limpio.
 
 | PR | Rama | Qué lleva |
 |---|---|---|
-| #68 | `claude/new-sales-home-page-snah0i` | El home nuevo entero + este documento |
-| #69 | `claude/hero-quitar-bloques-laterales` | Fuera los tres bloques laterales del encabezado |
-| #70 | `claude/hero-alinear-derecha` | La oferta alineada a la derecha |
-
-**Fusionando el #70 entran los tres cambios de una vez** y los otros dos quedan vacíos: se cierran y
-listo. En cuanto `main` esté al día, los PR siguientes vuelven a salir cada uno con su diff limpio.
+| — | `claude/animated-bg-direction-eb67eb` | El shader del encabezado, corriendo en diagonal |
 
 ---
 
