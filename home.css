@@ -734,23 +734,27 @@
 .hero--sales .hero__title {
   grid-template-columns: 1fr;
   padding-bottom: 16px;
+  text-align: center;
 }
 .hero--sales .hero__base {
   margin-top: 20px;
   padding-top: 36px;
   padding-bottom: 88px;
   gap: 64px;
-  grid-template-columns: 1fr 1.15fr;
+  grid-template-columns: 1fr;
 }
-/* the offer sits on the right, under the empty half of the headline, with
-   every right edge — text, price and button — flush to the margin */
+/* la oferta va centrada bajo el titular: párrafo, precio y botón
+   comparten el mismo eje */
 .hero--sales .hero__statement {
-  grid-column: 2;
+  grid-column: 1;
   padding-right: 0;
-  text-align: right;
+  text-align: center;
 }
-.hero--sales .hero__statement .body-lg { margin-left: auto; }
-.hero--sales .hero__cta { justify-content: flex-end; }
+.hero--sales .hero__statement .body-lg {
+  max-width: 46rem;
+  margin-inline: auto;
+}
+.hero--sales .hero__cta { justify-content: center; }
 .hero__price {
   font-family: 'Geist', sans-serif;
   font-size: clamp(30px, 3.2vw, 52px);
@@ -761,10 +765,7 @@
   margin-top: 20px;
 }
 @media (max-width: 920px) {
-  .hero--sales .hero__base { grid-template-columns: 1fr; gap: 40px; }
-  .hero--sales .hero__statement { grid-column: 1; text-align: left; }
-  .hero--sales .hero__statement .body-lg { margin-left: 0; }
-  .hero--sales .hero__cta { justify-content: flex-start; }
+  .hero--sales .hero__base { gap: 40px; }
 }
 
 /* generic section + section head (mirrors .services__head / .process__head) */
