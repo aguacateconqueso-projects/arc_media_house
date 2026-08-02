@@ -742,11 +742,15 @@
   gap: 64px;
   grid-template-columns: 1fr 1.15fr;
 }
-/* the offer sits on the right, under the empty half of the headline */
+/* the offer sits on the right, under the empty half of the headline, with
+   every right edge — text, price and button — flush to the margin */
 .hero--sales .hero__statement {
   grid-column: 2;
   padding-right: 0;
+  text-align: right;
 }
+.hero--sales .hero__statement .body-lg { margin-left: auto; }
+.hero--sales .hero__cta { justify-content: flex-end; }
 .hero__price {
   font-family: 'Geist', sans-serif;
   font-size: clamp(30px, 3.2vw, 52px);
@@ -758,7 +762,9 @@
 }
 @media (max-width: 920px) {
   .hero--sales .hero__base { grid-template-columns: 1fr; gap: 40px; }
-  .hero--sales .hero__statement { grid-column: 1; }
+  .hero--sales .hero__statement { grid-column: 1; text-align: left; }
+  .hero--sales .hero__statement .body-lg { margin-left: 0; }
+  .hero--sales .hero__cta { justify-content: flex-start; }
 }
 
 /* generic section + section head (mirrors .services__head / .process__head) */
