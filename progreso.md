@@ -88,10 +88,16 @@ margen a margen y son ellas las que dan el orden. El texto baja a 30px como máx
 Los números salen de un contador de CSS (`counter-reset` en `.voices`), así que el HTML no lleva
 nada nuevo. Van sin corchetes para no confundirse con los `[ 01 ]` de la sección 02.
 
+**Su encabezado va apilado, no en dos columnas.** «Antes de hablar de lo que hago, esto es lo que
+escucho» estaba en la columna de la derecha, lejos de la etiqueta que le da sentido. Ahora cuelga
+justo debajo de «01 — Lo que escucho» y las dos líneas se leen como una: la etiqueta nombra la
+sección y la frase la explica. Es la variante `.sec-head--stack`, en el bloque general de
+`.sec-head`, por si otra sección la necesita.
+
 En tablet (≤920px) la columna del número se estrecha a 64px. En móvil (≤720px) el número pasa
 delante de la frase, en la misma línea, y el resto cuelga debajo.
 
-Alto de la sección: 1528 → 821px en escritorio, 1013 → 650px en tablet, 940 → 774px en móvil.
+Alto de la sección: 1528 → 856px en escritorio, 1013 → 633px en tablet, 940 → 757px en móvil.
 
 Por el camino se probó una rejilla en zigzag —las frases repartidas a izquierda y derecha por doce
 columnas— que llegó a fusionarse en el #74. No funcionaba: sin eje común las frases quedaban
@@ -146,7 +152,7 @@ limpio.
 
 | PR | Rama | Qué lleva |
 |---|---|---|
-| — | `claude/seccion-01-lista-filas` | La sección 01 en filas con regla, texto más pequeño |
+| — | `claude/seccion-01-intro-bajo-titulo` | La entradilla de la 01, debajo de su etiqueta |
 
 ---
 
