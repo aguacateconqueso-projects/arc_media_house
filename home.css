@@ -786,6 +786,14 @@
   gap: 32px;
   padding-right: 40px;
 }
+/* variante: la entradilla debajo de su propio número, en una sola columna */
+.sec-head--stack { grid-template-columns: 1fr; }
+.sec-head--stack > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: clamp(14px, 1.4vw, 20px);
+}
 .sec__close { margin-top: clamp(40px, 5vw, 72px); }
 .sec__cta { margin-top: clamp(40px, 5vw, 72px); display: flex; flex-wrap: wrap; gap: 12px; }
 .prose { display: flex; flex-direction: column; gap: 24px; max-width: 60ch; }
