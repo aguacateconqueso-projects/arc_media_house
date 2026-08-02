@@ -78,15 +78,20 @@ un contexto WebGL2. Si el navegador no lo tiene, no pasa nada y se ve la mancha 
 lienzo se para cuando la pestaña se oculta o el encabezado sale de pantalla, y con
 `prefers-reduced-motion` pinta un solo fotograma quieto.
 
-**La sección 01 («Lo que escucho») va en rejilla, no en columna.** Las cinco frases estaban una
+**La sección 01 («Lo que escucho») es una lista de cinco filas con regla.** Las frases estaban una
 debajo de otra, a 46px y con 80px de aire entre ellas: ocupaba metro y medio de pantalla para decir
-cinco cosas cortas. Ahora es una rejilla de doce columnas y las frases se reparten por el ancho —
-izquierda, derecha, izquierda, derecha, y la última algo entrada. Bajan a 30px como máximo. La
-sección pasa de 1528px a 828px de alto en escritorio.
+cinco cosas cortas. Ahora cada frase es una fila con su número en mono a la izquierda y una línea
+fina debajo — el mismo eje y la misma geometría que los bloques de la sección 02 (`.key`) y que las
+filas de servicio: columna de 100px, 40px de separación, alineadas por la base. Las reglas llegan de
+margen a margen y son ellas las que dan el orden. El texto baja a 30px como máximo.
 
-En tablet (≤920px) se simplifica a dos bandas anchas que se pisan un poco, para que no se estrechen
-las líneas. En móvil (≤720px) es una sola columna, sin desniveles, a 26px como máximo: de 940px a
-726px.
+Los números salen de un contador de CSS (`counter-reset` en `.voices`), así que el HTML no lleva
+nada nuevo. Van sin corchetes para no confundirse con los `[ 01 ]` de la sección 02.
+
+En tablet (≤920px) la columna del número se estrecha a 64px. En móvil (≤720px) el número pasa
+delante de la frase, en la misma línea, y el resto cuelga debajo.
+
+Alto de la sección: 1528 → 821px en escritorio, 1013 → 650px en tablet, 940 → 774px en móvil.
 
 **El botón «Hablemos quince minutos» aparece tres veces** (encabezado, fin de la prueba, fin del
 precio) y las tres bajan a contacto. El de dentro de contacto abre el correo, porque un botón que
@@ -137,7 +142,7 @@ limpio.
 
 | PR | Rama | Qué lleva |
 |---|---|---|
-| — | `claude/seccion-01-text-layout-8j1bzs` | La sección 01 en rejilla, texto más pequeño |
+| #74 | `claude/seccion-01-text-layout-8j1bzs` | La sección 01 en filas con regla, texto más pequeño |
 
 ---
 
