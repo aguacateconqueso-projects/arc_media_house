@@ -729,12 +729,23 @@
 /* hero — tighter so the offer and the price land on the first screen */
 .hero--sales { padding-top: 104px; }
 .hero--sales .hero__top { padding-top: 16px; padding-bottom: 32px; }
-.hero--sales .hero__title { padding-bottom: 16px; }
+/* nothing sits next to the headline any more, so it gets the full width
+   and lands on two lines instead of three */
+.hero--sales .hero__title {
+  grid-template-columns: 1fr;
+  padding-bottom: 16px;
+}
 .hero--sales .hero__base {
   margin-top: 20px;
   padding-top: 36px;
   padding-bottom: 88px;
   gap: 64px;
+  grid-template-columns: 1fr 1.15fr;
+}
+/* the offer sits on the right, under the empty half of the headline */
+.hero--sales .hero__statement {
+  grid-column: 2;
+  padding-right: 0;
 }
 .hero__price {
   font-family: 'Geist', sans-serif;
@@ -746,7 +757,8 @@
   margin-top: 20px;
 }
 @media (max-width: 920px) {
-  .hero--sales .hero__base { gap: 40px; }
+  .hero--sales .hero__base { grid-template-columns: 1fr; gap: 40px; }
+  .hero--sales .hero__statement { grid-column: 1; }
 }
 
 /* generic section + section head (mirrors .services__head / .process__head) */
