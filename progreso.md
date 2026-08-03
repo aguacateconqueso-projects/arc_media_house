@@ -221,9 +221,22 @@ Alto de la sección: de 2105 a 2082px en escritorio (de 2135 a 2082 en inglés),
 tablet, de 1182 a 1191px en móvil (1182 a 1217 en inglés). El desbordamiento de 405px a 390px es el
 de siempre, el del bloque del chat: sale igual antes y después.
 
-**Queda la misma frase en la sección 03**, en «El lugar donde entran»: «el foro donde se hablan entre
-ellos». Ahí describe el producto en general, no la academia de Emil, así que se dejó como estaba a la
-espera de decidir si el foro se vende como sitio de preguntas y respuestas en todas partes.
+**La frase del foro también se corrigió en la sección 03**, en «El lugar donde entran». Decía «el
+foro donde se hablan entre ellos» y ahora dice «el foro donde ellos preguntan y solo respondes tú»
+(«the forum where they ask and only you answer»). Con esto el foro se vende igual en todas partes:
+no es un sitio donde los alumnos charlan, es donde preguntan y contesta quien lleva la academia.
+
+**El vídeo de la prueba ya está puesto.** `Videos/showcase_palataforma_emilse_rios_v2.mp4` sustituye
+al recuadro de «Video en camino». Va dentro del mismo `.proof__video` de 16:9 —el vídeo es 3840×2160,
+la misma proporción, así que llena la caja sin recortar— con `autoplay muted loop playsinline` y
+`controls`, que es lo que ya hacen los vídeos de `services-video.html` más la barra para que se pueda
+parar o subir el sonido. La regla `.proof__video .mono` del texto de relleno se cambió por
+`.proof__video video`, y la caja lleva `overflow: hidden`.
+
+Quedan dos cosas del archivo, ninguna urgente: pesa 25 MB en 4K —conviene una copia a 1080p— y tiene
+el `moov` al final, así que el navegador necesita el fichero entero antes de empezar. Las dos se
+arreglan de una pasada con `ffmpeg -movflags +faststart`; aquí no hay ffmpeg con H.264 para hacerlo.
+Tampoco hay imagen de `poster` por lo mismo.
 
 ### La sección 05 — «Cómo trabajo»
 
@@ -309,6 +322,48 @@ inglés crece de 1414 a 1449px, que es lo que ocupa la etiqueta al pasar encima.
 1261 a 1244px y en móvil de 1410 a 1393px (1423 a 1406 en inglés), donde el `.sec-head` ya era de una
 columna y lo que cambia es solo el hueco entre la etiqueta y el titular.
 
+### La sección 08 — «Hablemos»
+
+**El titular y el botón van en la misma fila.** Era un `.sec-head` de rejilla `1fr 2fr` —el titular
+en la columna derecha, la entradilla debajo— y el botón colgaba solo, pequeño, contra el margen
+izquierdo. Ahora hay un `.contact-lead`: rejilla `1fr auto` centrada en vertical, con la etiqueta y
+el titular a la izquierda y el bloque del botón a la derecha, a la altura del titular. El titular
+mira hacia el botón, que es lo que tiene que pasar en la sección de contacto.
+
+**El botón no llega al margen derecho.** Lleva `margin-right: clamp(0px, 7vw, 120px)`: a 1440 acaba a
+unos 100px del borde. Pegado al margen se leía como un elemento de encuadre, no como el final de la
+frase.
+
+**El botón es el grande.** Se le pone el `.btn--lg` que se estrenó en la 06 (14px, relleno `24/40`), y
+el «Gratis y sin compromiso…» de debajo sube de 13px a `clamp(15px, 1.2vw, 17px)` — el mismo cuerpo
+que las listas de la 06. El bloque se corta a `26rem` para que en inglés «Let's talk for fifteen
+minutes» entre en una línea sin acercarse al margen.
+
+**La entradilla baja debajo de la fila**, a la izquierda y a 60ch. Estaba en la columna del titular y
+allí empujaba el botón hacia el centro vertical del bloque entero.
+
+**«¿Prefieres preguntar antes?…» va centrado y en `var(--fg)`.** Iba a la izquierda y en `--fg-2`, y
+era la única alternativa al correo que ofrece la página: en gris pequeño no se veía. Se corta a 62ch
+y con `margin: … auto 0`, así que la regla de arriba se centra con el texto.
+
+**Cuidado con `align-items: flex-start` en columna flex:** deja al hijo a su ancho máximo, no al del
+contenedor. El `.contact-lead__head` lo necesita para la etiqueta, y por eso el titular lleva
+`align-self: stretch`. Sin eso, «for fifteen minutes.» se salía 59px de la pantalla a 390px.
+
+En ≤920px la fila pasa a una columna: titular, botón, entradilla.
+
+Alto de la sección: de 933 a 781px en escritorio (de 1050 a 898 en inglés, donde el titular ocupa
+tres líneas), de 715 a 690px en tablet (741 a 738 en inglés) y de 785 a 772px en móvil (849 a 858 en
+inglés, lo único que crece: ahí el botón grande no ahorra nada porque ya iba apilado). Encoge porque
+el botón deja de ocupar una fila propia debajo del titular.
+
+La sección 04 no cambia de alto al meter el vídeo: 2082px en escritorio, 1325 en tablet y 1191 en
+móvil, los mismos que con el recuadro vacío — la caja de 16:9 ya estaba reservada.
+
+El desbordamiento a 390px sigue siendo el de siempre y no lo toca esta sección: 405px en español
+(el bloque del chat) y 449px en inglés, que es el `.foot-display` del pie — «something.» no cabe a
+ese cuerpo. Los dos salen igual antes y después del cambio.
+
 ### Idioma
 
 El **español es el texto que manda**. El inglés es traducción y está pendiente de repaso.
@@ -348,10 +403,12 @@ cualquier servidor estático.
 
 ## Ramas y PR abiertos
 
-**No queda ninguno abierto.** `main` tiene el home nuevo entero, el shader del encabezado (#72), la
-sección 01 rehecha (#74 a #78), la 02 realineada (#80), la 03 realineada (#82 y #84) y la 04
-realineada (#86), la 05 con su hover (#87) y la 06 entera (#88). La 07 va en la rama
-`claude/seccion-07-preguntas`.
+`main` tiene el home nuevo entero, el shader del encabezado (#72), la sección 01 rehecha (#74 a #78),
+la 02 realineada (#80), la 03 realineada (#82 y #84) y la 04 realineada (#86), la 05 con su hover
+(#87) y la 06 entera (#88), más la 07 (#89).
+
+La 08 —titular y botón en la misma fila, el vídeo de la prueba y la frase del foro de la 03— va en la
+rama `claude/progreso-layout-content-t19nt6`.
 
 **Dos PR abiertos a la vez chocan en este archivo.** El #88 y el #89 salieron los dos de `main` y
 los dos escriben justo antes de «Idioma», así que el segundo en fusionarse dio conflicto aquí — en
@@ -377,8 +434,11 @@ no se despliega. Se rehízo desde `main` en el #84. **No se apilan PR.**
 - [ ] **Repasar la traducción al inglés del home.** El español manda; el inglés está a la espera de
       corrección. El titular en inglés ocupa dos líneas donde el español ocupa una — buen momento
       para acortarlo.
-- [ ] **Vídeo de la prueba.** Hay un recuadro vacío con «Video en camino» en la sección 04, a
-      proporción 16:9 y ancho completo. Sustituir por el vídeo cuando exista.
+- [x] **Vídeo de la prueba.** Puesto: `Videos/showcase_palataforma_emilse_rios_v2.mp4` en la
+      sección 04.
+- [ ] **Comprimir el vídeo de la prueba.** Está a 4K y pesa 25 MB, y lleva el `moov` al final, así
+      que el navegador se lo tiene que bajar entero antes de arrancar. Una copia a 1080p con
+      `ffmpeg -movflags +faststart`, y de paso un `poster` con el primer fotograma.
 - [ ] **Cita de Emil Serios.** Hueco preparado con el formato de cita destacada y el texto «Cita
       pendiente». Rellenar cuando la tengamos.
 
@@ -411,6 +471,9 @@ no se despliega. Se rehízo desde `main` en el #84. **No se apilan PR.**
       `.ai__log`, `.ai__form` y el `.btn` del lateral) se salen 15px. Es anterior al home nuevo y no
       lo causa ninguna sección. Se comprueba a 390px con
       `document.documentElement.scrollWidth > clientWidth`.
+- [ ] **Y en inglés se desborda más: 449px.** Es el `.foot-display` del pie, la frase grande que
+      acaba en «something.»: a ese cuerpo no cabe a 390px y se sale 59px. En español no pasa. Se
+      arregla bajando el `clamp` del `.foot-display` o partiendo la frase, como en la 03.
 
 ### Decisiones abiertas
 
