@@ -838,12 +838,20 @@
 }
 .voices__close { margin-top: clamp(28px, 3.5vw, 48px); }
 
-/* la frase de entrada y la de cierre, sobre el mismo eje que las frases */
+/* la frase de entrada y la de cierre, contra el margen derecho: la vista
+   arranca a la derecha y baja a las citas, que van pegadas a la izquierda */
 .voices__lead,
 .voices__close {
-  padding-left: calc(var(--voice-num) + var(--voice-gap));
-  font-size: clamp(19px, 1.6vw, 25px);
+  margin-left: auto;
+  align-self: flex-end;  /* la de entrada vive en el .sec-head--stack, que es flex */
+  max-width: 60ch;
+  text-wrap: balance;
+  text-align: right;
+  font-size: clamp(22px, 2.4vw, 36px);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
   font-weight: 500;
+  color: var(--fg);
 }
 
 @media (max-width: 920px) {
@@ -885,9 +893,6 @@
     font-size: clamp(19px, 4.8vw, 25px);
   }
   .voice::before { margin-right: 12px; }
-  /* sin columna de número que respetar, las dos frases vuelven al margen */
-  .voices__lead,
-  .voices__close { padding-left: 0; }
 }
 
 /* 03 — what gets built (same .serv rows, without the link column) */

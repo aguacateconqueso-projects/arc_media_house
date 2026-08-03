@@ -88,27 +88,28 @@ margen a margen y son ellas las que dan el orden. El texto baja a 30px como máx
 Los números salen de un contador de CSS (`counter-reset` en `.voices`), así que el HTML no lleva
 nada nuevo. Van sin corchetes para no confundirse con los `[ 01 ]` de la sección 02.
 
-**Su encabezado va apilado, no en dos columnas.** «Antes de hablar de lo que hago, esto es lo que
-escucho» estaba en la columna de la derecha, lejos de la etiqueta que le da sentido. Ahora cuelga
-justo debajo de «01 — Lo que escucho» y las dos líneas se leen como una: la etiqueta nombra la
-sección y la frase la explica. Es la variante `.sec-head--stack`, en el bloque general de
-`.sec-head`, por si otra sección la necesita.
+**Su encabezado va apilado, no en dos columnas.** La etiqueta «01 — Lo que escucho» ocupa su propia
+línea contra el margen izquierdo y la entradilla va debajo, ya sin columna que la encierre. Es la
+variante `.sec-head--stack`, en el bloque general de `.sec-head`, por si otra sección la necesita.
 
-**Las dos frases que enmarcan la lista van sobre el eje de las frases.** «Antes de hablar…» y «El
-mismo problema, dicho de cinco maneras» empezaban en el margen, donde están los números, y con el
-tamaño de párrafo normal se perdían. Ahora entran hasta donde empiezan las citas, suben a
-`clamp(19px, 1.6vw, 25px)` y van en peso 500 — el mismo que los titulares del sitio. Siguen en gris:
-son la voz que narra, no lo que se oye.
+**Las dos frases que enmarcan la lista van contra el margen derecho.** «Antes de hablar…» y «El
+mismo problema, dicho de cinco maneras» empezaban en el margen izquierdo y en gris de párrafo: se
+perdían entre las citas. Ahora van alineadas a la derecha, a `clamp(22px, 2.4vw, 36px)`, en peso 500
+y en el color del titular de la sección 02 — `var(--fg)`, el mismo tono en los dos temas. Terminan
+justo donde terminan las reglas.
 
-El eje sale de dos variables en `.sec--voices`, `--voice-num` y `--voice-gap`, que la rejilla de
-cada fila y la entrada de esas dos frases comparten. Si se cambia la columna del número, las tres
-cosas se mueven juntas.
+La idea es que la vista pasee: arranca arriba a la derecha, baja a las citas, que están pegadas a la
+izquierda, y sale abajo por la derecha otra vez. Las reglas de margen a margen sostienen el zigzag.
+
+Llevan `text-wrap: balance` con un ancho máximo de 60ch: en pantalla grande cada frase cabe en una
+línea, y cuando no cabe se parte en líneas parejas en vez de dejar una palabra suelta. El navegador
+que no entienda `text-wrap` parte como siempre.
 
 En tablet (≤920px) la columna del número se estrecha a 64px. En móvil (≤720px) el número pasa
-delante de la frase, en la misma línea, y el resto cuelga debajo; ahí las dos frases vuelven al
-margen, porque ya no hay columna que respetar.
+delante de la frase, en la misma línea, y el resto cuelga debajo; las dos frases siguen a la
+derecha, que es lo que sostiene la idea.
 
-Alto de la sección: 1528 → 864px en escritorio, 1013 → 636px en tablet, 940 → 763px en móvil.
+Alto de la sección: 1528 → 877px en escritorio, 1013 → 631px en tablet, 940 → 754px en móvil.
 
 Por el camino se probó una rejilla en zigzag —las frases repartidas a izquierda y derecha por doce
 columnas— que llegó a fusionarse en el #74. No funcionaba: sin eje común las frases quedaban
@@ -163,7 +164,7 @@ limpio.
 
 | PR | Rama | Qué lleva |
 |---|---|---|
-| — | `claude/seccion-01-frases-alineadas` | Las frases de entrada y cierre de la 01, sobre el eje de las citas |
+| — | `claude/seccion-01-frases-derecha` | Las frases de entrada y cierre de la 01, contra el margen derecho |
 
 ---
 
