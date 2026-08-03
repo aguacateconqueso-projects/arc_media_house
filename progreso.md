@@ -225,6 +225,40 @@ de siempre, el del bloque del chat: sale igual antes y después.
 ellos». Ahí describe el producto en general, no la academia de Emil, así que se dejó como estaba a la
 espera de decidir si el foro se vende como sitio de preguntas y respuestas en todas partes.
 
+### La sección 05 — «Cómo trabajo»
+
+**La etiqueta pasó a «El paso a paso»** («Step by step»). Decía «05 — Cómo trabajo» y repetía palabra
+por palabra el titular que tenía justo al lado.
+
+**El titular baja al margen izquierdo.** El `.process__head` es una rejilla `1fr 2fr` con la etiqueta
+en la primera columna y el titular en la segunda, así que «Cómo trabajo.» arrancaba a 539px del
+borde. Se le añade `.process__head--stack`, que lo pone en una sola columna con el mismo hueco que el
+`.sec-head--stack` de las secciones 01 a 04. Las cuatro tarjetas no se tocaron. En tablet y móvil ya
+estaba apilado, así que ahí no cambia nada.
+
+**Las tarjetas se levantan y se dan la vuelta al pasar el cursor:** suben 8px y el bloque pasa a
+`var(--fg)` con la letra en `var(--bg)`. En tema oscuro sale blanco con letra negra; en tema claro se
+da la vuelta solo, sin regla aparte, porque son las mismas dos variables. Es el gesto que ya usa el
+selector de idioma (`.lang-switch button.is-active`).
+
+**El color va en un `<span class="step__fill">`, no en el fondo de `.step`.** La primera tarjeta no
+tiene relleno a la izquierda —va contra el margen, como todo lo demás— y el bloque de color sí tiene
+que llevarlo por los cuatro lados. El `span` es absoluto y se sale 24px por la izquierda solo en la
+primera (16px de 920px para abajo, que es el relleno de ahí). Nunca se sale del `--pad-x` del
+contenedor, así que no añade desbordamiento.
+
+**Lo que cambia de color dentro de la tarjeta:** el titular y el tiempo van a `var(--bg)` puro; el
+número y el cuerpo, a `color-mix` sobre `var(--bg)` (55% y 78%) para conservar la jerarquía. El
+tiempo se sale del verde de acento a propósito: sobre el bloque claro no se lee — es el problema de
+contraste que ya está apuntado más abajo en esta lista.
+
+Todo el hover va dentro de `@media (hover: hover) and (pointer: fine)`, para que en pantalla táctil
+no se quede una tarjeta invertida después de tocarla. Con `prefers-reduced-motion` desaparece el
+salto y solo queda el cambio de color.
+
+Alto de la sección: de 669 a 705px en escritorio, e igual en tablet (886px en español, 864 en inglés)
+y en móvil (1120 y 1098px), porque ahí el titular ya estaba apilado.
+
 ### Idioma
 
 El **español es el texto que manda**. El inglés es traducción y está pendiente de repaso.
@@ -265,8 +299,8 @@ cualquier servidor estático.
 ## Ramas y PR abiertos
 
 **No queda ninguno abierto.** `main` tiene el home nuevo entero, el shader del encabezado (#72), la
-sección 01 rehecha (#74 a #78), la 02 realineada (#80) y la 03 realineada (#82 y #84). La 04 va en la
-rama `claude/progreso-seccion-4-ock1ib`.
+sección 01 rehecha (#74 a #78), la 02 realineada (#80), la 03 realineada (#82 y #84) y la 04
+realineada (#86). La 05 va en la rama `claude/seccion-05-paso-a-paso`.
 
 Cada rama sale de `main` y se fusiona antes de empezar la siguiente. Cuando se encadenan, pasa lo
 del #74: un PR se fusiona mientras el siguiente ya salió de la base vieja, y hay que rehacer la rama
