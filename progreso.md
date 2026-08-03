@@ -122,6 +122,35 @@ repartidas en zigzag (#74) — sin eje común quedaban flotando en el vacío; y 
 del marco alineadas con las citas (#77) — sobre el mismo eje competían con ellas en vez de
 enmarcarlas.
 
+### La sección 02 — «Lo que importa»
+
+Se realineó entera (PR #80). El titular vivía en la columna derecha del encabezado y las tres cosas
+llevaban el número a la izquierda, igual que las citas de la 01: dos listas idénticas seguidas y
+ningún eje que las separara.
+
+Ahora la sección se lee de arriba abajo con un solo eje: **el titular y la entradilla mandan desde
+la izquierda, las tres cosas caen a la derecha.** Es el espejo de la 01 —allí las citas van pegadas
+a la izquierda y las frases del marco a la derecha—, así que las dos ya no se confunden.
+
+**El titular va al margen izquierdo**, debajo de su etiqueta, con el `.sec-head--stack` que ya
+existía para la 01. No hizo falta CSS nuevo. **La entradilla se quedó donde estaba**, a la izquierda
+y a 60ch.
+
+**Las tres filas están dadas la vuelta:** la rejilla pasó de `100px 1fr` a `1fr var(--key-num)`, con
+la frase alineada a la derecha y el `[ 01 ]` detrás, contra el borde. El número sigue primero en el
+HTML — lo coloca la rejilla, así que el orden de lectura no cambia. El eje va en dos variables de
+`.sec--keys` (`--key-num`, `--key-gap`), como en la 01, para que no pueda desincronizarse.
+
+**«Para eso me contratas.»** se quedó en su sitio, debajo de las filas y a la izquierda, pero subió
+de `clamp(18px, 1.4vw, 22px)` a `clamp(22px, 2.4vw, 36px)`, en peso 700 y en `var(--fg)`. Se usa la
+variable y no `#fff` a propósito: en tema claro sería texto blanco sobre fondo hueso.
+
+En tablet (≤920px) la columna del número se estrecha a 64px, mismo salto que la 01. En móvil
+(≤720px) queda una sola columna, con el número encima de la frase y los dos a la derecha.
+
+Alto de la sección: de 1957 a 1827px en escritorio, de 1237 a 1219px en tablet, de 1434 a 1417px en
+móvil.
+
 **El botón «Hablemos quince minutos» aparece tres veces** (encabezado, fin de la prueba, fin del
 precio) y las tres bajan a contacto. El de dentro de contacto abre el correo, porque un botón que
 lleva a sí mismo no hace nada.
@@ -165,8 +194,8 @@ cualquier servidor estático.
 
 ## Ramas y PR abiertos
 
-**No queda ninguno abierto.** `main` tiene el home nuevo entero, el shader del encabezado (#72) y la
-sección 01 rehecha (#74 a #78).
+**No queda ninguno abierto.** `main` tiene el home nuevo entero, el shader del encabezado (#72), la
+sección 01 rehecha (#74 a #78) y la 02 realineada (#80).
 
 Cada rama sale de `main` y se fusiona antes de empezar la siguiente. Cuando se encadenan, pasa lo
 del #74: un PR se fusiona mientras el siguiente ya salió de la base vieja, y hay que rehacer la rama
