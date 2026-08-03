@@ -94,10 +94,21 @@ justo debajo de «01 — Lo que escucho» y las dos líneas se leen como una: la
 sección y la frase la explica. Es la variante `.sec-head--stack`, en el bloque general de
 `.sec-head`, por si otra sección la necesita.
 
-En tablet (≤920px) la columna del número se estrecha a 64px. En móvil (≤720px) el número pasa
-delante de la frase, en la misma línea, y el resto cuelga debajo.
+**Las dos frases que enmarcan la lista van sobre el eje de las frases.** «Antes de hablar…» y «El
+mismo problema, dicho de cinco maneras» empezaban en el margen, donde están los números, y con el
+tamaño de párrafo normal se perdían. Ahora entran hasta donde empiezan las citas, suben a
+`clamp(19px, 1.6vw, 25px)` y van en peso 500 — el mismo que los titulares del sitio. Siguen en gris:
+son la voz que narra, no lo que se oye.
 
-Alto de la sección: 1528 → 856px en escritorio, 1013 → 633px en tablet, 940 → 757px en móvil.
+El eje sale de dos variables en `.sec--voices`, `--voice-num` y `--voice-gap`, que la rejilla de
+cada fila y la entrada de esas dos frases comparten. Si se cambia la columna del número, las tres
+cosas se mueven juntas.
+
+En tablet (≤920px) la columna del número se estrecha a 64px. En móvil (≤720px) el número pasa
+delante de la frase, en la misma línea, y el resto cuelga debajo; ahí las dos frases vuelven al
+margen, porque ya no hay columna que respetar.
+
+Alto de la sección: 1528 → 864px en escritorio, 1013 → 636px en tablet, 940 → 763px en móvil.
 
 Por el camino se probó una rejilla en zigzag —las frases repartidas a izquierda y derecha por doce
 columnas— que llegó a fusionarse en el #74. No funcionaba: sin eje común las frases quedaban
@@ -152,7 +163,7 @@ limpio.
 
 | PR | Rama | Qué lleva |
 |---|---|---|
-| — | `claude/seccion-01-intro-bajo-titulo` | La entradilla de la 01, debajo de su etiqueta |
+| — | `claude/seccion-01-frases-alineadas` | Las frases de entrada y cierre de la 01, sobre el eje de las citas |
 
 ---
 

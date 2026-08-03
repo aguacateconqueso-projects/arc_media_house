@@ -804,6 +804,10 @@
 }
 
 /* 01 — voices: lista de cinco filas con regla, mismo eje que .key y .serv */
+.sec--voices {
+  --voice-num: 100px;  /* columna del número */
+  --voice-gap: 40px;   /* separación hasta la frase */
+}
 .sec--voices .sec-head { padding-bottom: clamp(28px, 3.5vw, 48px); }
 .voices {
   counter-reset: voice;
@@ -811,8 +815,8 @@
 }
 .voice {
   display: grid;
-  grid-template-columns: 100px 1fr;
-  gap: 40px;
+  grid-template-columns: var(--voice-num) 1fr;
+  gap: var(--voice-gap);
   align-items: baseline;
   padding: clamp(16px, 1.6vw, 24px) 0;
   border-bottom: 1px solid var(--line);
@@ -834,8 +838,16 @@
 }
 .voices__close { margin-top: clamp(28px, 3.5vw, 48px); }
 
+/* la frase de entrada y la de cierre, sobre el mismo eje que las frases */
+.voices__lead,
+.voices__close {
+  padding-left: calc(var(--voice-num) + var(--voice-gap));
+  font-size: clamp(19px, 1.6vw, 25px);
+  font-weight: 500;
+}
+
 @media (max-width: 920px) {
-  .voice { grid-template-columns: 64px 1fr; gap: 24px; }
+  .sec--voices { --voice-num: 64px; --voice-gap: 24px; }
 }
 
 /* 02 — the three things */
@@ -873,6 +885,9 @@
     font-size: clamp(19px, 4.8vw, 25px);
   }
   .voice::before { margin-right: 12px; }
+  /* sin columna de número que respetar, las dos frases vuelven al margen */
+  .voices__lead,
+  .voices__close { padding-left: 0; }
 }
 
 /* 03 — what gets built (same .serv rows, without the link column) */
