@@ -858,7 +858,12 @@
   .sec--voices { --voice-num: 64px; --voice-gap: 24px; }
 }
 
-/* 02 — the three things */
+/* 02 — the three things: filas espejo de las citas de la 01, contra el margen
+   derecho — el titular y la entradilla mandan desde la izquierda */
+.sec--keys {
+  --key-num: 100px;  /* columna del número, al borde derecho */
+  --key-gap: 40px;
+}
 .keys {
   display: flex;
   flex-direction: column;
@@ -867,25 +872,44 @@
 }
 .key {
   display: grid;
-  grid-template-columns: 100px 1fr;
-  gap: 40px;
+  grid-template-columns: 1fr var(--key-num);
+  gap: var(--key-gap);
   align-items: baseline;
   padding: 28px 0;
   border-bottom: 1px solid var(--line);
+  text-align: right;
 }
+/* el número va después de la frase aunque en el HTML venga antes */
+.key .bracket-num { grid-column: 2; grid-row: 1; }
 .key__text {
+  grid-column: 1;
+  grid-row: 1;
   font-size: clamp(20px, 2.4vw, 34px);
   line-height: 1.2;
   letter-spacing: -0.025em;
   color: var(--fg);
   margin: 0;
 }
-.keys__close { margin-top: clamp(32px, 4vw, 56px); }
+.keys__close {
+  margin-top: clamp(32px, 4vw, 56px);
+  font-size: clamp(22px, 2.4vw, 36px);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  color: var(--fg);
+}
 .statement { padding-top: clamp(90px, 12vw, 170px); padding-bottom: clamp(24px, 4vw, 60px); }
 .statement .h-1 { max-width: 20ch; }
 
+@media (max-width: 920px) {
+  .sec--keys { --key-num: 64px; --key-gap: 24px; }
+}
+
 @media (max-width: 720px) {
+  /* móvil: una sola columna, el número encima de la frase, los dos a la derecha */
   .key { grid-template-columns: 1fr; gap: 10px; }
+  .key .bracket-num,
+  .key__text { grid-column: 1; grid-row: auto; }
   /* móvil: el número delante de la frase, en la misma línea */
   .voice {
     display: block;
