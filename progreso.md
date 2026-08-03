@@ -203,6 +203,28 @@ igual en móvil (1755 a 1756px). Crece por el cuerpo de la frase de cierre.
 **El texto de la declaración que cierra la 02** —el bloque grande justo antes de la 03— pasó a «No
 soy el No.1 en lo que hago, / por eso me esfuerzo bastante.»
 
+### La sección 04 — «La prueba»
+
+**El titular baja al margen izquierdo.** Mismo movimiento que la 02 y la 03: vivía en la columna
+derecha del `.sec-head` (rejilla `1fr 2fr`) y arrancaba a 539px del borde en escritorio. Ahora usa el
+`.sec-head--stack` que ya existía, con la etiqueta «04 — La prueba» y el titular «Esto ya está hecho
+/ y cobrando.» contra el margen. Sin CSS nuevo. El resto de la sección —el enlace, los dos párrafos,
+el hueco del vídeo, la cita y el cierre— no se tocó.
+
+**El foro no es lo que decía el texto.** Decía «foro donde los alumnos se hablan entre ellos» y no
+funciona así: los alumnos dejan sus preguntas y ella las responde, y la respuesta la ve todo el
+mundo. La frase quedó «foro donde los alumnos dejan sus preguntas y ella las responde delante de
+todos». Como «ella» ya aparecía dos veces en la misma oración, el final pasó a «panel desde donde lo
+maneja todo».
+
+Alto de la sección: de 2105 a 2082px en escritorio (de 2135 a 2082 en inglés), de 1316 a 1325px en
+tablet, de 1182 a 1191px en móvil (1182 a 1217 en inglés). El desbordamiento de 405px a 390px es el
+de siempre, el del bloque del chat: sale igual antes y después.
+
+**Queda la misma frase en la sección 03**, en «El lugar donde entran»: «el foro donde se hablan entre
+ellos». Ahí describe el producto en general, no la academia de Emil, así que se dejó como estaba a la
+espera de decidir si el foro se vende como sitio de preguntas y respuestas en todas partes.
+
 ### Idioma
 
 El **español es el texto que manda**. El inglés es traducción y está pendiente de repaso.
@@ -243,7 +265,8 @@ cualquier servidor estático.
 ## Ramas y PR abiertos
 
 **No queda ninguno abierto.** `main` tiene el home nuevo entero, el shader del encabezado (#72), la
-sección 01 rehecha (#74 a #78), la 02 realineada (#80) y la 03 realineada (#82 y #84).
+sección 01 rehecha (#74 a #78), la 02 realineada (#80) y la 03 realineada (#82 y #84). La 04 va en la
+rama `claude/progreso-seccion-4-ock1ib`.
 
 Cada rama sale de `main` y se fusiona antes de empezar la siguiente. Cuando se encadenan, pasa lo
 del #74: un PR se fusiona mientras el siguiente ya salió de la base vieja, y hay que rehacer la rama
