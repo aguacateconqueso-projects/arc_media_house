@@ -259,6 +259,42 @@ salto y solo queda el cambio de color.
 Alto de la sección: de 669 a 705px en escritorio, e igual en tablet (886px en español, 864 en inglés)
 y en móvil (1120 y 1098px), porque ahí el titular ya estaba apilado.
 
+### La sección 06 — «Precio»
+
+**El titular baja al margen izquierdo.** «Desde €2.500.» vivía en la columna derecha del `.sec-head`
+y arrancaba a 539px del borde. Ahora usa el `.sec-head--stack` de siempre.
+
+**«€2.500» lleva el brillo verde que recorre «vendes más»** en el encabezado. Los fotogramas son los
+mismos (`promiseShimmer`, 6,5s), pero la regla se sacó a una clase suelta, `.shimmer`, para poder
+ponérsela a cualquier palabra. **La única diferencia es el color del destello:** en
+`.hero__promise-accent` es `#ffffff` fijo; en `.shimmer` es `var(--fg)`. En tema oscuro son el mismo
+color, pero en tema claro el destello blanco sobre el verde desaparecía contra el hueso, y en negro
+sí se ve — el barrido oscurece el verde en vez de aclararlo.
+
+Para aislar la cifra hubo que partir el párrafo: «Desde» va en su `<span>` con sus `data-en` y
+`data-es`, «€2.500» en el suyo con la clase, y el punto final queda como texto suelto. El precio no se
+traduce, así que los dos atributos del número son iguales. Es lo mismo que se hizo con «construye» en
+la 03: `app.js` escribe `textContent`, así que si los atributos se quedan en el padre se llevan por
+delante a los hijos.
+
+**Las dos listas y los tres añadidos suben de 15 a 17px.** Se veían pequeños al lado del titular. La
+raya de acento de cada punto baja de 11 a 13px para seguir centrada en la primera línea. Aquí no hay
+animación a propósito: es la parte seria de la página.
+
+**«Los diez primeros clientes» pasó a «Mis primeros clientes»**, y el aviso sube de
+`clamp(18px, 2vw, 26px)` a `clamp(20px, 2.6vw, 34px)`.
+
+**El aviso también se levanta al pasar el cursor**, como las tarjetas de la 05, pero **se llena de
+acento y no de blanco**: no es un paso del proceso, es la razón para no dejarlo para más tarde. La
+letra pasa a `var(--accent-ink)`, que es negro en los dos temas, así que se lee igual en los dos.
+
+**El botón de cierre va centrado y grande.** `.sec__cta--center` centra la fila y `.btn--lg` sube el
+botón de 12px con relleno `18/28` a 14px con `24/40` (13px y `20/28` de 720px para abajo). Las dos
+clases son modificadores nuevos, así que los otros dos botones «Hablemos quince minutos» no cambian.
+
+Alto de la sección: de 1542 a 1665px en escritorio, de 1381 a 1506px en tablet (1454 en inglés), y de
+1841 a 2032px en móvil (1817 a 2005 en inglés). Crece por el cuerpo de las listas y del aviso.
+
 ### Idioma
 
 El **español es el texto que manda**. El inglés es traducción y está pendiente de repaso.
@@ -300,7 +336,7 @@ cualquier servidor estático.
 
 **No queda ninguno abierto.** `main` tiene el home nuevo entero, el shader del encabezado (#72), la
 sección 01 rehecha (#74 a #78), la 02 realineada (#80), la 03 realineada (#82 y #84) y la 04
-realineada (#86). La 05 va en la rama `claude/seccion-05-paso-a-paso`.
+realineada (#86) y la 05 con su hover (#87). La 06 va en la rama `claude/seccion-06-precio`.
 
 Cada rama sale de `main` y se fusiona antes de empezar la siguiente. Cuando se encadenan, pasa lo
 del #74: un PR se fusiona mientras el siguiente ya salió de la base vieja, y hay que rehacer la rama
