@@ -943,16 +943,17 @@
   100% { font-weight: 500; font-style: italic; color: var(--fg); font-family: 'Geist', sans-serif; -webkit-text-stroke: 0; }
 }
 
-/* el cierre de la sección, al tamaño del titular y contra el margen izquierdo */
+/* el cierre de la sección, centrado y un punto por debajo del titular. Las
+   cinco líneas van cortadas a mano con <br>: es una frase para leer en bloque,
+   no un párrafo */
 .built__close {
-  font-size: clamp(40px, 6.5vw, 104px);
+  font-size: clamp(24px, 5.2vw, 84px);
   letter-spacing: -0.04em;
-  line-height: 0.94;
+  line-height: 1.02;
   font-weight: 500;
   color: var(--fg);
-  text-align: left;
+  text-align: center;
   max-width: none;
-  text-wrap: pretty;
 }
 /* a este cuerpo, la raya de 1px del sistema desaparece: se escala con el texto */
 .built__close .underline {
