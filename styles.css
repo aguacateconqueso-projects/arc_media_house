@@ -237,6 +237,10 @@ section { position: relative; }
 .btn--primary:hover { color: var(--bg); }
 .btn .arrow { display: inline-block; transition: transform var(--t-med); }
 .btn:hover .arrow { transform: translateX(4px); }
+/* el botón grande: el mismo botón, con más cuerpo. Para el cierre de una
+   sección que va solo y centrado, donde el tamaño normal se pierde. */
+.btn--lg { font-size: 14px; padding: 24px 40px; gap: 16px; }
+@media (max-width: 720px) { .btn--lg { font-size: 13px; padding: 20px 28px; } }
 
 
 /* === reveal === */
