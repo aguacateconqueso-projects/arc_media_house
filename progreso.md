@@ -58,6 +58,11 @@ Once secciones, en este orden:
 
 Menú: logo, Precio, Preguntas, Contacto. Pie: correo, ciudad y aviso de derechos.
 
+**Todos los titulares de sección van contra el margen izquierdo, debajo de su etiqueta**, de la 01 a
+la 07. Es el eje de la página: la etiqueta, el titular y el contenido arrancan en el mismo sitio.
+Antes vivían en la columna derecha de una rejilla `1fr 2fr` y se leían centrados. Quedan la 08 y la
+09 por pasar. El encabezado es la excepción a propósito: ese va centrado.
+
 **El encabezado va centrado:** el titular grande arriba, y debajo el párrafo, «Desde €2.500.» y el
 botón, los cuatro sobre el mismo eje. El párrafo se corta a 46rem para que no se estire de margen a
 margen. Los tres bloques numerados que había a la derecha se quitaron por decorativos. En móvil
@@ -309,6 +314,25 @@ inglés crece de 1414 a 1449px, que es lo que ocupa la etiqueta al pasar encima.
 1261 a 1244px y en móvil de 1410 a 1393px (1423 a 1406 en inglés), donde el `.sec-head` ya era de una
 columna y lo que cambia es solo el hueco entre la etiqueta y el titular.
 
+### Piezas que se repiten
+
+Lo que se fue sacando a clase suelta durante el realineado, para no volver a escribirlo:
+
+| Clase | Qué hace | Dónde nació |
+|---|---|---|
+| `.sec-head--stack` | Etiqueta y titular en una columna, contra el margen izquierdo | 01, y ya la usan hasta la 07 |
+| `.process__head--stack` | Lo mismo para el encabezado de la 05, que no es un `.sec-head` | 05 |
+| `.word-shuffle` | La palabra recorre estados tipográficos al aparecer | 03 |
+| `.shimmer` | Brillo verde que recorre el texto en bucle (`promiseShimmer`, 6,5s) | 06, sacada de `.hero__promise-accent` |
+| `.btn--lg` | El mismo botón con más cuerpo: 14px y relleno `24/40` | 06 |
+| `.sec__cta--center` | Centra la fila del botón de cierre | 06 |
+
+**El gesto de hover del home** es siempre el mismo: subir 8px y darle la vuelta al color usando
+`var(--fg)` y `var(--bg)`, que se invierten solos entre temas. Las tarjetas de la 05 lo hacen en
+blanco y negro; el aviso de precio de la 06 lo hace en acento, con la letra en `var(--accent-ink)`.
+Todo va dentro de `@media (hover: hover) and (pointer: fine)` para que en pantalla táctil no se
+quede un bloque invertido después de tocarlo, y el salto desaparece con `prefers-reduced-motion`.
+
 ### Idioma
 
 El **español es el texto que manda**. El inglés es traducción y está pendiente de repaso.
@@ -348,15 +372,22 @@ cualquier servidor estático.
 
 ## Ramas y PR abiertos
 
-**No queda ninguno abierto.** `main` tiene el home nuevo entero, el shader del encabezado (#72), la
-sección 01 rehecha (#74 a #78), la 02 realineada (#80), la 03 realineada (#82 y #84) y la 04
-realineada (#86), la 05 con su hover (#87) y la 06 entera (#88). La 07 va en la rama
-`claude/seccion-07-preguntas`.
+**Abierto: el #89**, la sección 07, en `claude/seccion-07-preguntas`. Ya tiene `main` traído y el
+conflicto resuelto; queda fusionarlo.
+
+`main` tiene el home nuevo entero, el shader del encabezado (#72), la sección 01 rehecha (#74 a #78),
+la 02 realineada (#80), la 03 realineada (#82 y #84), la 04 realineada (#86), la 05 con su hover
+(#87) y la 06 entera (#88).
 
 **Dos PR abiertos a la vez chocan en este archivo.** El #88 y el #89 salieron los dos de `main` y
 los dos escriben justo antes de «Idioma», así que el segundo en fusionarse dio conflicto aquí — en
 `index.html` no, que eran secciones distintas. Se arregla trayendo `main` a la rama y dejando los dos
-bloques en orden; no hay que rehacer nada.
+bloques en orden; no hay que rehacer nada, no se pierde ningún bloque.
+
+**Lo que lo evita es fusionar antes de empezar la siguiente sección.** Mientras haya dos ramas vivas,
+este archivo va a chocar siempre, porque todas las secciones escriben en el mismo sitio. La otra
+salida, si hace falta trabajar dos secciones seguidas sin esperar, es dejar `progreso.md` fuera de
+los PR de sección y actualizarlo en uno solo al final — está sin decidir.
 
 Cada rama sale de `main` y se fusiona antes de empezar la siguiente. Cuando se encadenan, pasa lo
 del #74: un PR se fusiona mientras el siguiente ya salió de la base vieja, y hay que rehacer la rama
@@ -403,9 +434,15 @@ no se despliega. Se rehízo desde `main` en el #84. **No se apilan PR.**
 
 ### Diseño
 
+- [ ] **Alinear el titular de la 08 y la 09.** Son los dos `.sec-head` que quedan con la rejilla
+      `1fr 2fr` y el titular en la columna derecha. De la 01 a la 07 ya usan `.sec-head--stack`. Es
+      el mismo cambio de una línea que las anteriores, y en tablet y móvil no cambia nada porque ahí
+      ya iban apiladas.
 - [ ] **Contraste del verde de acento en tema claro.** Sobre el fondo hueso queda casi ilegible en
       texto pequeño. Ya pasa en las páginas de servicio (los tiempos del proceso, `~48h`). En el
-      home nuevo se evitó: las etiquetas pequeñas van en gris. Conviene arreglarlo en el resto.
+      home nuevo se evitó: las etiquetas pequeñas van en gris, y donde el acento cae sobre un bloque
+      claro se sale del verde a mano (el tiempo de las tarjetas de la 05 al pasar el cursor).
+      Conviene arreglarlo de raíz en el resto.
 - [ ] **El home se desborda a lo ancho en móvil.** A 390px la página mide 405px de ancho real, así
       que se puede arrastrar de lado. Sale del bloque del chat: `.ai__chat` y `.ai__side` (y dentro,
       `.ai__log`, `.ai__form` y el `.btn` del lateral) se salen 15px. Es anterior al home nuevo y no
@@ -417,6 +454,15 @@ no se despliega. Se rehízo desde `main` en el #84. **No se apilan PR.**
 - [ ] **Qué hacer con las páginas de servicios, equipo y manifiesto.** Están vivas pero sin enlazar.
       Hay que decidir si se archivan, se redirigen al home o se reescriben para el posicionamiento
       nuevo.
+- [ ] **Cómo se cuenta el foro.** En la 04 se corrigió: los alumnos dejan preguntas y ella las
+      responde a la vista de todos. En la 03, «El lugar donde entran» sigue diciendo «el foro donde
+      se hablan entre ellos». Ahí describe el producto en general y no la academia de Emil, así que
+      se dejó a la espera de decidir si el foro se vende como sitio de preguntas y respuestas en
+      todas partes. Si la respuesta es sí, hay que tocar también `index.html` en la 03 y la palabra
+      «Foro» suelta de la lista de precio.
+- [ ] **`progreso.md` dentro o fuera de los PR de sección.** Hoy va dentro, y por eso dos PR
+      abiertos a la vez chocan aquí. La alternativa es actualizarlo en un PR aparte al final de cada
+      tanda.
 
 ---
 
