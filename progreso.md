@@ -295,6 +295,20 @@ clases son modificadores nuevos, así que los otros dos botones «Hablemos quinc
 Alto de la sección: de 1542 a 1665px en escritorio, de 1381 a 1506px en tablet (1454 en inglés), y de
 1841 a 2032px en móvil (1817 a 2005 en inglés). Crece por el cuerpo de las listas y del aviso.
 
+### La sección 07 — «Preguntas honestas»
+
+**El titular baja al margen izquierdo**, con el `.sec-head--stack` de siempre. Es el último
+`.sec-head` de rejilla `1fr 2fr` que quedaba antes del cierre: solo la 08 y la 09 siguen con el
+titular en la columna derecha. Sin CSS nuevo, y las ocho preguntas no se tocaron.
+
+Ahora el titular arranca en el mismo eje que la lista de preguntas, que ya iba de margen a margen.
+
+En escritorio la sección **encoge** en español, de 1502 a 1449px: en la columna derecha el titular
+cabía a 805px y «que más me hacen.» se partía en tres líneas; a ancho completo entra en dos. En
+inglés crece de 1414 a 1449px, que es lo que ocupa la etiqueta al pasar encima. En tablet baja de
+1261 a 1244px y en móvil de 1410 a 1393px (1423 a 1406 en inglés), donde el `.sec-head` ya era de una
+columna y lo que cambia es solo el hueco entre la etiqueta y el titular.
+
 ### Idioma
 
 El **español es el texto que manda**. El inglés es traducción y está pendiente de repaso.
@@ -336,7 +350,13 @@ cualquier servidor estático.
 
 **No queda ninguno abierto.** `main` tiene el home nuevo entero, el shader del encabezado (#72), la
 sección 01 rehecha (#74 a #78), la 02 realineada (#80), la 03 realineada (#82 y #84) y la 04
-realineada (#86) y la 05 con su hover (#87). La 06 va en la rama `claude/seccion-06-precio`.
+realineada (#86), la 05 con su hover (#87) y la 06 entera (#88). La 07 va en la rama
+`claude/seccion-07-preguntas`.
+
+**Dos PR abiertos a la vez chocan en este archivo.** El #88 y el #89 salieron los dos de `main` y
+los dos escriben justo antes de «Idioma», así que el segundo en fusionarse dio conflicto aquí — en
+`index.html` no, que eran secciones distintas. Se arregla trayendo `main` a la rama y dejando los dos
+bloques en orden; no hay que rehacer nada.
 
 Cada rama sale de `main` y se fusiona antes de empezar la siguiente. Cuando se encadenan, pasa lo
 del #74: un PR se fusiona mientras el siguiente ya salió de la base vieja, y hay que rehacer la rama
