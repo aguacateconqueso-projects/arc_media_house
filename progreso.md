@@ -2,7 +2,7 @@
 
 Estado del sitio y de lo que queda pendiente. Se actualiza cuando algo cambia de sitio.
 
-Última actualización: 2 de agosto de 2026.
+Última actualización: 3 de agosto de 2026.
 
 ---
 
@@ -78,42 +78,49 @@ un contexto WebGL2. Si el navegador no lo tiene, no pasa nada y se ve la mancha 
 lienzo se para cuando la pestaña se oculta o el encabezado sale de pantalla, y con
 `prefers-reduced-motion` pinta un solo fotograma quieto.
 
-**La sección 01 («Lo que escucho») es una lista de cinco filas con regla.** Las frases estaban una
-debajo de otra, a 46px y con 80px de aire entre ellas: ocupaba metro y medio de pantalla para decir
-cinco cosas cortas. Ahora cada frase es una fila con su número en mono a la izquierda y una línea
-fina debajo — el mismo eje y la misma geometría que los bloques de la sección 02 (`.key`) y que las
-filas de servicio: columna de 100px, 40px de separación, alineadas por la base. Las reglas llegan de
-margen a margen y son ellas las que dan el orden. El texto baja a 30px como máximo.
+### La sección 01 — «Lo que escucho»
 
-Los números salen de un contador de CSS (`counter-reset` en `.voices`), así que el HTML no lleva
-nada nuevo. Van sin corchetes para no confundirse con los `[ 01 ]` de la sección 02.
+Se rehízo entera en agosto de 2026 (PR #74 a #78). Era una columna de cinco citas a 46px con 80px
+de aire entre ellas: metro y medio de pantalla para decir cinco cosas cortas, y todo el lado derecho
+vacío. Ahora tiene tres piezas.
 
-**Su encabezado va apilado, no en dos columnas.** La etiqueta «01 — Lo que escucho» ocupa su propia
-línea contra el margen izquierdo y la entradilla va debajo, ya sin columna que la encierre. Es la
-variante `.sec-head--stack`, en el bloque general de `.sec-head`, por si otra sección la necesita.
+**La lista.** Cada cita es una fila: el número en mono a la izquierda, la frase en cursiva, y una
+regla fina de margen a margen debajo. Es la geometría que ya usaban los bloques de la sección 02
+(`.key`) y las filas de servicio — columna de 100px, 40px de separación, alineadas por la base — y
+son las reglas, no la posición de cada frase, las que dan el orden. El texto llega a 30px.
 
-**Las dos frases que enmarcan la lista van contra el margen derecho.** «Antes de hablar…» y «El
-mismo problema, dicho de cinco maneras» empezaban en el margen izquierdo y en gris de párrafo: se
-perdían entre las citas. Ahora van alineadas a la derecha, a `clamp(22px, 2.4vw, 36px)`, en peso 500
-y en el color del titular de la sección 02 — `var(--fg)`, el mismo tono en los dos temas. Terminan
-justo donde terminan las reglas.
+**Los números** salen de un contador de CSS (`counter-reset` en `.voices`), así que el HTML no lleva
+marcado nuevo. Van sin corchetes para no confundirse con los `[ 01 ]` de la sección 02.
 
-La idea es que la vista pasee: arranca arriba a la derecha, baja a las citas, que están pegadas a la
-izquierda, y sale abajo por la derecha otra vez. Las reglas de margen a margen sostienen el zigzag.
+**Las dos frases que la enmarcan** — «Antes de hablar…» arriba y «El mismo problema, dicho de cinco
+maneras» abajo — van contra el margen derecho, a `clamp(22px, 2.4vw, 36px)`, en peso 500 y en
+`var(--fg)`, el color del titular de la sección 02. Terminan justo donde terminan las reglas. Así la
+vista pasea: arranca arriba a la derecha, baja a las citas —pegadas a la izquierda— y sale abajo por
+la derecha otra vez.
 
-Llevan `text-wrap: balance` con un ancho máximo de 60ch: en pantalla grande cada frase cabe en una
-línea, y cuando no cabe se parte en líneas parejas en vez de dejar una palabra suelta. El navegador
-que no entienda `text-wrap` parte como siempre.
+Llevan `text-wrap: balance` con `max-width: 60ch`: en pantalla grande cada frase entra en una línea
+y, cuando no cabe, se parte en líneas parejas en vez de dejar una palabra colgando. El navegador que
+no entienda `text-wrap` parte como siempre.
+
+**El eje está en dos variables** de `.sec--voices`: `--voice-num` (columna del número) y
+`--voice-gap`. Las comparten la rejilla de cada fila y todo lo que deba alinearse con ella, así que
+la alineación no puede desincronizarse.
+
+**El encabezado va apilado** (`.sec-head--stack`, en el bloque general de `.sec-head` por si otra
+sección la necesita): la etiqueta «01 — Lo que escucho» contra el margen izquierdo, y la entradilla
+debajo, ya sin columna que la encierre.
 
 En tablet (≤920px) la columna del número se estrecha a 64px. En móvil (≤720px) el número pasa
-delante de la frase, en la misma línea, y el resto cuelga debajo; las dos frases siguen a la
-derecha, que es lo que sostiene la idea.
+delante de la frase, en la misma línea, y el resto cuelga debajo; las dos frases del marco siguen a
+la derecha, que es lo que sostiene la idea.
 
-Alto de la sección: 1528 → 877px en escritorio, 1013 → 631px en tablet, 940 → 754px en móvil.
+Alto de la sección: de 1528 a 877px en escritorio, de 1013 a 631px en tablet, de 940 a 754px en
+móvil.
 
-Por el camino se probó una rejilla en zigzag —las frases repartidas a izquierda y derecha por doce
-columnas— que llegó a fusionarse en el #74. No funcionaba: sin eje común las frases quedaban
-flotando en el vacío y la línea de cierre se veía a media anchura. La lista la sustituye.
+**Lo que no funcionó, por si vuelve la tentación:** una rejilla de doce columnas con las citas
+repartidas en zigzag (#74) — sin eje común quedaban flotando en el vacío; y esas mismas dos frases
+del marco alineadas con las citas (#77) — sobre el mismo eje competían con ellas en vez de
+enmarcarlas.
 
 **El botón «Hablemos quince minutos» aparece tres veces** (encabezado, fin de la prueba, fin del
 precio) y las tres bajan a contacto. El de dentro de contacto abre el correo, porque un botón que
@@ -158,13 +165,12 @@ cualquier servidor estático.
 
 ## Ramas y PR abiertos
 
-El atasco de PR encadenados (#68 a #71) ya está resuelto: **`main` tiene el home nuevo entero** y,
-con el #72, el shader del encabezado. Desde aquí cada rama vuelve a salir de `main` con su diff
-limpio.
+**No queda ninguno abierto.** `main` tiene el home nuevo entero, el shader del encabezado (#72) y la
+sección 01 rehecha (#74 a #78).
 
-| PR | Rama | Qué lleva |
-|---|---|---|
-| — | `claude/seccion-01-frases-derecha` | Las frases de entrada y cierre de la 01, contra el margen derecho |
+Cada rama sale de `main` y se fusiona antes de empezar la siguiente. Cuando se encadenan, pasa lo
+del #74: un PR se fusiona mientras el siguiente ya salió de la base vieja, y hay que rehacer la rama
+sobre `main` para deshacer el conflicto.
 
 ---
 
@@ -204,6 +210,11 @@ limpio.
 - [ ] **Contraste del verde de acento en tema claro.** Sobre el fondo hueso queda casi ilegible en
       texto pequeño. Ya pasa en las páginas de servicio (los tiempos del proceso, `~48h`). En el
       home nuevo se evitó: las etiquetas pequeñas van en gris. Conviene arreglarlo en el resto.
+- [ ] **El home se desborda a lo ancho en móvil.** A 390px la página mide 405px de ancho real, así
+      que se puede arrastrar de lado. Sale del bloque del chat: `.ai__chat` y `.ai__side` (y dentro,
+      `.ai__log`, `.ai__form` y el `.btn` del lateral) se salen 15px. Es anterior al home nuevo y no
+      lo causa ninguna sección. Se comprueba a 390px con
+      `document.documentElement.scrollWidth > clientWidth`.
 
 ### Decisiones abiertas
 
@@ -217,6 +228,12 @@ limpio.
 
 - **Cada cambio va en su rama y su PR nuevo, siempre contra `main`.** Sin excepciones: es la única
   forma de ver el cambio antes de publicarlo. Nada de acumular varios cambios en un mismo PR.
+  Si una corrección llega después de fusionar, es un PR nuevo, no un commit encima del anterior.
+- **Antes de empezar una rama, `git fetch origin main`.** Si el PR anterior ya se fusionó, la rama
+  tiene que salir de ahí; si no, el conflicto es seguro, porque los cambios seguidos tocan las
+  mismas líneas.
+- Los cambios de maquetación se comprueban en navegador antes de abrir el PR: 1440, 834 y 390px,
+  en los dos idiomas y en los dos temas. Las alturas medidas van en el cuerpo del PR.
 - Se conserva la familia visual: no se cambian tipografías, colores ni tamaños. Si un bloque nuevo
   se parece a uno que ya existe, se hace igual que ese.
 - El texto se escribe en español primero. Frases cortas. Nada de vocabulario de agencia.
