@@ -155,6 +155,54 @@ móvil.
 precio) y las tres bajan a contacto. El de dentro de contacto abre el correo, porque un botón que
 lleva a sí mismo no hace nada.
 
+### La sección 03 — «Qué se construye»
+
+Se realineó en agosto de 2026 (PR #82 y #84). Es el mismo movimiento que la 02, más una pieza
+nueva.
+
+**El titular baja al margen izquierdo.** Vivía en la columna derecha del `.sec-head` (rejilla
+`1fr 2fr`) y se leía centrado en la página. Ahora usa el `.sec-head--stack` de la 01 y la 02: la
+etiqueta «03 — Qué se construye» y debajo el titular, los dos contra el margen. Las cinco filas de
+servicio no se tocaron.
+
+**La palabra «construye» recorre estados tipográficos.** Son los mismos ocho de «Design» en la
+página de web (`.design-shuffle`, `service.css`): peso, cursiva, mono, verde de acento y contorno,
+1300ms con `steps(1, end)` y vuelta al estado base. La diferencia está en el disparo: allí arranca
+al cargar con retardo fijo, porque es el encabezado de la página; aquí el titular entra con
+`.reveal`, así que la animación cuelga de `.reveal.is-in` y empieza cuando la sección aparece. Si
+colgara del `load`, se gastaría fuera de pantalla.
+
+Para aislar la palabra hubo que partir el `<span>` en tres — «se» / «construye» / «.» — cada uno con
+sus `data-en` y `data-es`. La regla vive en `home.css`, con el nombre genérico `.word-shuffle`, por
+si otra sección la quiere.
+
+**La frase de cierre va centrada, en cinco líneas cortadas a mano:**
+
+    Junto, no es una web
+    Es una plataforma. Y es tuya:
+    El dominio, el código,
+    los archivos, las claves.
+    Nadie te la puede cerrar.
+
+Cada línea es su propio `<span>` separado por `<br>`, porque es una frase para leer en bloque y el
+corte no puede quedar en manos del ancho de la ventana. «Nadie» va subrayado con la clase
+`.underline` de siempre; a este cuerpo la raya de 1px del sistema desaparece, así que en
+`.built__close` se escala con el texto (`0.04em`).
+
+**El tamaño es `clamp(24px, 5.2vw, 84px)`** — por debajo del titular, que es `104px` arriba. El
+mínimo es 24 y no 28 porque a 28px «Es una plataforma. Y es tuya:» no cabe a 390px y deja «tuya:»
+sola en una sexta línea, que es justo lo que los cortes a mano vienen a evitar. `text-wrap: balance`
+no sirve de rescate: Chromium solo lo aplica a bloques de seis líneas o menos.
+
+La última línea en inglés se acortó a «Nobody can shut it down.» Con «on you» detrás no cabía en
+móvil ni a 24px.
+
+Alto de la sección: de 1899 a 2257px en escritorio, de 1544 a 1697px en tablet, y prácticamente
+igual en móvil (1755 a 1756px). Crece por el cuerpo de la frase de cierre.
+
+**El texto de la declaración que cierra la 02** —el bloque grande justo antes de la 03— pasó a «No
+soy el No.1 en lo que hago, / por eso me esfuerzo bastante.»
+
 ### Idioma
 
 El **español es el texto que manda**. El inglés es traducción y está pendiente de repaso.
@@ -195,11 +243,17 @@ cualquier servidor estático.
 ## Ramas y PR abiertos
 
 **No queda ninguno abierto.** `main` tiene el home nuevo entero, el shader del encabezado (#72), la
-sección 01 rehecha (#74 a #78) y la 02 realineada (#80).
+sección 01 rehecha (#74 a #78), la 02 realineada (#80) y la 03 realineada (#82 y #84).
 
 Cada rama sale de `main` y se fusiona antes de empezar la siguiente. Cuando se encadenan, pasa lo
 del #74: un PR se fusiona mientras el siguiente ya salió de la base vieja, y hay que rehacer la rama
 sobre `main` para deshacer el conflicto.
+
+**El #83 quedó muerto.** Era la corrección de la 03 —la frase de cierre centrada— y se abrió *con
+base en la rama del #82* en vez de en `main`, para poder revisarlo sin esperar. Al fusionarlo,
+GitHub lo metió dentro de esa rama y no en `main`: solo reapunta a `main` cuando la rama base se
+borra al fusionar, y ahí no se borró. El cambio estaba commiteado y fusionado, pero en un sitio que
+no se despliega. Se rehízo desde `main` en el #84. **No se apilan PR.**
 
 ---
 
@@ -257,7 +311,11 @@ sobre `main` para deshacer el conflicto.
 
 - **Cada cambio va en su rama y su PR nuevo, siempre contra `main`.** Sin excepciones: es la única
   forma de ver el cambio antes de publicarlo. Nada de acumular varios cambios en un mismo PR.
-  Si una corrección llega después de fusionar, es un PR nuevo, no un commit encima del anterior.
+  Una corrección es un PR nuevo, no un commit encima del anterior — también si el anterior todavía
+  está abierto.
+- **La base es `main`, nunca otra rama.** Si la corrección toca las mismas líneas que un PR abierto,
+  se espera a que ese se fusione y se sale de `main`. Apilar parece que ahorra tiempo y no lo
+  ahorra: lo del #83 es lo que pasa.
 - **Antes de empezar una rama, `git fetch origin main`.** Si el PR anterior ya se fusionó, la rama
   tiene que salir de ahí; si no, el conflicto es seguro, porque los cambios seguidos tocan las
   mismas líneas.
