@@ -15,6 +15,10 @@ El home ya refleja ese cambio. Las páginas de servicios, equipo y manifiesto si
 repositorio y funcionando, pero **ya no se enlazan desde el menú ni desde el pie**. No están
 borradas: se puede entrar por URL directa y se pueden volver a enlazar cuando haga falta.
 
+**Y así se quedan.** En agosto se decidió no tocarlas: ni archivarlas, ni redirigirlas, ni
+reescribirlas. Viven en el repositorio, ocultas, por si algún día vuelven a salir a flote. Dicen
+cosas que ya no son la oferta —está detallado abajo— y se acepta.
+
 ---
 
 ## Estructura del sitio
@@ -469,11 +473,11 @@ con el #90. El #91 dejó anotado lo que había que alinear entre la web y el pro
 prompt nuevo del agente con su saludo, el #93 bajó la llamada a quince minutos y el #94 reordenó el
 precio en tres grupos con las cuatro preguntas nuevas.
 
-El #96 quitó las cuatro contradicciones entre la página y el agente: la pieza 05 de la 03 y los tres
-textos del bloque del chat.
+El #96, ya fusionado, quitó las cuatro contradicciones entre la página y el agente: la pieza 05 de la
+03 y los tres textos del bloque del chat.
 
 **No queda ninguno abierto.** El sitio y el agente dicen ya lo mismo sobre el precio y sobre lo que
-el agente es. Lo que sigue es copy, y está en la lista de pendientes.
+el agente es. De copy quedan dos bloques, el 2 y el 3, y los lleva Adrián aparte.
 
 **Dos PR abiertos a la vez chocan en este archivo.** El #88 y el #89 salieron los dos de `main` y
 los dos escriben justo antes de «Idioma», así que el segundo en fusionarse dio conflicto aquí — en
@@ -494,10 +498,11 @@ no se despliega. Se rehízo desde `main` en el #84. **No se apilan PR.**
 
 ## Pendiente
 
-### Copy — la sesión siguiente
+### Copy
 
-El precio ya dice lo mismo en la página y en el agente. Lo que queda es texto que se escribió para el
-estudio de tres oficios y sigue ahí, más lo que falta por llegar. Está ordenado por lo que se nota:
+De los cinco bloques que había, **quedan dos vivos: el 2 y el 3**, y los dos están en manos de
+Adrián. El 1 se hizo en el #96 y el 4 y el 5 se cerraron por decisión, no por trabajo: no vuelven a
+la lista.
 
 **1. Lo que se contradice con el agente — hecho, en el #96**
 
@@ -521,8 +526,8 @@ sostiene sin tener que actualizar la web cada vez que cambie algo por dentro.
 - [x] **«Estimar precios y plazos» pasa a «Decir precios y plazos».** Ya no estima: los precios y los
       plazos son públicos desde que se reordenó la sección 06.
 
-La latencia «<2s» ya solo se dice en la línea de Nietzsche de la cabecera, que sigue pendiente en el
-bloque 5. Comprobado a 1440, 834 y 390px en los dos idiomas: el ancho real no se mueve —405px en
+La latencia «<2s» ya solo se dice en la línea de Nietzsche de la cabecera, que se queda (bloque 5).
+Comprobado a 1440, 834 y 390px en los dos idiomas: el ancho real no se mueve —405px en
 español y 449px en inglés a 390px, los mismos de antes— así que el desbordamiento que hay sigue
 siendo el del pie y el del bloque del chat, y no lo toca este cambio.
 
@@ -545,24 +550,29 @@ siendo el del pie y el del bloque del chat, y no lo toca este cambio.
 - [ ] **El titular de la 08 ocupa tres líneas en inglés** («Let's talk for fifteen minutes.») donde
       el español ocupa dos. Buen momento para acortarlo.
 
-**4. Las páginas que sobreviven al posicionamiento viejo**
+**4. Las páginas del posicionamiento viejo — cerrado: se quedan como están**
 
-- [ ] **`services-web.html`, `services-ai.html`, `services-video.html`.** Sus `<title>` todavía dicen
-      «Web Design», «AI Agents» y «Video & Motion», y dentro hay doce formatos con precios que el
-      agente tiene prohibido decir — hasta €10.000 por un brand film. No están enlazadas, pero se
-      entra por URL y Google las tiene.
-- [ ] **`people.html`** presenta a Robs y motion graphics. La oferta de hoy es Adrián y una sola cosa.
-- [ ] **`manifesto.html`**, sin revisar desde el cambio.
-      Las tres decisiones son la misma: archivar, redirigir al home, o reescribir. Está más abajo,
-      en decisiones abiertas.
+Decidido en agosto. `services-web.html`, `services-ai.html`, `services-video.html`, `people.html` y
+`manifesto.html` **se quedan ocultas y no se tocan**. No se archivan, no se redirigen y no se
+reescriben: siguen en el repositorio, sin enlazar desde el menú ni desde el pie, y ahí se quedan
+por si algún día vuelven a hacer falta. Tampoco se las menciona en ningún sitio.
 
-**5. Menudencias, por si se está con las manos en el texto**
+Lo que eso acepta, a sabiendas: sus `<title>` siguen diciendo «Web Design», «AI Agents» y «Video &
+Motion»; dentro hay doce formatos con precios que el agente tiene prohibido decir, hasta €10.000
+por un brand film; y `people.html` presenta a Robs y motion graphics. Se entra por URL directa y
+Google las tiene indexadas. Es un coste conocido y asumido, no un olvido — **no volver a abrirlo
+como pendiente.**
 
-- [ ] **«Ocupado leyendo a Nietzsche · responde en <2s»**, en la cabecera del chat. El chiste venía de
-      cuando el agente no tenía voz propia; ahora el saludo ya trae la suya y los dos compiten.
-- [ ] **«Hazme uno»**, el botón del lateral del chat, ya tiene precio que enseñar: desde €1.200 más
-      €150 al mes.
-- [ ] **El pie dice «ARC / 2019—2026» y «v 3.0».** Comprobar que las dos siguen siendo verdad.
+**5. Menudencias — cerrado: se quedan como están**
+
+Decidido en agosto, con el resto.
+
+- **«Ocupado leyendo a Nietzsche · responde en <2s»** se queda. El chiste gusta y vale más que la
+  duplicación con el saludo. Es además el único sitio donde queda dicho el «<2s», desde que el
+  bloque del lateral dejó de nombrar la tecnología en el #96.
+- **«Hazme uno»** se queda sin precio en el botón.
+- **«ARC / 2019—2026» y «v 3.0»** del pie se quedan sin comprobar. Si alguna vez se toca el pie por
+  otra razón —la frase que no cabe en inglés, del bloque 3— es el momento de mirarlo de paso.
 
 ### Otros pendientes de contenido
 
@@ -627,16 +637,14 @@ en los bloques de cada sección. Lo que se resolvió:
 - [x] **El paso 04 del proceso.**
 - [x] **Separar construir de después.**
 
-**Las páginas viejas siguen contradiciendo al agente:**
+**Las páginas viejas siguen contradiciendo al agente, y se acepta.** `services-video.html` llega a
+€10.000 por un brand film, `services-ai.html` vende agentes de €2.500 a €8.500 con mensuales de €500
+y €900, `services-web.html` webs de €3.500 a €6.500, y `people.html` presenta a Robs y motion
+graphics. El prompt es explícito en lo contrario: vídeo no está en la oferta pública y el agente no
+lo ofrece nunca.
 
-- [ ] **Los precios de los tres servicios viejos siguen en línea.** `services-video.html` llega a
-      €10.000 por un brand film, `services-ai.html` vende agentes de €2.500 a €8.500 con mensuales de
-      €500 y €900, `services-web.html` webs de €3.500 a €6.500. No están enlazadas, pero se entra por
-      URL y Google las tiene. El prompt es explícito: vídeo no está en la oferta pública y el agente
-      no lo ofrece nunca. Si alguien llega a esas páginas, la contradicción es del sitio, no del
-      agente. Es la decisión abierta de más abajo, ahora con una razón para no dejarla pasar.
-- [ ] **`people.html` presenta a Robs** y motion graphics. El prompt nuevo no lo menciona: la oferta
-      es Adrián y una sola cosa. Entra en la misma decisión.
+Se decidió dejarlas ocultas tal cual, sin tocar (bloque 4 del copy). Quien llegue por URL directa o
+por Google se encuentra el sitio viejo; es un coste conocido. **No es un pendiente.**
 
 ### Newsletter
 
@@ -649,8 +657,10 @@ en los bloques de cada sección. Lo que se resolvió:
 ### Diseño
 
 - [ ] **Contraste del verde de acento en tema claro.** Sobre el fondo hueso queda casi ilegible en
-      texto pequeño. Ya pasa en las páginas de servicio (los tiempos del proceso, `~48h`). En el
-      home nuevo se evitó: las etiquetas pequeñas van en gris. Conviene arreglarlo en el resto.
+      texto pequeño. En el home nuevo se evitó: las etiquetas pequeñas van en gris. Donde se ve es en
+      las páginas de servicio (los tiempos del proceso, `~48h`), que son las que se quedan ocultas y
+      sin tocar — así que esto solo importa el día que se escriba texto pequeño en verde en el home.
+      Está en `styles.css`, común a todo, si alguna vez se arregla de raíz.
 - [ ] **El home se desborda a lo ancho en móvil.** A 390px la página mide 405px de ancho real, así
       que se puede arrastrar de lado. Sale del bloque del chat: `.ai__chat` y `.ai__side` (y dentro,
       `.ai__log`, `.ai__form` y el `.btn` del lateral) se salen 15px. Es anterior al home nuevo y no
@@ -665,12 +675,16 @@ en los bloques de cada sección. Lo que se resolvió:
       mismo desplegable de las preguntas: el visitante que solo quiere las cifras las tiene en los
       tres grupos de arriba.
 
-### Decisiones abiertas
+### Decisiones cerradas
 
-- [ ] **Qué hacer con las páginas de servicios, equipo y manifiesto.** Están vivas pero sin enlazar.
-      Hay que decidir si se archivan, se redirigen al home o se reescriben para el posicionamiento
-      nuevo. Ya no es solo orden: con el prompt nuevo, esas páginas dicen precios que el agente tiene
-      prohibido decir.
+- [x] **Qué hacer con las páginas de servicios, equipo y manifiesto.** Se quedan ocultas, sin tocar y
+      sin mencionar. Ni archivar, ni redirigir, ni reescribir: siguen en el repositorio por si algún
+      día vuelven a hacer falta. Agosto de 2026.
+- [x] **Si la página también calla la tecnología** o si se levanta la regla que se lo prohíbe al
+      agente. Calla la página (#96): es la regla más nueva y la única que no obliga a actualizar la
+      web cada vez que cambie algo por dentro.
+
+No queda ninguna abierta.
 
 ---
 
