@@ -147,6 +147,22 @@ const tools = [
 
 const MAX_TOOL_TURNS = 6;
 
+// Se añade al final del system prompt solo en el primer turno. Va aparte
+// porque en los siguientes el modelo ya ve un turno suyo en el historial y
+// no hace falta contárselo.
+const FIRST_TURN_REMINDER = `# Recordatorio: este es tu primer turno
+
+El visitante ya tiene un saludo tuyo en pantalla. No está en el historial que
+recibes, pero está: te presentó, dijo que no hablas como Adrián y pidió que te
+cuenten qué venden y dónde lo tienen hoy.
+
+No saludes. No te presentes. No repitas la petición. Entra directo por lo que
+el visitante acaba de escribir, y si trajo poco, pregunta una sola cosa
+concreta sobre su negocio.
+
+En español: de tú, latinoamericano neutro. Nada de voseo — ni "tenés", ni
+"querés", ni "podés", ni "sos".`;
+
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
@@ -173,7 +189,20 @@ exports.handler = async (event) => {
     const userAgent = (event.headers && (event.headers['user-agent'] || event.headers['User-Agent'])) || null;
     const messages = Array.isArray(incoming) ? [...incoming] : [];
 
-    const systemWithDate = `${dateContextBlock()}\n\n${SYSTEM}`;
+    // The static greeting is painted by the front-end and never stored in
+    // ARCChat history, so a first-turn request arrives as a single user
+    // message and the conversation *looks* like a cold open to the model.
+    // The prompt says so under "Cómo abrir", but the observed failure was
+    // that it re-sent the greeting verbatim anyway. Repeat the rule last,
+    // where it can't be outweighed by everything in between.
+    const isFirstTurn = messages.filter((m) => m && m.role === 'user').length <= 1;
+    const systemWithDate = [
+      dateContextBlock(),
+      SYSTEM,
+      isFirstTurn ? FIRST_TURN_REMINDER : null,
+    ]
+      .filter(Boolean)
+      .join('\n\n');
 
     // Detect whether this conversation already produced a booking in a
     // prior turn. The front-end only persists text (role + content) across
