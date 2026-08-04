@@ -1060,6 +1060,27 @@
   font-style: normal;
 }
 
+/* la cita de Emilse y el botón, en la misma fila: la cita contra el margen
+   izquierdo y el botón contra el derecho, a la altura de la firma */
+.proof__outro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(24px, 4vw, 48px);
+}
+/* la cita de Emilse es larga: a los 46ch de .pull-quote caía en ocho líneas
+   con todo el lado derecho vacío. Aquí sobra sitio, así que se ensancha */
+.proof__outro .pull-quote { flex: 1 1 46ch; max-width: 62ch; }
+/* margin-left:auto para que siga contra el margen derecho también cuando la
+   fila se parte en tablet y el botón cae debajo de la cita */
+.proof__outro-cta { margin-top: 0; margin-left: auto; flex: 0 0 auto; }
+
+@media (max-width: 720px) {
+  .proof__outro { display: block; }
+  .proof__outro-cta { margin-top: clamp(40px, 5vw, 72px); }
+}
+
 /* 06 — price */
 
 /* El brillo que recorre «vendes más» en el encabezado (.hero__promise-accent),
