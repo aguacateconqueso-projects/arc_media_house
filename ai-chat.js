@@ -62,8 +62,8 @@
       div.className = 'ai__msg ai__msg--bot';
       var lang = document.documentElement.getAttribute('data-lang') || 'en';
       var greet = lang === 'es'
-        ? 'Hola — soy el agente de ARC. Ayudo a equipos a definir proyectos de vídeo, web e IA. ¿En qué estás trabajando?'
-        : "Hi — I'm ARC's agent. I help teams scope video, web and AI work. What are you working on?";
+        ? '¡Hola! Soy el agente de ARC, no hablo como Adrián pero estoy aprendiendo. ¿Vamos a trabajar juntos? Cuéntame de ti y de cómo vamos a mejorar tu plataforma.'
+        : "Hi — I'm ARC's agent. I don't sound like Adrián yet, but I'm learning. Shall we work together? Tell me about yourself and how we're going to improve your platform.";
       div.innerHTML = '<div class="ai__msg-label mono">AGENT</div><div class="ai__msg-body">' + greet + '</div>';
       log.appendChild(div);
     }

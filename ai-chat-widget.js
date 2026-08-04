@@ -58,15 +58,17 @@
     input.placeholder = t('Ask anything — projects, pricing, process…', 'Pregunta lo que quieras — proyectos, precios, proceso…');
     sendBtn.textContent = t('Send', 'Enviar');
     subEl.textContent = t('Online · responds in <2s', 'Online · responde en <2s');
-    var empty = !log.querySelector('.arcw__msg');
-    if (empty) renderEmpty();
+    // El saludo cuenta como mensaje, así que mirar si el log está vacío no
+    // sirve: al cambiar de idioma nunca se reescribía. Lo que decide es si hay
+    // conversación guardada — si no la hay, lo único en pantalla es el saludo.
+    if (window.ARCChat.get().length === 0) renderEmpty();
   }
 
   function renderEmpty() {
     log.innerHTML = '';
     var greeting = t(
-      "Hi — I'm ARC's agent. What brought you here today?",
-      "Hola — soy el agente de ARC. ¿Qué te trae por aquí?"
+      "Hi — I'm ARC's agent. I don't sound like Adrián yet, but I'm learning. Shall we work together? Tell me about yourself and how we're going to improve your platform.",
+      "¡Hola! Soy el agente de ARC, no hablo como Adrián pero estoy aprendiendo. ¿Vamos a trabajar juntos? Cuéntame de ti y de cómo vamos a mejorar tu plataforma."
     );
     addMsg('assistant', greeting, false);
   }
