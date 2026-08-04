@@ -2,7 +2,7 @@
 
 Estado del sitio y de lo que queda pendiente. Se actualiza cuando algo cambia de sitio.
 
-Última actualización: 3 de agosto de 2026.
+Última actualización: 4 de agosto de 2026.
 
 ---
 
@@ -407,8 +407,10 @@ cualquier servidor estático.
 la 02 realineada (#80), la 03 realineada (#82 y #84) y la 04 realineada (#86), la 05 con su hover
 (#87) y la 06 entera (#88), más la 07 (#89).
 
-La 08 —titular y botón en la misma fila, el vídeo de la prueba y la frase del foro de la 03— va en la
-rama `claude/progreso-layout-content-t19nt6`.
+La 08 —titular y botón en la misma fila, el vídeo de la prueba y la frase del foro de la 03— entró
+con el #90.
+
+**No queda ninguno abierto.**
 
 **Dos PR abiertos a la vez chocan en este archivo.** El #88 y el #89 salieron los dos de `main` y
 los dos escriben justo antes de «Idioma», así que el segundo en fusionarse dio conflicto aquí — en
@@ -439,19 +441,92 @@ no se despliega. Se rehízo desde `main` en el #84. **No se apilan PR.**
 - [ ] **Comprimir el vídeo de la prueba.** Está a 4K y pesa 25 MB, y lleva el `moov` al final, así
       que el navegador se lo tiene que bajar entero antes de arrancar. Una copia a 1080p con
       `ffmpeg -movflags +faststart`, y de paso un `poster` con el primer fotograma.
-- [ ] **Cita de Emil Serios.** Hueco preparado con el formato de cita destacada y el texto «Cita
+- [ ] **Cita de Emilse Ríos.** Hueco preparado con el formato de cita destacada y el texto «Cita
       pendiente». Rellenar cuando la tengamos.
+- [ ] **El nombre está mal escrito en la cita.** Debajo del hueco pone «Emil Serios» y se escribe
+      **Emilse Ríos**. Se corrige cuando llegue la cita, en el mismo cambio. El dominio no se toca:
+      `emilseriosacademy.com` es la URL real y funciona.
 
-### El agente sigue vendiendo el estudio viejo
+### El agente
 
-- [ ] **Su saludo** dice «Ayudo a equipos a definir proyectos de vídeo, web e IA»
-      (`ai-chat.js`, y el estático en `index.html`).
-- [ ] **Sus instrucciones** (`netlify/functions/system-prompt.js`) describen los tres servicios y sus
-      precios antiguos. Tal como está, le ofrecerá vídeo corporativo a alguien que viene a comprar
-      una plataforma. Es lo más urgente de esta lista.
+El prompt está reescrito entero para la oferta nueva y aprobado. Falta meterlo.
+
+- [ ] **Instalar el prompt nuevo** en `netlify/functions/system-prompt.js`. El que hay describe los
+      tres servicios viejos y sus precios: tal como está, le ofrece vídeo corporativo de €10.000 a
+      alguien que viene a comprar una plataforma. Es lo más urgente de esta lista.
+- [ ] **El saludo nuevo.** El que se ve dice «Ayudo a equipos a definir proyectos de vídeo, web e
+      IA». Pasa a: «¡Hola! Soy el agente de ARC, no hablo como Adrián pero estoy aprendiendo.
+      ¿Vamos a trabajar juntos? Cuéntame de ti y de cómo vamos a mejorar tu plataforma.» Está
+      escrito a mano en dos sitios y hay que cambiarlo en los dos: `ai-chat.js` y el estático de
+      `index.html`, con sus `data-en` y `data-es`.
 - [ ] **Fallo del widget flotante:** al cambiar a inglés, su saludo se queda en español.
       `ai-chat-widget.js` solo lo reescribe si el chat está vacío, y el saludo mismo cuenta como
       mensaje. Arreglo de dos líneas.
+
+El prompt manda el precio y la web tiene que decir lo mismo — la lista de abajo.
+
+### La web contra el prompt nuevo
+
+El prompt trae precios y condiciones que la sección 06 todavía no dice. Mientras las dos versiones
+convivan, el agente y la página se contradicen delante del mismo visitante, y el agente responde con
+más detalle que la página que lo rodea. Lo que hay que tocar:
+
+**Donde la web dice lo contrario:**
+
+- [ ] **El hosting no lo paga Adrián.** El mantenimiento dice «Hosting, base de datos, dominio y
+      respaldos **a mi cargo**» y el prompt dice justo lo contrario: las cuentas se abren a nombre
+      del cliente y con su tarjeta desde el primer día, y Adrián entra invitado. La página ya se
+      contradecía sola — la pregunta «¿De quién es todo esto cuando terminas?» ya decía que las
+      cuentas son del cliente desde el principio. Se resuelve a favor de la pregunta. Y hay una
+      razón que conviene escribir: si el hosting lo pagara Adrián, el día que dejara de pagarlo se
+      caería todo.
+- [ ] **No hay permanencia.** El mantenimiento dice «Mínimo doce meses». El prompt dice que se corta
+      con treinta días de aviso, y que quien se va y vuelve paga una revisión de €200 porque hay que
+      ver qué cambió mientras Adrián no estuvo.
+- [ ] **El agente son €150/mes, no €100.** La sección 06 dice «Desde €1.200, más €100 al mes». El
+      pago único no cambia; el mensual sube a €150 y ahora cubre algo concreto: el uso, y el trabajo
+      de leer conversaciones reales y corregir lo que contestó mal.
+- [ ] **Las dos horas de cambios al mes.** El mantenimiento las promete y el prompt no: ahí el
+      mantenimiento es solo «que no se caiga» y el trabajo mensual es la gestión. Hay que decidir —
+      o se quitan de la web, o vuelven al prompt. Recomendación: quitarlas, porque si no la gestión
+      de €500 se solapa con el mantenimiento de €150 y no se entiende qué separa a una de la otra.
+
+**Lo que el prompt tiene y la web no:**
+
+- [ ] **Gestión — desde €500/mes.** Un nivel nuevo, no existe en la sección 06. Es todo lo del
+      mantenimiento más: Adrián sube y programa hasta cuatro contenidos al mes, da de alta y de baja
+      a los miembros, y una vez al mes pasa quién entró, quién pagó y quién se fue. Solo tiene
+      sentido con movimiento real; a quien publica dos veces al año se le ofrece mantenimiento y ya.
+- [ ] **Las cuentas de terceros, en «Qué no incluye».** Hoy la lista tiene dos puntos y le falta el
+      primero: los servicios que la plataforma consume van a nombre del cliente, con su tarjeta. Con
+      el detalle que lo hace tragable: al principio casi todo está en capa gratuita y no paga nada
+      más allá del dominio, unos doce euros al año.
+- [ ] **La llamada suelta de €100.** Media hora, después de los treinta días de garantía, para quien
+      no contrata mantenimiento.
+- [ ] **La revisión de volumen.** Si el uso crece por encima de lo contratado, se revisa antes de que
+      suba la factura, nunca después.
+- [ ] **Cuatro preguntas nuevas en la sección 07.** «¿Puedo no contratar mantenimiento?», «¿El
+      hosting y todo eso va incluido?», «¿Me tengo que amarrar por un año?» y «¿Por qué el agente
+      cobra todos los meses?». Las respuestas ya están escritas en el prompt. Ojo con el largo: la
+      sección pasaría de ocho preguntas a doce, y a doce ya conviene mirar si alguna sobra.
+- [ ] **El paso 04 del proceso.** Dice «Te enseño a manejarlo, y si prefieres que lo maneje yo,
+      también», y ahora eso son dos cosas distintas con dos precios: mantenerlo vivo es el
+      mantenimiento, manejarlo es la gestión.
+- [ ] **Separar construir de después.** El prompt divide el precio en dos bloques —CONSTRUIR, que es
+      pago único, y DESPUÉS, que es mensual y opcional— y la sección 06 los mezcla: los tres
+      «extras» van en la misma fila que el mantenimiento. Con la gestión nueva son cuatro cosas y la
+      fila ya no aguanta.
+
+**Las páginas viejas siguen contradiciendo al agente:**
+
+- [ ] **Los precios de los tres servicios viejos siguen en línea.** `services-video.html` llega a
+      €10.000 por un brand film, `services-ai.html` vende agentes de €2.500 a €8.500 con mensuales de
+      €500 y €900, `services-web.html` webs de €3.500 a €6.500. No están enlazadas, pero se entra por
+      URL y Google las tiene. El prompt es explícito: vídeo no está en la oferta pública y el agente
+      no lo ofrece nunca. Si alguien llega a esas páginas, la contradicción es del sitio, no del
+      agente. Es la decisión abierta de más abajo, ahora con una razón para no dejarla pasar.
+- [ ] **`people.html` presenta a Robs** y motion graphics. El prompt nuevo no lo menciona: la oferta
+      es Adrián y una sola cosa. Entra en la misma decisión.
 
 ### Newsletter
 
@@ -479,7 +554,8 @@ no se despliega. Se rehízo desde `main` en el #84. **No se apilan PR.**
 
 - [ ] **Qué hacer con las páginas de servicios, equipo y manifiesto.** Están vivas pero sin enlazar.
       Hay que decidir si se archivan, se redirigen al home o se reescriben para el posicionamiento
-      nuevo.
+      nuevo. Ya no es solo orden: con el prompt nuevo, esas páginas dicen precios que el agente tiene
+      prohibido decir.
 
 ---
 
