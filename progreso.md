@@ -469,8 +469,11 @@ con el #90. El #91 dejó anotado lo que había que alinear entre la web y el pro
 prompt nuevo del agente con su saludo, el #93 bajó la llamada a quince minutos y el #94 reordenó el
 precio en tres grupos con las cuatro preguntas nuevas.
 
-**No queda ninguno abierto.** El sitio y el agente dicen ya lo mismo sobre el precio. Lo que sigue es
-copy, y está en la lista de pendientes.
+El #96 quitó las cuatro contradicciones entre la página y el agente: la pieza 05 de la 03 y los tres
+textos del bloque del chat.
+
+**No queda ninguno abierto.** El sitio y el agente dicen ya lo mismo sobre el precio y sobre lo que
+el agente es. Lo que sigue es copy, y está en la lista de pendientes.
 
 **Dos PR abiertos a la vez chocan en este archivo.** El #88 y el #89 salieron los dos de `main` y
 los dos escriben justo antes de «Idioma», así que el segundo en fusionarse dio conflicto aquí — en
@@ -496,22 +499,32 @@ no se despliega. Se rehízo desde `main` en el #84. **No se apilan PR.**
 El precio ya dice lo mismo en la página y en el agente. Lo que queda es texto que se escribió para el
 estudio de tres oficios y sigue ahí, más lo que falta por llegar. Está ordenado por lo que se nota:
 
-**1. Lo que se contradice con el agente**
+**1. Lo que se contradice con el agente — hecho, en el #96**
 
-- [ ] **La pieza 05 de la sección 03 dice «Habla como tú, no como un robot»** y el saludo del propio
-      agente dice «no hablo como Adrián pero estoy aprendiendo». El visitante lee las dos cosas en la
-      misma página, con dos scrolls de diferencia. O el saludo sube el tono o la pieza 05 lo baja;
-      la segunda es más honesta y encaja mejor con «No soy el No.1 en lo que hago».
-- [ ] **El bloque «Tras el telón» del lateral del chat** dice «Agente Claude custom · entrenado con
-      la voz de ARC · multiidioma · latencia <2s». Tres problemas en una línea: «Tras el telón» es la
-      metáfora de escenario que se sacó del prompt; «entrenado con la voz de ARC» no es cierto —no
-      está entrenado, está instruido— y suena a agencia; y nombra la tecnología justo cuando el
-      prompt le prohíbe al agente nombrarla. Hay que decidir si la página también calla o si se
-      levanta esa regla.
-- [ ] **La cabecera del chat enseña «Modelo: claude-haiku-4-5».** Hoy es verdad (`chat.js`), pero es
-      el mismo dilema que arriba y además se queda viejo solo el día que se cambie de modelo.
-- [ ] **«Estimar precios y plazos»**, en la lista de lo que sabe hacer el agente. Ya no estima: dice
-      precios públicos y plazos públicos. Es más fuerte decir eso.
+**La página también calla la tecnología.** Era la decisión que quedaba abierta en los dos puntos de
+en medio, y se resolvió del lado del prompt: es la regla más nueva, y la única de las dos que se
+sostiene sin tener que actualizar la web cada vez que cambie algo por dentro.
+
+- [x] **La pieza 05 de la sección 03.** Decía «Habla como tú, no como un robot» a dos scrolls del
+      saludo del agente, que dice «no hablo como Adrián pero estoy aprendiendo». Bajó la pieza, no
+      subió el saludo: ahora dice «No habla como tú todavía, pero contesta a las tres de la mañana».
+      La honestidad se queda y la ventaja también, más concreta que el «a la hora que sea» que
+      estaba antes al principio de la frase.
+- [x] **El bloque «Tras el telón» pasa a «Qué no es».** Fuera la metáfora de escenario, fuera
+      «entrenado con la voz de ARC» —no está entrenado, está instruido— y fuera la tecnología. Dice
+      «No es Adrián y no se inventa nada: contesta con lo que está escrito. Lo que le cuentes le
+      llega a él tal cual». Lo segundo es verdad y no estaba dicho en ningún sitio: las
+      conversaciones se guardan y se leen en `admin.html`.
+- [x] **La cabecera del chat ya no enseña el modelo.** «Modelo: claude-haiku-4-5» pasa a «Español o
+      inglés». No caduca al cambiar de modelo, no nombra tecnología, y recoge lo único que se perdía
+      del bloque de al lado —el multiidioma— que además es información útil justo antes de escribir.
+- [x] **«Estimar precios y plazos» pasa a «Decir precios y plazos».** Ya no estima: los precios y los
+      plazos son públicos desde que se reordenó la sección 06.
+
+La latencia «<2s» ya solo se dice en la línea de Nietzsche de la cabecera, que sigue pendiente en el
+bloque 5. Comprobado a 1440, 834 y 390px en los dos idiomas: el ancho real no se mueve —405px en
+español y 449px en inglés a 390px, los mismos de antes— así que el desbordamiento que hay sigue
+siendo el del pie y el del bloque del chat, y no lo toca este cambio.
 
 **2. Lo que falta por llegar**
 
