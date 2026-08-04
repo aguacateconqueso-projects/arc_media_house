@@ -67,6 +67,12 @@ botón, los cuatro sobre el mismo eje. El párrafo se corta a 46rem para que no 
 margen. Los tres bloques numerados que había a la derecha se quitaron por decorativos. En móvil
 sigue centrado, solo se aprieta el espacio entre bloques.
 
+**El párrafo se reescribió** (agosto de 2026). Decía «Te construyo la página que vende… A tu nombre y
+funcionando.» y ahora abre diciendo por qué va al grano: «Porque no te quiero hacer perder el tiempo,
+te lo digo así: construyo la página que vende, el aula donde enseñas, el cobro y el panel donde lo
+manejas todo. Todo a tu nombre, funcionando y viéndose muy pro.» La `<meta name="description">` del
+`<head>`, que repetía la frase vieja, se puso al día con la nueva.
+
 Fuera de ese eje quedan la línea de arriba («Estudio Independiente» a la izquierda, el reloj a la
 derecha) y el «Scroll» de la esquina, que son marcas de encuadre, no parte del mensaje.
 
@@ -114,6 +120,13 @@ la alineación no puede desincronizarse.
 sección la necesita): la etiqueta «01 — Lo que escucho» contra el margen izquierdo, y la entradilla
 debajo, ya sin columna que la encierre.
 
+**La entradilla se reescribió** (agosto de 2026). Decía «Antes de hablar de lo que hago, esto es lo
+que escucho.» y ahora dice «Ya te dije lo que hago, ahora te cuento / lo que escucho acerca de los
+problemas que tiene mucha gente.» Va **en dos líneas cortadas a mano**, cada una en su `<span>` con
+sus `data-en` y `data-es` y un `<br>` en medio — si los atributos se quedaran en el `<p>`, `app.js`
+escribiría `textContent` y se llevaría por delante el corte. Sigue contra el margen derecho, con la
+regla de siempre. Sin CSS nuevo.
+
 En tablet (≤920px) la columna del número se estrecha a 64px. En móvil (≤720px) el número pasa
 delante de la frase, en la misma línea, y el resto cuelga debajo; las dos frases del marco siguen a
 la derecha, que es lo que sostiene la idea.
@@ -154,6 +167,14 @@ En tablet (≤920px) la columna del número se estrecha a 64px, mismo salto que 
 
 Alto de la sección: de 1957 a 1827px en escritorio, de 1237 a 1219px en tablet, de 1434 a 1417px en
 móvil.
+
+**Los tres párrafos de la entradilla se reescribieron** (agosto de 2026). La lista de preguntas
+inútiles se apretó en una sola frase —«Preguntan si uso plantillas, si el plugin es este o el otro,
+colores. Preguntas válidas, sí, pero que realmente no llevan a ningún lado.»— y el segundo párrafo
+da la vuelta al argumento: la plantilla no es cuestión de gusto, es una decisión que ya tomó un
+montón de gente, y por eso es uno de tus problemas. El tercero pasa a «Todo se resume a tres cosas
+que deciden si vendes o no:», que es la frase que entrega las tres filas. Solo texto: el alto de la
+sección no se mueve en ninguno de los tres anchos.
 
 **El botón «Hablemos quince minutos» aparece tres veces** (encabezado, fin de la prueba, fin del
 precio) y las tres bajan a contacto. El de dentro de contacto abre el correo, porque un botón que
@@ -242,6 +263,36 @@ el `moov` al final, así que el navegador necesita el fichero entero antes de em
 arreglan de una pasada con `ffmpeg -movflags +faststart`; aquí no hay ffmpeg con H.264 para hacerlo.
 Tampoco hay imagen de `poster` por lo mismo.
 
+**Los dos párrafos se reescribieron y llegó la cita** (agosto de 2026).
+
+El primero ya no abre con «Academia de contrabajo». Abre con lo que la hace única: «La primera
+membresía de contrabajo online del mundo (o por lo menos no hemos encontrado otra).» Detrás va la
+lista de piezas, ahora con Emilse por su nombre —«foro donde los alumnos preguntan y Emilse responde
+y todos lo ven»— y con lo que el panel hace de verdad: programa vídeos, en inglés y español, ve los
+miembros activos y responde las preguntas. El segundo cambia el punto de partida: no era «material
+grabado y parado», era «un plan, el material, la experiencia, y no sabía cómo darle forma».
+
+**La cita de Emilse Ríos ya está**, y con ella se corrige el nombre: ponía «Emil Serios». El dominio
+sigue igual, `emilseriosacademy.com`, que es la URL real.
+
+**«Entra y míralo. No es una maqueta.» se quitó.** El `.sec__close` de la 04 desaparece; la clase
+sigue viva en la 03, así que no queda CSS muerto.
+
+**La cita y el botón van en la misma fila**, en un `.proof__outro`: rejilla flex de dos, la cita
+contra el margen izquierdo y el botón contra el derecho, alineados por abajo (`align-items:
+flex-end`), así que el botón queda a la altura de la firma. Es el mismo movimiento que la 08, donde
+el titular y el botón comparten fila.
+
+Dos detalles del bloque: la cita **se ensancha a 62ch** solo aquí (`.pull-quote` va a 46ch en
+general, y a ese ancho esta cita caía en ocho líneas con todo el lado derecho vacío; a 62ch entra en
+cinco), y el botón lleva `margin-left: auto` **además** del `space-between`, porque en tablet la fila
+no cabe y se parte — sin eso el botón caería contra el margen izquierdo. En ≤720px el contenedor pasa
+a `display: block` y el botón vuelve a colgar debajo, como estaba.
+
+Alto de la sección: de 2082 a 2088px en escritorio (2161 en inglés), de 1325 a 1380px en tablet en
+los dos idiomas, y de 1191 a 1389px en móvil (1415 en inglés). Crece por el primer párrafo y por la
+cita, que antes eran dos palabras.
+
 ### La sección 05 — «Cómo trabajo»
 
 **La etiqueta pasó a «El paso a paso»** («Step by step»). Decía «05 — Cómo trabajo» y repetía palabra
@@ -275,6 +326,25 @@ salto y solo queda el cambio de color.
 
 Alto de la sección: de 669 a 705px en escritorio, e igual en tablet (886px en español, 864 en inglés)
 y en móvil (1120 y 1098px), porque ahí el titular ya estaba apilado.
+
+**Las cuatro tarjetas se reescribieron enteras** (agosto de 2026). El paso a paso estaba contado
+desde el proceso; ahora está contado desde lo que el cliente hace en cada paso:
+
+- **01 Escuchar** — «Nos llamamos, me explicas lo que vendes como a un niño pequeño, a quién y por
+  qué te compran a ti.» Fuera «un mensaje desordenado»: la llamada es la que se vende arriba.
+- **02 Encuadrar** — ya no es «una página con lo que entendí», es **una primera muestra**: qué se
+  construye, cómo se ve y cómo funciona. Y el final cambia de tono: no es «se corrige ahí y no en la
+  última semana», es «a partir de ahí trabajamos y vamos creando juntos».
+- **03 Hacer** — «Yo hago todo, de principio a fin, no delego.» En primera persona, que es lo que
+  decía la metáfora de «las mismas manos» dando un rodeo.
+- **04 Entregar** — la misma lista de siempre (dominio, códigos, archivos, claves) y **la palabra
+  «fee» dicha en claro**: si lo mantengo yo hay un fee, si además lo manejo es otro fee. Sigue
+  distinguiendo mantenimiento de gestión, que es lo que pide la sección 06, pero sin nombrarlos.
+
+Los cuatro tiempos (`48h`, `3 días`, `3 semanas`, `siempre`) no se tocaron.
+
+Alto de la sección: de 705 a 750px en escritorio, de 886 a 931px en tablet (909 en inglés) y de 1120
+a 1255px en móvil (1188 en inglés). Crece por la tarjeta 04, que es la más larga.
 
 ### La sección 06 — «Precio»
 
@@ -476,8 +546,14 @@ precio en tres grupos con las cuatro preguntas nuevas.
 El #96, ya fusionado, quitó las cuatro contradicciones entre la página y el agente: la pieza 05 de la
 03 y los tres textos del bloque del chat.
 
-**No queda ninguno abierto.** El sitio y el agente dicen ya lo mismo sobre el precio y sobre lo que
-el agente es. De copy quedan dos bloques, el 2 y el 3, y los lleva Adrián aparte.
+Después vino la pasada de copy de agosto: el párrafo del encabezado, la entradilla de la 01, los tres
+párrafos de la 02, la 04 entera —texto nuevo, la cita de Emilse por fin, el nombre corregido, fuera
+el «Entra y míralo» y el botón subido a la altura de la cita— y las cuatro tarjetas de la 05, más el
+caso del prompt puesto al día detrás.
+
+**No queda ninguno abierto.** El sitio y el agente dicen ya lo mismo sobre el precio, sobre el caso
+de Emilse y sobre lo que el agente es. De copy queda un bloque, el 3 —el inglés—, y lo lleva Adrián
+aparte.
 
 **Dos PR abiertos a la vez chocan en este archivo.** El #88 y el #89 salieron los dos de `main` y
 los dos escriben justo antes de «Idioma», así que el segundo en fusionarse dio conflicto aquí — en
@@ -500,9 +576,14 @@ no se despliega. Se rehízo desde `main` en el #84. **No se apilan PR.**
 
 ### Copy
 
-De los cinco bloques que había, **quedan dos vivos: el 2 y el 3**, y los dos están en manos de
-Adrián. El 1 se hizo en el #96 y el 4 y el 5 se cerraron por decisión, no por trabajo: no vuelven a
-la lista.
+De los cinco bloques que había, **queda uno vivo: el 3, el inglés**. El 1 se hizo en el #96, el 2 se
+cerró al llegar la cita de Emilse, y el 4 y el 5 se cerraron por decisión, no por trabajo: no vuelven
+a la lista.
+
+**Y hay inglés nuevo esperando repaso.** La pasada de copy de agosto —el párrafo del encabezado, la
+entradilla de la 01, los tres párrafos de la 02, los dos de la 04 con la cita, y las cuatro tarjetas
+de la 05— se escribió en español primero, como manda la casa, y su traducción entra en el bloque 3
+sin revisar.
 
 **1. Lo que se contradice con el agente — hecho, en el #96**
 
@@ -531,19 +612,20 @@ Comprobado a 1440, 834 y 390px en los dos idiomas: el ancho real no se mueve —
 español y 449px en inglés a 390px, los mismos de antes— así que el desbordamiento que hay sigue
 siendo el del pie y el del bloque del chat, y no lo toca este cambio.
 
-**2. Lo que falta por llegar**
+**2. Lo que falta por llegar — hecho**
 
-- [ ] **La cita de Emilse Ríos**, sección 04. El hueco está montado con el formato de cita destacada
-      y el texto «Cita pendiente».
-- [ ] **El nombre está mal escrito debajo de esa cita:** pone «Emil Serios» y se escribe **Emilse
-      Ríos**. Se corrige en el mismo cambio, cuando llegue la cita. El dominio no se toca:
-      `emilseriosacademy.com` es la URL real y funciona.
+- [x] **La cita de Emilse Ríos**, sección 04. Llegó y está puesta, en el formato de cita destacada
+      que ya estaba montado. Fuera el «Cita pendiente».
+- [x] **El nombre mal escrito debajo de esa cita.** Ponía «Emil Serios» y ahora pone **Emilse Ríos**.
+      El dominio no se tocó: `emilseriosacademy.com` es la URL real y funciona.
 
 **3. El inglés**
 
 - [ ] **Repasar la traducción del home entero.** El español manda y el inglés lleva tiempo esperando,
       pero ahora hay mucho más texto sin repasar: los tres grupos del precio, el bloque de las
-      cuentas, las cuatro preguntas nuevas y el saludo del agente, todos escritos en español primero.
+      cuentas, las cuatro preguntas nuevas y el saludo del agente, y encima toda la pasada de copy de
+      agosto —encabezado, 01, 02, 04 y las cuatro tarjetas de la 05—, todos escritos en español
+      primero.
 - [ ] **El pie no cabe en inglés.** «Make— something.» se sale 59px de la pantalla a 390px y es la
       causa del desbordamiento de 449px que sale en la lista de diseño. Se arregla escribiendo una
       frase más corta, no tocando el `clamp`.
@@ -609,6 +691,13 @@ tres botones y el prompt dice lo mismo, pero el calendario bloqueaba media hora.
 la constante `CALL_MINUTES` de `agent-tools.js`, que usan el evento de la llamada y el evento privado
 de notas; antes eran dos `30 * 60000` en funciones distintas. También lo decía la descripción de la
 tool en `chat.js`, que el modelo lee en cada turno.
+
+**El caso del prompt se puso al día con la 04** (agosto de 2026). Al reescribir la sección se
+abrieron tres diferencias con `system-prompt.js`: el prompt seguía diciendo «la academia de
+contrabajo» donde la página ya dice «la primera membresía de contrabajo online del mundo», seguía
+contando el punto de partida como «material grabado y parado», y —lo peor— llevaba una instrucción
+sobre una errata que ya no existe: «en la página todavía aparece escrito de otra forma en la cita».
+Las tres se corrigieron; de la errata queda solo la regla útil, que su nombre se escribe Emilse Ríos.
 
 - [ ] **Repasar conversaciones reales.** Es lo que el sitio ahora cobra en el mensual del agente, así
       que conviene hacerlo: leer lo que guarda Supabase y corregir lo que conteste mal.
