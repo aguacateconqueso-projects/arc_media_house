@@ -3,6 +3,12 @@ const { Resend } = require('resend');
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+// Lo que dura la llamada de discovery. El sitio la vende como «Hablemos quince
+// minutos» en los tres botones y el prompt del agente dice lo mismo, así que
+// esto es lo que se bloquea en el calendario y lo que ve el visitante en la
+// invitación. Si cambia, cambia también en el prompt y en los botones.
+const CALL_MINUTES = 15;
+
 function getCalendarClient() {
   const oauth2Client = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
@@ -30,7 +36,7 @@ async function attachTranscriptToCalendar({ scheduled_call_datetime, summary, fu
   }
   // The companion notes event mirrors the call window. visibility=private
   // hides it from anyone else who might share the calendar.
-  const end = new Date(start.getTime() + 30 * 60000);
+  const end = new Date(start.getTime() + CALL_MINUTES * 60000);
 
   const description = [
     'ARC site agent — internal conversation log.',
@@ -133,7 +139,7 @@ async function scheduleCall(input) {
   }
 
   const copy = calendarCopy(language);
-  const end = new Date(start.getTime() + 30 * 60000);
+  const end = new Date(start.getTime() + CALL_MINUTES * 60000);
   const displayName = visitor_name && visitor_name.trim()
     ? visitor_name.trim()
     : visitor_email.split('@')[0];
