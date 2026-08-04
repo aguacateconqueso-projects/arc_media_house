@@ -679,8 +679,48 @@ se ofrece nunca aunque Adrián sepa hacerlo.
 **El saludo también.** Estaba escrito a mano en tres sitios y decía «Ayudo a equipos a definir
 proyectos de vídeo, web e IA». Ahora los tres dicen «¡Hola! Soy el agente de ARC, no hablo como
 Adrián pero estoy aprendiendo. ¿Vamos a trabajar juntos? Cuéntame de ti y de cómo vamos a mejorar tu
-plataforma.» El prompt lo cita literal y le dice al agente qué se sigue de él: que ya ha pedido que
-le cuenten, y que «tu plataforma» es la que el visitante va a tener, no la que ya tiene.
+plataforma.» El prompt le dice al agente qué se sigue de él: que ya ha pedido que le cuenten, y que
+«tu plataforma» es la que el visitante va a tener, no la que ya tiene.
+
+#### El saludo repetido y el voseo — arreglados en agosto de 2026
+
+Dos fallos vistos en conversaciones reales.
+
+**El agente repetía el saludo entero en cuanto le escribías.** La causa está en el transporte, no en
+el modelo: **el saludo se pinta solo en el DOM y nunca entra en el historial.** `ai-chat.js` y
+`ai-chat-widget.js` lo escriben a mano en el log, pero `ARCChat` no lo guarda, así que
+`ai-chat-store.js` manda `read()` y la primera petición sale con un único mensaje, el del visitante.
+Al modelo la conversación le llega **empezando en frío**, y el prompt le ponía el saludo **citado
+literal** justo al final, en «Cómo abrir». Le dábamos el texto y el hueco donde encajarlo.
+
+No se puede arreglar sembrando el saludo como turno de `assistant` en la petición: **la Messages API
+exige que el primer mensaje sea `user`.** Así que va por dos lados:
+
+- **En el prompt.** «Cómo abrir» ya no cita el saludo como texto a tener en cuenta; explica que el
+  historial engaña —que siempre hay un turno suyo antes aunque no lo vea—, lista lo que está
+  prohibido en la primera respuesta, y trae tres ejemplos. El saludo literal aparece **solo dentro
+  del ejemplo marcado como «Mal»**, que es lo contrario del cebo que era antes.
+- **En `chat.js`, solo en el primer turno.** `FIRST_TURN_REMINDER` se pega al final del system
+  prompt cuando el historial trae un único mensaje de `user`. Va al final a propósito: es donde no
+  se lo come todo lo que hay en medio. En los turnos siguientes no se añade, porque ahí el modelo ya
+  ve un turno suyo en el historial y no hace falta contárselo.
+
+**Y hablaba argentino.** «¿Cuánto contenido tenés listo?», «¿querés que sigan pagando…?». La regla ya
+existía, pero fallaba por dos razones: vivía enterrada en «# Idioma», que va de *detectar* el idioma,
+y su único ejemplo era **«vos tenés»** — con el pronombre. El modelo lo cumplió al pie de la letra:
+quitó el «vos» y siguió conjugando en voseo. Lo que delata es el verbo, no el pronombre.
+
+Ahora la regla es el **punto d) de «Voz»**, que es donde viven las reglas de registro y se relee en
+cada mensaje, y va con la tabla de pares (`tenés → tienes`, `querés → quieres`, `podés → puedes`,
+`sos → eres`, `decime → dime`…) más los regionalismos sueltos: «che», «recién» por «apenas», «acá»,
+«plata». En «# Idioma» queda una línea que apunta al punto d) y añade lo que faltaba: **si el
+visitante vosea, el agente sigue contestando de tú.** El recordatorio del primer turno lo repite en
+corto, porque es donde más se notaba.
+
+**Sin probar contra la API.** En este entorno no hay `ANTHROPIC_API_KEY`, así que los dos arreglos
+están razonados sobre el código y el prompt, no verificados en conversación. Conviene abrir el chat
+en producción, escribir «Hola, estoy interesado en armar una plataforma» y mirar dos cosas: que no
+salude, y que trate de tú.
 
 **El fallo del widget, arreglado.** `applyLang()` miraba si el log estaba vacío para reescribir el
 saludo, pero el saludo mismo cuenta como mensaje: después del primer render nunca volvía a entrar, y
@@ -700,7 +740,11 @@ sobre una errata que ya no existe: «en la página todavía aparece escrito de o
 Las tres se corrigieron; de la errata queda solo la regla útil, que su nombre se escribe Emilse Ríos.
 
 - [ ] **Repasar conversaciones reales.** Es lo que el sitio ahora cobra en el mensual del agente, así
-      que conviene hacerlo: leer lo que guarda Supabase y corregir lo que conteste mal.
+      que conviene hacerlo: leer lo que guarda Supabase y corregir lo que conteste mal. **Ya dio dos
+      capturas:** el saludo repetido y el voseo, los dos arreglados arriba. Vale la pena seguir.
+- [ ] **Comprobar los dos arreglos en producción.** Aquí no hay `ANTHROPIC_API_KEY`. Abrir el chat,
+      escribir «Hola, estoy interesado en armar una plataforma» y mirar que no salude y que trate de
+      tú.
 
 ### La web contra el prompt nuevo
 
