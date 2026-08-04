@@ -466,10 +466,11 @@ la 02 realineada (#80), la 03 realineada (#82 y #84) y la 04 realineada (#86), l
 
 La 08 —titular y botón en la misma fila, el vídeo de la prueba y la frase del foro de la 03— entró
 con el #90. El #91 dejó anotado lo que había que alinear entre la web y el prompt, el #92 metió el
-prompt nuevo del agente con su saludo, y el #93 baja la llamada a quince minutos.
+prompt nuevo del agente con su saludo, el #93 bajó la llamada a quince minutos y el #94 reordenó el
+precio en tres grupos con las cuatro preguntas nuevas.
 
-**Este cambio** —la sección 06 en tres grupos, las cuatro preguntas nuevas de la 07 y el paso 04 de
-la 05— va en `claude/web-precio-gestion`.
+**No queda ninguno abierto.** El sitio y el agente dicen ya lo mismo sobre el precio. Lo que sigue es
+copy, y está en la lista de pendientes.
 
 **Dos PR abiertos a la vez chocan en este archivo.** El #88 y el #89 salieron los dos de `main` y
 los dos escriben justo antes de «Idioma», así que el segundo en fusionarse dio conflicto aquí — en
@@ -490,21 +491,73 @@ no se despliega. Se rehízo desde `main` en el #84. **No se apilan PR.**
 
 ## Pendiente
 
-### Contenido
+### Copy — la sesión siguiente
 
-- [ ] **Repasar la traducción al inglés del home.** El español manda; el inglés está a la espera de
-      corrección. El titular en inglés ocupa dos líneas donde el español ocupa una — buen momento
-      para acortarlo.
-- [x] **Vídeo de la prueba.** Puesto: `Videos/showcase_palataforma_emilse_rios_v2.mp4` en la
-      sección 04.
+El precio ya dice lo mismo en la página y en el agente. Lo que queda es texto que se escribió para el
+estudio de tres oficios y sigue ahí, más lo que falta por llegar. Está ordenado por lo que se nota:
+
+**1. Lo que se contradice con el agente**
+
+- [ ] **La pieza 05 de la sección 03 dice «Habla como tú, no como un robot»** y el saludo del propio
+      agente dice «no hablo como Adrián pero estoy aprendiendo». El visitante lee las dos cosas en la
+      misma página, con dos scrolls de diferencia. O el saludo sube el tono o la pieza 05 lo baja;
+      la segunda es más honesta y encaja mejor con «No soy el No.1 en lo que hago».
+- [ ] **El bloque «Tras el telón» del lateral del chat** dice «Agente Claude custom · entrenado con
+      la voz de ARC · multiidioma · latencia <2s». Tres problemas en una línea: «Tras el telón» es la
+      metáfora de escenario que se sacó del prompt; «entrenado con la voz de ARC» no es cierto —no
+      está entrenado, está instruido— y suena a agencia; y nombra la tecnología justo cuando el
+      prompt le prohíbe al agente nombrarla. Hay que decidir si la página también calla o si se
+      levanta esa regla.
+- [ ] **La cabecera del chat enseña «Modelo: claude-haiku-4-5».** Hoy es verdad (`chat.js`), pero es
+      el mismo dilema que arriba y además se queda viejo solo el día que se cambie de modelo.
+- [ ] **«Estimar precios y plazos»**, en la lista de lo que sabe hacer el agente. Ya no estima: dice
+      precios públicos y plazos públicos. Es más fuerte decir eso.
+
+**2. Lo que falta por llegar**
+
+- [ ] **La cita de Emilse Ríos**, sección 04. El hueco está montado con el formato de cita destacada
+      y el texto «Cita pendiente».
+- [ ] **El nombre está mal escrito debajo de esa cita:** pone «Emil Serios» y se escribe **Emilse
+      Ríos**. Se corrige en el mismo cambio, cuando llegue la cita. El dominio no se toca:
+      `emilseriosacademy.com` es la URL real y funciona.
+
+**3. El inglés**
+
+- [ ] **Repasar la traducción del home entero.** El español manda y el inglés lleva tiempo esperando,
+      pero ahora hay mucho más texto sin repasar: los tres grupos del precio, el bloque de las
+      cuentas, las cuatro preguntas nuevas y el saludo del agente, todos escritos en español primero.
+- [ ] **El pie no cabe en inglés.** «Make— something.» se sale 59px de la pantalla a 390px y es la
+      causa del desbordamiento de 449px que sale en la lista de diseño. Se arregla escribiendo una
+      frase más corta, no tocando el `clamp`.
+- [ ] **El titular de la 08 ocupa tres líneas en inglés** («Let's talk for fifteen minutes.») donde
+      el español ocupa dos. Buen momento para acortarlo.
+
+**4. Las páginas que sobreviven al posicionamiento viejo**
+
+- [ ] **`services-web.html`, `services-ai.html`, `services-video.html`.** Sus `<title>` todavía dicen
+      «Web Design», «AI Agents» y «Video & Motion», y dentro hay doce formatos con precios que el
+      agente tiene prohibido decir — hasta €10.000 por un brand film. No están enlazadas, pero se
+      entra por URL y Google las tiene.
+- [ ] **`people.html`** presenta a Robs y motion graphics. La oferta de hoy es Adrián y una sola cosa.
+- [ ] **`manifesto.html`**, sin revisar desde el cambio.
+      Las tres decisiones son la misma: archivar, redirigir al home, o reescribir. Está más abajo,
+      en decisiones abiertas.
+
+**5. Menudencias, por si se está con las manos en el texto**
+
+- [ ] **«Ocupado leyendo a Nietzsche · responde en <2s»**, en la cabecera del chat. El chiste venía de
+      cuando el agente no tenía voz propia; ahora el saludo ya trae la suya y los dos compiten.
+- [ ] **«Hazme uno»**, el botón del lateral del chat, ya tiene precio que enseñar: desde €1.200 más
+      €150 al mes.
+- [ ] **El pie dice «ARC / 2019—2026» y «v 3.0».** Comprobar que las dos siguen siendo verdad.
+
+### Otros pendientes de contenido
+
 - [ ] **Comprimir el vídeo de la prueba.** Está a 4K y pesa 25 MB, y lleva el `moov` al final, así
       que el navegador se lo tiene que bajar entero antes de arrancar. Una copia a 1080p con
       `ffmpeg -movflags +faststart`, y de paso un `poster` con el primer fotograma.
-- [ ] **Cita de Emilse Ríos.** Hueco preparado con el formato de cita destacada y el texto «Cita
-      pendiente». Rellenar cuando la tengamos.
-- [ ] **El nombre está mal escrito en la cita.** Debajo del hueco pone «Emil Serios» y se escribe
-      **Emilse Ríos**. Se corrige cuando llegue la cita, en el mismo cambio. El dominio no se toca:
-      `emilseriosacademy.com` es la URL real y funciona.
+- [x] **Vídeo de la prueba.** Puesto: `Videos/showcase_palataforma_emilse_rios_v2.mp4` en la
+      sección 04.
 
 ### El agente
 
@@ -592,7 +645,12 @@ en los bloques de cada sección. Lo que se resolvió:
       `document.documentElement.scrollWidth > clientWidth`.
 - [ ] **Y en inglés se desborda más: 449px.** Es el `.foot-display` del pie, la frase grande que
       acaba en «something.»: a ese cuerpo no cabe a 390px y se sale 59px. En español no pasa. Se
-      arregla bajando el `clamp` del `.foot-display` o partiendo la frase, como en la 03.
+      arregla bajando el `clamp` del `.foot-display` o partiendo la frase, como en la 03 — y hay una
+      entrada de copy para eso, porque lo que sobra es la frase, no el tamaño.
+- [ ] **La sección 06 mide 3.447px en móvil.** Es la más larga del sitio, y es el precio de decirlo
+      todo. Si se hace pesada, lo que pliega bien son las dos listas de «qué incluye / qué no» con el
+      mismo desplegable de las preguntas: el visitante que solo quiere las cifras las tiene en los
+      tres grupos de arriba.
 
 ### Decisiones abiertas
 
