@@ -88,7 +88,7 @@ function dateContextBlock() {
 const tools = [
   {
     name: 'schedule_call',
-    description: "Books a 30-minute discovery call on Adrián's Google Calendar and sends a calendar invite to the visitor. Only call this after the visitor has provided their email, at least one workable time window, and a one-line scoping note. Returns success with confirmed datetime, or error with reason.",
+    description: "Books a 15-minute discovery call on Adrián's Google Calendar and sends a calendar invite to the visitor. Only call this after the visitor has provided their email, at least one workable time window, and a one-line scoping note. Returns success with confirmed datetime, or error with reason.",
     input_schema: {
       type: 'object',
       properties: {
