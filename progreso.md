@@ -50,8 +50,8 @@ Once secciones, en este orden:
 4. Qué se construye — las cinco piezas de la plataforma
 5. La prueba — emilseriosacademy.com
 6. Cómo trabajo — cuatro pasos
-7. Precio — qué incluye, qué no, mantenimiento, el agente
-8. Preguntas honestas — ocho, desplegables
+7. Precio — construir, después, las cuentas, qué incluye y qué no
+8. Preguntas honestas — doce, desplegables
 9. Hablemos — contacto
 10. El widget del agente
 11. Newsletter
@@ -308,6 +308,43 @@ clases son modificadores nuevos, así que los otros dos botones «Hablemos quinc
 Alto de la sección: de 1542 a 1665px en escritorio, de 1381 a 1506px en tablet (1454 en inglés), y de
 1841 a 2032px en móvil (1817 a 2005 en inglés). Crece por el cuerpo de las listas y del aviso.
 
+#### El precio se reordenó para decir lo mismo que el agente
+
+La sección tenía cuatro precios sueltos en una fila de «extras» y el resto lo daba por sabido. Ahora
+va en **tres grupos**, que es como lo cuenta el prompt del agente:
+
+**Construir — pago único.** Los tres precios de entrada, uno por columna: la plataforma completa
+desde €2.500, la página de venta sola desde €1.500 y el agente desde €1.200. Los €1.500 y el
+«desde €1.200» ya estaban en el sitio, pero enterrados en una pregunta de la 07 y en el bloque del
+añadido; aquí se leen a la vez, que es como se compara. Debajo, «Mitad al empezar, mitad al
+entregar.»
+
+**Después — mensual y opcional.** El mantenimiento se queda en €150 pero cambia de contenido: es
+«que no se caiga» y ya no promete dos horas de cambios al mes — ese trabajo es el nivel nuevo. La
+**gestión, desde €500/mes**, es todo lo del mantenimiento más subir y programar hasta cuatro
+contenidos al mes, dar de alta y de baja a los miembros y un informe mensual. El mensual del agente
+sube de €100 a €150 y ahora dice qué paga: el uso y el trabajo de corregir lo que contestó mal.
+Debajo, la línea de sin permanencia, la revisión de €200 al volver y la revisión de volumen antes de
+que suba la factura.
+
+**Las cuentas son tuyas.** Bloque nuevo, y el que arregla la contradicción más fea que tenía la
+página: el mantenimiento decía «hosting, base de datos, dominio y respaldos **a mi cargo**» mientras
+la pregunta «¿De quién es todo esto cuando terminas?» decía que las cuentas se abren a nombre del
+cliente. Ahora se dice una sola cosa, y con la razón: si el hosting lo pagara Adrián, el día que
+dejara de pagarlo se caería todo. En «Qué no incluye» entra un tercer punto con lo mismo en corto.
+
+**Maquetación:** no hay componentes nuevos. Cada grupo es una `.price-extras` de tres columnas —la
+misma rejilla que ya tenía la fila de extras— con un `.price-group__label` que comparte regla con
+`.price-col__label`. Lo único que se añade es `.price-group` (margen entre grupos, para que dos
+rejillas seguidas no peguen sus reglas), `.price-group__note` y `.price-group__body`, y un
+`border-top` en `.price-extras`, que antes solo tenía el de abajo porque iba pegada a las columnas.
+En ≤820px todo cae a una columna, que es lo que ya hacía.
+
+Alto de la sección: de 1665 a 2515px en escritorio (1665 a 2567 en inglés), de 1506 a 2306px en
+tablet (1454 a 2328), y de 2032 a 3447px en móvil (2005 a 3419). Es la sección que más crece del
+sitio y es a propósito: pasa de cuatro cifras a la tabla completa de qué se paga una vez, qué se paga
+al mes y qué no se paga nunca.
+
 ### La sección 07 — «Preguntas honestas»
 
 **El titular baja al margen izquierdo**, con el `.sec-head--stack` de siempre. Es el último
@@ -321,6 +358,26 @@ cabía a 805px y «que más me hacen.» se partía en tres líneas; a ancho comp
 inglés crece de 1414 a 1449px, que es lo que ocupa la etiqueta al pasar encima. En tablet baja de
 1261 a 1244px y en móvil de 1410 a 1393px (1423 a 1406 en inglés), donde el `.sec-head` ya era de una
 columna y lo que cambia es solo el hueco entre la etiqueta y el titular.
+
+#### Cuatro preguntas más: de ocho a doce
+
+Las cuatro que trae el prompt del agente, todas sobre lo mismo —quién paga qué y hasta cuándo—, así
+que van juntas al final, detrás de «¿De quién es todo esto cuando terminas?», que es la que abre el
+tema:
+
+- «¿El hosting y todo eso va incluido?»
+- «¿Puedo no contratar mantenimiento?» — con el precio de la ayuda puntual: media hora son €100.
+- «¿Me tengo que amarrar por un año?»
+- «¿Por qué el agente cobra todos los meses?» — la única que se permite señalarse a sí misma: el
+  agente de esta página se ha corregido varias veces con conversaciones de verdad.
+
+Sin marcado nuevo: cada una es un `<details class="faq-item">` igual que las ocho anteriores.
+
+Doce preguntas es el techo. Si entra una más, conviene mirar cuál de las viejas sobra antes que
+alargar la lista.
+
+Alto de la sección: de 1449 a 1823px en escritorio en los dos idiomas, de 1244 a 1607px en tablet, y
+de 1393 a 1724px en móvil (1406 a 1737 en inglés).
 
 ### La sección 08 — «Hablemos»
 
@@ -408,9 +465,11 @@ la 02 realineada (#80), la 03 realineada (#82 y #84) y la 04 realineada (#86), l
 (#87) y la 06 entera (#88), más la 07 (#89).
 
 La 08 —titular y botón en la misma fila, el vídeo de la prueba y la frase del foro de la 03— entró
-con el #90.
+con el #90. El #91 dejó anotado lo que había que alinear entre la web y el prompt, el #92 metió el
+prompt nuevo del agente con su saludo, y el #93 baja la llamada a quince minutos.
 
-**No queda ninguno abierto.**
+**Este cambio** —la sección 06 en tres grupos, las cuatro preguntas nuevas de la 07 y el paso 04 de
+la 05— va en `claude/web-precio-gestion`.
 
 **Dos PR abiertos a la vez chocan en este archivo.** El #88 y el #89 salieron los dos de `main` y
 los dos escriben justo antes de «Idioma», así que el segundo en fusionarse dio conflicto aquí — en
@@ -449,73 +508,58 @@ no se despliega. Se rehízo desde `main` en el #84. **No se apilan PR.**
 
 ### El agente
 
-El prompt está reescrito entero para la oferta nueva y aprobado. Falta meterlo.
+**Hecho, en el #92.** El prompt está reescrito entero para la oferta única y metido en
+`netlify/functions/system-prompt.js`, en español: el bilingüe duplicado se comía la mitad del
+archivo para decir dos veces lo mismo, y la detección de idioma no depende de él.
 
-- [ ] **Instalar el prompt nuevo** en `netlify/functions/system-prompt.js`. El que hay describe los
-      tres servicios viejos y sus precios: tal como está, le ofrece vídeo corporativo de €10.000 a
-      alguien que viene a comprar una plataforma. Es lo más urgente de esta lista.
-- [ ] **El saludo nuevo.** El que se ve dice «Ayudo a equipos a definir proyectos de vídeo, web e
-      IA». Pasa a: «¡Hola! Soy el agente de ARC, no hablo como Adrián pero estoy aprendiendo.
-      ¿Vamos a trabajar juntos? Cuéntame de ti y de cómo vamos a mejorar tu plataforma.» Está
-      escrito a mano en dos sitios y hay que cambiarlo en los dos: `ai-chat.js` y el estático de
-      `index.html`, con sus `data-en` y `data-es`.
-- [ ] **Fallo del widget flotante:** al cambiar a inglés, su saludo se queda en español.
-      `ai-chat-widget.js` solo lo reescribe si el chat está vacío, y el saludo mismo cuenta como
-      mensaje. Arreglo de dos líneas.
+Trae la oferta y sus precios reales, las cinco piezas, qué incluye y qué no, el paso a paso, el caso
+de Emilse Ríos y once preguntas con sus respuestas. Y reglas duras que antes no hacían falta: ARC no
+paga el hosting, no se promete migración automática de suscripciones, no se inventan funciones que no
+estén en la lista, no se nombra la tecnología de dentro, no se dan fechas de lanzamiento, y vídeo no
+se ofrece nunca aunque Adrián sepa hacerlo.
 
-El prompt manda el precio y la web tiene que decir lo mismo — la lista de abajo.
+**El saludo también.** Estaba escrito a mano en tres sitios y decía «Ayudo a equipos a definir
+proyectos de vídeo, web e IA». Ahora los tres dicen «¡Hola! Soy el agente de ARC, no hablo como
+Adrián pero estoy aprendiendo. ¿Vamos a trabajar juntos? Cuéntame de ti y de cómo vamos a mejorar tu
+plataforma.» El prompt lo cita literal y le dice al agente qué se sigue de él: que ya ha pedido que
+le cuenten, y que «tu plataforma» es la que el visitante va a tener, no la que ya tiene.
+
+**El fallo del widget, arreglado.** `applyLang()` miraba si el log estaba vacío para reescribir el
+saludo, pero el saludo mismo cuenta como mensaje: después del primer render nunca volvía a entrar, y
+al cambiar a inglés se quedaba en español para siempre. Ahora mira si hay conversación guardada.
+
+**La llamada baja de 30 a 15 minutos** (#93). El sitio la vende como «Hablemos quince minutos» en los
+tres botones y el prompt dice lo mismo, pero el calendario bloqueaba media hora. La duración sale a
+la constante `CALL_MINUTES` de `agent-tools.js`, que usan el evento de la llamada y el evento privado
+de notas; antes eran dos `30 * 60000` en funciones distintas. También lo decía la descripción de la
+tool en `chat.js`, que el modelo lee en cada turno.
+
+- [ ] **Repasar conversaciones reales.** Es lo que el sitio ahora cobra en el mensual del agente, así
+      que conviene hacerlo: leer lo que guarda Supabase y corregir lo que conteste mal.
 
 ### La web contra el prompt nuevo
 
-El prompt trae precios y condiciones que la sección 06 todavía no dice. Mientras las dos versiones
-convivan, el agente y la página se contradicen delante del mismo visitante, y el agente responde con
-más detalle que la página que lo rodea. Lo que hay que tocar:
+**Hecho, salvo las páginas viejas.** La sección 06 se reordenó en tres grupos, la 07 pasó de ocho
+preguntas a doce y el paso 04 de la 05 distingue mantenimiento de gestión — todo está contado arriba,
+en los bloques de cada sección. Lo que se resolvió:
 
-**Donde la web dice lo contrario:**
-
-- [ ] **El hosting no lo paga Adrián.** El mantenimiento dice «Hosting, base de datos, dominio y
-      respaldos **a mi cargo**» y el prompt dice justo lo contrario: las cuentas se abren a nombre
-      del cliente y con su tarjeta desde el primer día, y Adrián entra invitado. La página ya se
-      contradecía sola — la pregunta «¿De quién es todo esto cuando terminas?» ya decía que las
-      cuentas son del cliente desde el principio. Se resuelve a favor de la pregunta. Y hay una
-      razón que conviene escribir: si el hosting lo pagara Adrián, el día que dejara de pagarlo se
-      caería todo.
-- [ ] **No hay permanencia.** El mantenimiento dice «Mínimo doce meses». El prompt dice que se corta
-      con treinta días de aviso, y que quien se va y vuelve paga una revisión de €200 porque hay que
-      ver qué cambió mientras Adrián no estuvo.
-- [ ] **El agente son €150/mes, no €100.** La sección 06 dice «Desde €1.200, más €100 al mes». El
-      pago único no cambia; el mensual sube a €150 y ahora cubre algo concreto: el uso, y el trabajo
-      de leer conversaciones reales y corregir lo que contestó mal.
-- [ ] **Las dos horas de cambios al mes.** El mantenimiento las promete y el prompt no: ahí el
-      mantenimiento es solo «que no se caiga» y el trabajo mensual es la gestión. Hay que decidir —
-      o se quitan de la web, o vuelven al prompt. Recomendación: quitarlas, porque si no la gestión
-      de €500 se solapa con el mantenimiento de €150 y no se entiende qué separa a una de la otra.
-
-**Lo que el prompt tiene y la web no:**
-
-- [ ] **Gestión — desde €500/mes.** Un nivel nuevo, no existe en la sección 06. Es todo lo del
-      mantenimiento más: Adrián sube y programa hasta cuatro contenidos al mes, da de alta y de baja
-      a los miembros, y una vez al mes pasa quién entró, quién pagó y quién se fue. Solo tiene
-      sentido con movimiento real; a quien publica dos veces al año se le ofrece mantenimiento y ya.
-- [ ] **Las cuentas de terceros, en «Qué no incluye».** Hoy la lista tiene dos puntos y le falta el
-      primero: los servicios que la plataforma consume van a nombre del cliente, con su tarjeta. Con
-      el detalle que lo hace tragable: al principio casi todo está en capa gratuita y no paga nada
-      más allá del dominio, unos doce euros al año.
-- [ ] **La llamada suelta de €100.** Media hora, después de los treinta días de garantía, para quien
-      no contrata mantenimiento.
-- [ ] **La revisión de volumen.** Si el uso crece por encima de lo contratado, se revisa antes de que
-      suba la factura, nunca después.
-- [ ] **Cuatro preguntas nuevas en la sección 07.** «¿Puedo no contratar mantenimiento?», «¿El
-      hosting y todo eso va incluido?», «¿Me tengo que amarrar por un año?» y «¿Por qué el agente
-      cobra todos los meses?». Las respuestas ya están escritas en el prompt. Ojo con el largo: la
-      sección pasaría de ocho preguntas a doce, y a doce ya conviene mirar si alguna sobra.
-- [ ] **El paso 04 del proceso.** Dice «Te enseño a manejarlo, y si prefieres que lo maneje yo,
-      también», y ahora eso son dos cosas distintas con dos precios: mantenerlo vivo es el
-      mantenimiento, manejarlo es la gestión.
-- [ ] **Separar construir de después.** El prompt divide el precio en dos bloques —CONSTRUIR, que es
-      pago único, y DESPUÉS, que es mensual y opcional— y la sección 06 los mezcla: los tres
-      «extras» van en la misma fila que el mantenimiento. Con la gestión nueva son cuatro cosas y la
-      fila ya no aguanta.
+- [x] **El hosting no lo paga Adrián.** Era la contradicción más fea: el mantenimiento decía
+      «hosting, base de datos, dominio y respaldos **a mi cargo**» mientras la pregunta «¿De quién es
+      todo esto cuando terminas?» decía que las cuentas son del cliente. Ahora hay un bloque, «Las
+      cuentas son tuyas», que lo dice una sola vez y con la razón detrás.
+- [x] **No hay permanencia.** Fuera el «mínimo doce meses»; entra la línea de treinta días de aviso y
+      la revisión de €200 al volver.
+- [x] **El agente son €150/mes, no €100.**
+- [x] **Las dos horas de cambios al mes: quitadas.** Decidido en agosto. El mantenimiento se queda en
+      «que no se caiga» y el trabajo mensual es la gestión; si las horas se quedaban, los dos niveles
+      se solapaban y no se veía qué separa €150 de €500.
+- [x] **Gestión — desde €500/mes**, con lo que incluye.
+- [x] **Las cuentas de terceros, en «Qué no incluye»**, como tercer punto.
+- [x] **La llamada suelta de €100**, dentro de «¿Puedo no contratar mantenimiento?».
+- [x] **La revisión de volumen**, en la nota del bloque mensual.
+- [x] **Cuatro preguntas nuevas en la sección 07.**
+- [x] **El paso 04 del proceso.**
+- [x] **Separar construir de después.**
 
 **Las páginas viejas siguen contradiciendo al agente:**
 

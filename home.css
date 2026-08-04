@@ -1118,12 +1118,30 @@
   padding-right: 0;
   padding-left: clamp(24px, 3vw, 48px);
 }
-.price-col__label {
+.price-col__label,
+.price-group__label {
   color: var(--fg-2);
   letter-spacing: 0.12em;
   margin: 0 0 24px;
   font-weight: 400;
   display: block;
+}
+/* el precio va en tres grupos —construir, después, las cuentas— con el mismo
+   aire entre ellos, para que dos rejillas seguidas no peguen sus reglas */
+.price-group { margin-top: clamp(48px, 6vw, 80px); }
+.price-group__note {
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--fg-2);
+  max-width: 68ch;
+  margin: clamp(20px, 2.4vw, 28px) 0 0;
+}
+.price-group__body {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--fg);
+  max-width: 68ch;
+  margin: 0;
 }
 .price-list {
   list-style: none;
@@ -1150,6 +1168,7 @@
 .price-extras {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
 .price-extra {
