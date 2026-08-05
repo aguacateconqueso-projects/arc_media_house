@@ -627,14 +627,13 @@ no se despliega. Se rehízo desde `main` en el #84. **No se apilan PR.**
 
 ### Copy
 
-De los cinco bloques que había, **queda uno vivo: el 3, el inglés**. El 1 se hizo en el #96, el 2 se
-cerró al llegar la cita de Emilse, y el 4 y el 5 se cerraron por decisión, no por trabajo: no vuelven
-a la lista.
+De los cinco bloques que había, **del 3 —el inglés— queda solo la mitad de abajo**. El 1 se hizo en
+el #96, el 2 se cerró al llegar la cita de Emilse, y el 4 y el 5 se cerraron por decisión, no por
+trabajo: no vuelven a la lista.
 
-**Y hay inglés nuevo esperando repaso.** La pasada de copy de agosto —el párrafo del encabezado, la
-entradilla de la 01, los tres párrafos de la 02, los dos de la 04 con la cita, y las cuatro tarjetas
-de la 05— se escribió en español primero, como manda la casa, y su traducción entra en el bloque 3
-sin revisar.
+**El repaso del inglés ya está hecho** (5 de agosto de 2026) y salió limpio: una sola frase, en la
+04. Lo que queda del bloque 3 no es traducción, es maquetación —dos textos ingleses que no caben— y
+por eso sigue abierto.
 
 **1. Lo que se contradice con el agente — hecho, en el #96**
 
@@ -672,11 +671,13 @@ siendo el del pie y el del bloque del chat, y no lo toca este cambio.
 
 **3. El inglés**
 
-- [ ] **Repasar la traducción del home entero.** El español manda y el inglés lleva tiempo esperando,
-      pero ahora hay mucho más texto sin repasar: los tres grupos del precio, el bloque de las
-      cuentas, las cuatro preguntas nuevas y el saludo del agente, y encima toda la pasada de copy de
-      agosto —encabezado, 01, 02, 04 y las cuatro tarjetas de la 05—, todos escritos en español
-      primero.
+- [x] **Repasar la traducción del home entero — hecho.** Lo repasó Adrián el 5 de agosto de 2026, en
+      los dos anchos, sobre todo lo que estaba esperando: los tres grupos del precio, el bloque de
+      las cuentas, las cuatro preguntas nuevas, el saludo del agente y la pasada de copy de agosto
+      —encabezado, 01, 02, 04 y las cuatro tarjetas de la 05—. **Salió una sola cosa**, en el segundo
+      párrafo de la 04: decía «and no idea how to give it shape», que es la construcción española
+      traducida de frente. Pasa a «and no idea how to shape it». No mueve el alto de la sección en
+      ningún ancho.
 - [ ] **El pie no cabe en inglés.** «Make— something.» se sale 59px de la pantalla a 390px y es la
       causa del desbordamiento de 449px que sale en la lista de diseño. Se arregla escribiendo una
       frase más corta, no tocando el `clamp`.
