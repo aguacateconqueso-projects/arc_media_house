@@ -73,7 +73,7 @@
     addMsg('user', text);
     var typing = addMsg('bot', '', { typing: true });
 
-    window.ARCChat.send(text, {
+    return window.ARCChat.send(text, {
       onUser: function () { /* already rendered above */ },
       onReply: function (reply) {
         typing.remove();
@@ -106,4 +106,44 @@
       ask(q);
     });
   }
+
+  /* ---- El botón de la 08 se lo pasa al agente ----
+     «Hablemos quince minutos» abría el correo, que en escritorio con webmail
+     no hace nada y pierde al visitante en silencio. Ahora baja al chat y
+     escribe la intención por él: el agente pide el correo y la franja y la
+     agenda en el calendario (schedule_call, agent-tools.js).
+     El enlace apunta a #ai, así que sin JS sigue bajando al chat. */
+  var section = document.getElementById('ai');
+  var intentSent = false;
+  var intentPending = false;
+
+  function goToChat() {
+    var quiet = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (section) section.scrollIntoView({ behavior: quiet ? 'auto' : 'smooth', block: 'start' });
+    if (input) setTimeout(function () { input.focus({ preventScroll: true }); }, quiet ? 0 : 500);
+  }
+
+  document.addEventListener('click', function (e) {
+    var trigger = e.target.closest('[data-agent-intent]');
+    if (!trigger) return;
+    e.preventDefault();
+    goToChat();
+
+    // Ya lo pidió: no se repite la misma línea, solo se le devuelve el foco.
+    if (intentSent || intentPending) return;
+
+    var lang = document.documentElement.getAttribute('data-lang') || 'en';
+    var text = trigger.getAttribute(lang === 'es' ? 'data-intent-es' : 'data-intent-en');
+    if (!text) return;
+
+    intentPending = true;
+    if (suggestBox) suggestBox.style.display = 'none';
+    var sending = ask(text);
+    intentSent = true;
+    if (sending && sending.then) {
+      sending.then(function () { intentPending = false; }, function () { intentPending = false; });
+    } else {
+      intentPending = false;
+    }
+  });
 })();

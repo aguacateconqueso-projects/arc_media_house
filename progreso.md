@@ -2,7 +2,7 @@
 
 Estado del sitio y de lo que queda pendiente. Se actualiza cuando algo cambia de sitio.
 
-Última actualización: 4 de agosto de 2026.
+Última actualización: 5 de agosto de 2026.
 
 ---
 
@@ -176,9 +176,10 @@ montón de gente, y por eso es uno de tus problemas. El tercero pasa a «Todo se
 que deciden si vendes o no:», que es la frase que entrega las tres filas. Solo texto: el alto de la
 sección no se mueve en ninguno de los tres anchos.
 
-**El botón «Hablemos quince minutos» aparece tres veces** (encabezado, fin de la prueba, fin del
-precio) y las tres bajan a contacto. El de dentro de contacto abre el correo, porque un botón que
-lleva a sí mismo no hace nada.
+**El botón «Hablemos quince minutos» aparece cuatro veces.** Las tres de arriba —encabezado, fin de
+la prueba, fin del precio— bajan a contacto. La cuarta, la de dentro de contacto, no puede llevar a
+sí misma: desde agosto de 2026 se lo pasa al agente, que pide el correo y la franja y agenda la
+llamada. Está contado en la sección 08.
 
 ### La sección 03 — «Qué se construye»
 
@@ -488,6 +489,52 @@ tres líneas), de 715 a 690px en tablet (741 a 738 en inglés) y de 785 a 772px 
 inglés, lo único que crece: ahí el botón grande no ahorra nada porque ya iba apilado). Encoge porque
 el botón deja de ocupar una fila propia debajo del titular.
 
+#### El botón ya no abre el correo: se lo pasa al agente
+
+Agosto de 2026. **`mailto:` pierde visitantes en silencio.** Depende de que haya un cliente de correo
+configurado: en móvil suele ir, pero en escritorio con webmail en el navegador —que es la mayoría— o
+no pasa nada, o se abre un programa que esa persona no usa. No hay error y no hay aviso, así que el
+lead se pierde sin que se entere ninguno de los dos. Y encima era el punto de más fricción de la
+página: la web promete que te construye el sistema que agenda y cobra solo, y el botón final te
+mandaba a redactar un correo en blanco.
+
+El agente ya sabe hacer esto. `agent-tools.js` agenda los quince minutos en el calendario, manda la
+invitación al visitante y le pasa la transcripción a Adrián, con dos backstops en `chat.js` para que
+el lead no se pierda aunque el modelo falle. Estaba construido y el botón principal lo ignoraba.
+
+**Ahora el botón baja al chat y escribe la intención por él.** El enlace es `href="#ai"` y lleva
+`data-agent-intent` con sus `data-intent-es` y `data-intent-en` («Quiero agendar los quince minutos.»
+/ «I'd like to book the fifteen minutes.»). El manejador vive al final de `ai-chat.js`: baja a la
+sección del chat, esconde las sugerencias y llama al mismo `ask()` que ya usaban esos botones. **Sin
+JS el enlace sigue funcionando** y baja al chat igual — por eso es un `<a href="#ai">` y no un
+`<button>`, que además habría necesitado CSS nuevo para parecerse a `.btn`.
+
+**El segundo clic no repite la línea.** Dos banderas, `intentSent` y `intentPending`: si ya lo pidió,
+el botón solo le devuelve el foco al campo. `ask()` ahora devuelve la promesa de `ARCChat.send()`
+para poder saber cuándo termina.
+
+**Los otros tres botones no se tocan.** Siguen bajando a contacto, que es lo correcto: el que se
+lleva al agente es el del final del recorrido, cuando ya está todo dicho.
+
+**El correo baja a respaldo**, en un `.contact-sales__fallback` debajo de la letra fina: «Te la
+agenda aquí mismo. ¿Prefieres el correo? hello@arcmediahouse.com». Pequeño y en `--fg-2`, con el
+enlace en `--fg` y subrayado. El texto traducible va en su `<span>` y el enlace fuera, porque
+`app.js` escribe `textContent` y se llevaría por delante la etiqueta `<a>`.
+
+**«¿Prefieres preguntar antes?…» se reescribió**, porque el cambio lo dejaba contradiciéndose: ese
+párrafo vendía al agente como *la alternativa* al botón, y ahora el botón **es** el agente. Pasa a
+«¿Quieres preguntar antes de agendar? El mismo agente te responde lo que sea — precios, plazos, qué
+incluye y qué no.» Se queda la razón de siempre —está hecho con lo mismo que te vendo, así que de
+paso lo ves funcionando—, que es lo que sostiene el bloque.
+
+Alto de la sección: de 781 a 810px en escritorio (898 a 928 en inglés), de 690 a 767px en tablet (738
+a 815) y de 772 a 849px en móvil (858 a 935). En escritorio los +29 son solo el párrafo del agente,
+más largo: la columna del botón es más corta que el titular, así que la línea del correo no empuja
+nada. En tablet y móvil todo va apilado y suman las dos cosas.
+
+El desbordamiento a 390px **no lo toca este cambio**: sigue en 405px en español y 449px en inglés,
+los de siempre.
+
 La sección 04 no cambia de alto al meter el vídeo: 2082px en escritorio, 1325 en tablet y 1191 en
 móvil, los mismos que con el recuadro vacío — la caja de 16:9 ya estaba reservada.
 
@@ -550,6 +597,10 @@ Después vino la pasada de copy de agosto: el párrafo del encabezado, la entrad
 párrafos de la 02, la 04 entera —texto nuevo, la cita de Emilse por fin, el nombre corregido, fuera
 el «Entra y míralo» y el botón subido a la altura de la cita— y las cuatro tarjetas de la 05, más el
 caso del prompt puesto al día detrás.
+
+Y en agosto, el botón de la 08: deja de abrir el correo y se lo pasa al agente, que pide el correo y
+la franja y agenda la llamada. Con él van la excepción del prompt para quien llega pidiéndola y el
+párrafo del agente reescrito, que si no se quedaba contradiciendo al botón.
 
 **No queda ninguno abierto.** El sitio y el agente dicen ya lo mismo sobre el precio, sobre el caso
 de Emilse y sobre lo que el agente es. De copy queda un bloque, el 3 —el inglés—, y lo lleva Adrián
@@ -732,6 +783,30 @@ la constante `CALL_MINUTES` de `agent-tools.js`, que usan el evento de la llamad
 de notas; antes eran dos `30 * 60000` en funciones distintas. También lo decía la descripción de la
 tool en `chat.js`, que el modelo lee en cada turno.
 
+#### El agente aprende a recibir al que llega pidiendo la llamada
+
+Agosto de 2026, con el botón de la 08. Ahora el primer mensaje de muchas conversaciones va a ser
+«Quiero agendar los quince minutos», y el prompt tal como estaba lo habría atendido mal por dos
+sitios que se contradecían entre sí:
+
+- **«Cómo abrir» mandaba preguntar por el negocio.** «Si trajo poco, preguntas UNA sola cosa
+  concreta: la que más te falte para entender su negocio.» Aplicado a alguien que acaba de pulsar
+  «agendar», eso es ponerle un trámite delante a quien ya dijo que sí — justo lo que el botón viene
+  a quitar. Ahora lleva una excepción y dos ejemplos más, uno bien y uno mal.
+- **El «Flujo de handoff» empezaba por reconocer la intención**, que en este caso ya está dada. Se
+  le añade el bloque **«Cuando llegan pidiendo la llamada»**: se salta el paso 1, arranca por el
+  email y **puede juntar el paso 2 y el 3 en un mensaje** —el correo y las tres franjas a la vez—
+  porque ahí no está cualificando, está cerrando. La línea de scoping se sigue pidiendo, pero en el
+  paso 4, cuando la invitación ya está medio hecha.
+
+El bloque reconoce el texto del botón y también las variantes escritas a mano («quiero agendar»,
+«vamos a la llamada», «apúntame», «book a call»), así que sirve igual para quien lo teclee por su
+cuenta. **No hace falta ninguna bandera en la petición:** lo que dispara la regla es lo que dice el
+visitante, no de dónde viene el clic.
+
+El `FIRST_TURN_REMINDER` de `chat.js` lleva la misma excepción en corto, porque el clic del botón cae
+casi siempre en el primer turno, que es donde ese recordatorio se añade.
+
 **El caso del prompt se puso al día con la 04** (agosto de 2026). Al reescribir la sección se
 abrieron tres diferencias con `system-prompt.js`: el prompt seguía diciendo «la academia de
 contrabajo» donde la página ya dice «la primera membresía de contrabajo online del mundo», seguía
@@ -745,6 +820,12 @@ Las tres se corrigieron; de la errata queda solo la regla útil, que su nombre s
 - [ ] **Comprobar los dos arreglos en producción.** Aquí no hay `ANTHROPIC_API_KEY`. Abrir el chat,
       escribir «Hola, estoy interesado en armar una plataforma» y mirar que no salude y que trate de
       tú.
+- [ ] **Comprobar el botón que agenda, en producción.** El clic y lo que pasa en el navegador sí está
+      verificado —baja al chat, escribe la línea en el idioma que toca, la guarda en el historial y
+      el segundo clic no la repite—, pero **la respuesta del agente no**, por lo mismo: sin clave, el
+      chat devuelve el aviso de conexión. Pulsar «Hablemos quince minutos» en la 08 y mirar que pida
+      el correo y proponga tres franjas **sin preguntar antes por el negocio**, y que la reserva
+      llegue al calendario.
 
 ### La web contra el prompt nuevo
 

@@ -574,17 +574,26 @@
     </div>
 
     <div class="contact-sales__cta reveal" data-delay="1">
-      <a href="mailto:hello@arcmediahouse.com?subject=Hablemos%20quince%20minutos" target="_blank" rel="noopener" class="btn btn--primary btn--lg" data-magnetic>
+      <!-- el botón se lo pasa al agente, que pide el correo y la franja y la
+           agenda en el calendario. El href a #ai es el respaldo sin JS. -->
+      <a href="#ai" class="btn btn--primary btn--lg" data-magnetic
+         data-agent-intent
+         data-intent-es="Quiero agendar los quince minutos."
+         data-intent-en="I'd like to book the fifteen minutes.">
         <span data-en="Let's talk for fifteen minutes" data-es="Hablemos quince minutos">Hablemos quince minutos</span>
         <span class="arrow">→</span>
       </a>
       <p class="contact-sales__fine" data-en="Free and with no commitment. You come out of it knowing what you need, whether you hire me or not." data-es="Gratis y sin compromiso. Sales de ahí sabiendo qué necesitas, me contrates o no.">Gratis y sin compromiso. Sales de ahí sabiendo qué necesitas, me contrates o no.</p>
+      <p class="contact-sales__fallback">
+        <span data-en="It books it for you, right here. Rather use email?" data-es="Te la agenda aquí mismo. ¿Prefieres el correo?">Te la agenda aquí mismo. ¿Prefieres el correo?</span>
+        <a href="mailto:hello@arcmediahouse.com?subject=Hablemos%20quince%20minutos" target="_blank" rel="noopener">hello@arcmediahouse.com</a>
+      </p>
     </div>
   </div>
 
   <p class="body-lg contact-lead__note reveal" data-delay="1" data-en="You tell me what you sell and how you're selling it today. I tell you whether this is any use to you or not. If it isn't, I tell you on the call and I don't chase you afterwards." data-es="Me cuentas qué vendes y cómo lo estás vendiendo hoy. Te digo si esto te sirve o no. Si no te sirve, te lo digo en la llamada y no te insisto después.">Me cuentas qué vendes y cómo lo estás vendiendo hoy. Te digo si esto te sirve o no. Si no te sirve, te lo digo en la llamada y no te insisto después.</p>
 
-  <p class="body-lg contact-sales__agent reveal" data-en="Would you rather ask first? Write to this site's agent. It's built with the same thing I'm selling you — ask it whatever you like and you get to see it working." data-es="¿Prefieres preguntar antes? Escríbele al agente de este sitio. Está hecho con lo mismo que te vendo — pregúntale lo que sea y de paso lo ves funcionando.">¿Prefieres preguntar antes? Escríbele al agente de este sitio. Está hecho con lo mismo que te vendo — pregúntale lo que sea y de paso lo ves funcionando.</p>
+  <p class="body-lg contact-sales__agent reveal" data-en="Want to ask before you book? The same agent answers anything — pricing, timelines, what's included and what isn't. It's built with the same thing I'm selling you, so you get to see it working." data-es="¿Quieres preguntar antes de agendar? El mismo agente te responde lo que sea — precios, plazos, qué incluye y qué no. Está hecho con lo mismo que te vendo, así que de paso lo ves funcionando.">¿Quieres preguntar antes de agendar? El mismo agente te responde lo que sea — precios, plazos, qué incluye y qué no. Está hecho con lo mismo que te vendo, así que de paso lo ves funcionando.</p>
 </section>
 
 <!-- AGENT WIDGET (unchanged) -->

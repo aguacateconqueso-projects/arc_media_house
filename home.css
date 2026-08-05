@@ -1343,6 +1343,21 @@
   max-width: 34ch;
   margin: 0;
 }
+/* el correo baja a respaldo: el botón de arriba agenda solo, y esto es para
+   quien prefiera escribir. Pequeño y en gris, debajo de la letra fina */
+.contact-sales__fallback {
+  font-size: clamp(13px, 1vw, 15px);
+  line-height: 1.5;
+  color: var(--fg-2);
+  max-width: 34ch;
+  margin: -8px 0 0;
+}
+.contact-sales__fallback a {
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
 .contact-sales__agent {
   margin: clamp(56px, 7vw, 90px) auto 0;
   padding-top: clamp(32px, 4vw, 48px);
