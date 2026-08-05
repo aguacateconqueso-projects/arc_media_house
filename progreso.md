@@ -2,7 +2,7 @@
 
 Estado del sitio y de lo que queda pendiente. Se actualiza cuando algo cambia de sitio.
 
-Última actualización: 4 de agosto de 2026.
+Última actualización: 5 de agosto de 2026.
 
 ---
 
@@ -176,9 +176,10 @@ montón de gente, y por eso es uno de tus problemas. El tercero pasa a «Todo se
 que deciden si vendes o no:», que es la frase que entrega las tres filas. Solo texto: el alto de la
 sección no se mueve en ninguno de los tres anchos.
 
-**El botón «Hablemos quince minutos» aparece tres veces** (encabezado, fin de la prueba, fin del
-precio) y las tres bajan a contacto. El de dentro de contacto abre el correo, porque un botón que
-lleva a sí mismo no hace nada.
+**El botón «Hablemos quince minutos» aparece cuatro veces.** Las tres de arriba —encabezado, fin de
+la prueba, fin del precio— bajan a contacto. La cuarta, la de dentro de contacto, no puede llevar a
+sí misma: desde agosto de 2026 se lo pasa al agente, que pide el correo y la franja y agenda la
+llamada. Está contado en la sección 08.
 
 ### La sección 03 — «Qué se construye»
 
@@ -251,17 +252,40 @@ foro donde se hablan entre ellos» y ahora dice «el foro donde ellos preguntan 
 («the forum where they ask and only you answer»). Con esto el foro se vende igual en todas partes:
 no es un sitio donde los alumnos charlan, es donde preguntan y contesta quien lleva la academia.
 
-**El vídeo de la prueba ya está puesto.** `Videos/showcase_palataforma_emilse_rios_v2.mp4` sustituye
-al recuadro de «Video en camino». Va dentro del mismo `.proof__video` de 16:9 —el vídeo es 3840×2160,
-la misma proporción, así que llena la caja sin recortar— con `autoplay muted loop playsinline` y
-`controls`, que es lo que ya hacen los vídeos de `services-video.html` más la barra para que se pueda
-parar o subir el sonido. La regla `.proof__video .mono` del texto de relleno se cambió por
-`.proof__video video`, y la caja lleva `overflow: hidden`.
+**El vídeo de la prueba ya está puesto.** Sustituye al recuadro de «Video en camino». Va dentro de un
+`.proof__video` de 16:9 —el vídeo tiene esa misma proporción, así que llena la caja sin recortar— con
+`autoplay muted loop playsinline` y `controls`, que es lo que ya hacen los vídeos de
+`services-video.html` más la barra para que se pueda parar o subir el sonido. La regla
+`.proof__video .mono` del texto de relleno se cambió por `.proof__video video`, y la caja lleva
+`overflow: hidden`.
 
-Quedan dos cosas del archivo, ninguna urgente: pesa 25 MB en 4K —conviene una copia a 1080p— y tiene
-el `moov` al final, así que el navegador necesita el fichero entero antes de empezar. Las dos se
-arreglan de una pasada con `ffmpeg -movflags +faststart`; aquí no hay ffmpeg con H.264 para hacerlo.
-Tampoco hay imagen de `poster` por lo mismo.
+**El archivo se cambió por uno más ligero** (5 de agosto de 2026). Ahora es
+`Videos/showcase_compressed.mp4`, que subió Adrián: **1080p y 11,6 MB** en vez de 4K y 24,4 MB. Misma
+duración —74s— y la misma proporción 16:9, así que la caja no cambia. En el HTML solo cambia el
+`src`.
+
+**Y se le movió el `moov` al principio.** Venía como el anterior, `ftyp → free → mdat → moov`, o sea
+con el índice al final: el navegador tenía que bajarse los 11,5 MB del `mdat` antes de saber siquiera
+la duración del vídeo. Ahora es `ftyp → moov → free → mdat` y el índice empieza en el byte 32.
+
+Eso se hace normalmente con `ffmpeg -movflags +faststart`, y **aquí sigue sin haber ffmpeg**. Pero no
+hace falta: mover el `moov` es reordenar el contenedor, no recodificar. El script está en el
+historial del PR y hace dos cosas — mueve la caja `moov` delante y **corrige las tres tablas `stco`**,
+que guardan la posición absoluta en el fichero de cada chunk y por tanto se desplazan los 45.111
+bytes que ocupa el `moov`.
+
+Como aquí el Chromium de Playwright no trae códecs H.264, **el vídeo no se puede reproducir en este
+entorno** y la comprobación fue estructural, no visual: mismo tamaño de fichero, `mdat` byte a byte
+idéntico, y las 290 entradas de offset desplazadas exactamente el tamaño del `moov`, dentro del
+`mdat` nuevo y apuntando a los mismos bytes que en el original. Conviene mirarlo una vez en
+producción de todas formas.
+
+Sigue sin haber imagen de `poster`, por lo mismo: extraer un fotograma pide decodificar H.264.
+
+**El 4K viejo se borró.** `showcase_palataforma_emilse_rios_v2.mp4` eran 24 MB que ya no enlazaba
+nadie y que se publicaban en cada despliegue. Antes de quitarlo se comprobó que no lo nombraba ningún
+HTML, CSS ni JS — solo este archivo. Sigue en el historial de git por si alguna vez hace falta el
+original en 4K.
 
 **Los dos párrafos se reescribieron y llegó la cita** (agosto de 2026).
 
@@ -488,6 +512,52 @@ tres líneas), de 715 a 690px en tablet (741 a 738 en inglés) y de 785 a 772px 
 inglés, lo único que crece: ahí el botón grande no ahorra nada porque ya iba apilado). Encoge porque
 el botón deja de ocupar una fila propia debajo del titular.
 
+#### El botón ya no abre el correo: se lo pasa al agente
+
+Agosto de 2026. **`mailto:` pierde visitantes en silencio.** Depende de que haya un cliente de correo
+configurado: en móvil suele ir, pero en escritorio con webmail en el navegador —que es la mayoría— o
+no pasa nada, o se abre un programa que esa persona no usa. No hay error y no hay aviso, así que el
+lead se pierde sin que se entere ninguno de los dos. Y encima era el punto de más fricción de la
+página: la web promete que te construye el sistema que agenda y cobra solo, y el botón final te
+mandaba a redactar un correo en blanco.
+
+El agente ya sabe hacer esto. `agent-tools.js` agenda los quince minutos en el calendario, manda la
+invitación al visitante y le pasa la transcripción a Adrián, con dos backstops en `chat.js` para que
+el lead no se pierda aunque el modelo falle. Estaba construido y el botón principal lo ignoraba.
+
+**Ahora el botón baja al chat y escribe la intención por él.** El enlace es `href="#ai"` y lleva
+`data-agent-intent` con sus `data-intent-es` y `data-intent-en` («Quiero agendar los quince minutos.»
+/ «I'd like to book the fifteen minutes.»). El manejador vive al final de `ai-chat.js`: baja a la
+sección del chat, esconde las sugerencias y llama al mismo `ask()` que ya usaban esos botones. **Sin
+JS el enlace sigue funcionando** y baja al chat igual — por eso es un `<a href="#ai">` y no un
+`<button>`, que además habría necesitado CSS nuevo para parecerse a `.btn`.
+
+**El segundo clic no repite la línea.** Dos banderas, `intentSent` y `intentPending`: si ya lo pidió,
+el botón solo le devuelve el foco al campo. `ask()` ahora devuelve la promesa de `ARCChat.send()`
+para poder saber cuándo termina.
+
+**Los otros tres botones no se tocan.** Siguen bajando a contacto, que es lo correcto: el que se
+lleva al agente es el del final del recorrido, cuando ya está todo dicho.
+
+**El correo baja a respaldo**, en un `.contact-sales__fallback` debajo de la letra fina: «Te la
+agenda aquí mismo. ¿Prefieres el correo? hello@arcmediahouse.com». Pequeño y en `--fg-2`, con el
+enlace en `--fg` y subrayado. El texto traducible va en su `<span>` y el enlace fuera, porque
+`app.js` escribe `textContent` y se llevaría por delante la etiqueta `<a>`.
+
+**«¿Prefieres preguntar antes?…» se reescribió**, porque el cambio lo dejaba contradiciéndose: ese
+párrafo vendía al agente como *la alternativa* al botón, y ahora el botón **es** el agente. Pasa a
+«¿Quieres preguntar antes de agendar? El mismo agente te responde lo que sea — precios, plazos, qué
+incluye y qué no.» Se queda la razón de siempre —está hecho con lo mismo que te vendo, así que de
+paso lo ves funcionando—, que es lo que sostiene el bloque.
+
+Alto de la sección: de 781 a 810px en escritorio (898 a 928 en inglés), de 690 a 767px en tablet (738
+a 815) y de 772 a 849px en móvil (858 a 935). En escritorio los +29 son solo el párrafo del agente,
+más largo: la columna del botón es más corta que el titular, así que la línea del correo no empuja
+nada. En tablet y móvil todo va apilado y suman las dos cosas.
+
+El desbordamiento a 390px **no lo toca este cambio**: sigue en 405px en español y 449px en inglés,
+los de siempre.
+
 La sección 04 no cambia de alto al meter el vídeo: 2082px en escritorio, 1325 en tablet y 1191 en
 móvil, los mismos que con el recuadro vacío — la caja de 16:9 ya estaba reservada.
 
@@ -551,6 +621,11 @@ párrafos de la 02, la 04 entera —texto nuevo, la cita de Emilse por fin, el n
 el «Entra y míralo» y el botón subido a la altura de la cita— y las cuatro tarjetas de la 05, más el
 caso del prompt puesto al día detrás.
 
+Y en agosto, el **#100**, que junta cuatro cosas: el botón de la 08 deja de abrir el correo y se lo
+pasa al agente —con la excepción del prompt para quien llega pidiendo la llamada y el párrafo del
+agente reescrito, que si no se quedaba contradiciendo al botón—, la frase del inglés de la 04, el
+vídeo ligero con el `moov` movido al principio, y el desbordamiento lateral del móvil.
+
 **No queda ninguno abierto.** El sitio y el agente dicen ya lo mismo sobre el precio, sobre el caso
 de Emilse y sobre lo que el agente es. De copy queda un bloque, el 3 —el inglés—, y lo lleva Adrián
 aparte.
@@ -576,14 +651,14 @@ no se despliega. Se rehízo desde `main` en el #84. **No se apilan PR.**
 
 ### Copy
 
-De los cinco bloques que había, **queda uno vivo: el 3, el inglés**. El 1 se hizo en el #96, el 2 se
-cerró al llegar la cita de Emilse, y el 4 y el 5 se cerraron por decisión, no por trabajo: no vuelven
-a la lista.
+De los cinco bloques que había, **no queda ninguno vivo**. El 1 se hizo en el #96, el 2 se cerró al
+llegar la cita de Emilse, el 3 se cerró el 5 de agosto de 2026 —el repaso hecho y sus dos puntos de
+maquetación cerrados por decisión— y el 4 y el 5 se habían cerrado antes, también por decisión. **De
+copy no queda nada pendiente.**
 
-**Y hay inglés nuevo esperando repaso.** La pasada de copy de agosto —el párrafo del encabezado, la
-entradilla de la 01, los tres párrafos de la 02, los dos de la 04 con la cita, y las cuatro tarjetas
-de la 05— se escribió en español primero, como manda la casa, y su traducción entra en el bloque 3
-sin revisar.
+**El repaso del inglés ya está hecho** (5 de agosto de 2026) y salió limpio: una sola frase, en la
+04. Los otros dos puntos del bloque no eran traducción sino maquetación —dos textos ingleses que no
+caben— y se cerraron por decisión, mirados en móvil: se quedan como están.
 
 **1. Lo que se contradice con el agente — hecho, en el #96**
 
@@ -621,16 +696,21 @@ siendo el del pie y el del bloque del chat, y no lo toca este cambio.
 
 **3. El inglés**
 
-- [ ] **Repasar la traducción del home entero.** El español manda y el inglés lleva tiempo esperando,
-      pero ahora hay mucho más texto sin repasar: los tres grupos del precio, el bloque de las
-      cuentas, las cuatro preguntas nuevas y el saludo del agente, y encima toda la pasada de copy de
-      agosto —encabezado, 01, 02, 04 y las cuatro tarjetas de la 05—, todos escritos en español
-      primero.
-- [ ] **El pie no cabe en inglés.** «Make— something.» se sale 59px de la pantalla a 390px y es la
-      causa del desbordamiento de 449px que sale en la lista de diseño. Se arregla escribiendo una
-      frase más corta, no tocando el `clamp`.
-- [ ] **El titular de la 08 ocupa tres líneas en inglés** («Let's talk for fifteen minutes.») donde
-      el español ocupa dos. Buen momento para acortarlo.
+- [x] **Repasar la traducción del home entero — hecho.** Lo repasó Adrián el 5 de agosto de 2026, en
+      los dos anchos, sobre todo lo que estaba esperando: los tres grupos del precio, el bloque de
+      las cuentas, las cuatro preguntas nuevas, el saludo del agente y la pasada de copy de agosto
+      —encabezado, 01, 02, 04 y las cuatro tarjetas de la 05—. **Salió una sola cosa**, en el segundo
+      párrafo de la 04: decía «and no idea how to give it shape», que es la construcción española
+      traducida de frente. Pasa a «and no idea how to shape it». No mueve el alto de la sección en
+      ningún ancho.
+- [x] **El pie que no cabe en inglés — cerrado: se queda.** «Make— something.» se sale 59px de la
+      pantalla a 390px, y desde el 5 de agosto de 2026 **es la única causa** del desbordamiento a lo
+      ancho que le queda al sitio: el otro, el del bloque del chat, se arregló. Adrián lo miró en
+      móvil y decide que se queda. **Lo que eso acepta, a sabiendas:** en inglés la página mide 449px
+      de ancho real a 390px y se puede arrastrar de lado 59px. En español no pasa. Si algún día se
+      toca el pie por otra razón, ahí está la frase.
+- [x] **El titular de la 08 en inglés — cerrado: se queda.** «Let's talk for fifteen minutes.» ocupa
+      tres líneas donde el español ocupa dos. Se ve, pero no molesta. Agosto de 2026.
 
 **4. Las páginas del posicionamiento viejo — cerrado: se quedan como están**
 
@@ -658,11 +738,13 @@ Decidido en agosto, con el resto.
 
 ### Otros pendientes de contenido
 
-- [ ] **Comprimir el vídeo de la prueba.** Está a 4K y pesa 25 MB, y lleva el `moov` al final, así
-      que el navegador se lo tiene que bajar entero antes de arrancar. Una copia a 1080p con
-      `ffmpeg -movflags +faststart`, y de paso un `poster` con el primer fotograma.
-- [x] **Vídeo de la prueba.** Puesto: `Videos/showcase_palataforma_emilse_rios_v2.mp4` en la
-      sección 04.
+- [x] **Comprimir el vídeo de la prueba — hecho.** 5 de agosto de 2026. Adrián subió
+      `Videos/showcase_compressed.mp4` a 1080p y 11,6 MB, y en el mismo paso se le movió el `moov` al
+      principio, que era la otra mitad del problema. Está contado en la sección 04.
+- [ ] **El `poster` del vídeo.** Sigue sin haberlo, y sigue por la misma razón: sacar un fotograma
+      pide decodificar H.264, y aquí no hay ni ffmpeg ni un Chromium con ese códec. Es de lo poco que
+      no se puede hacer desde este entorno.
+- [x] **Vídeo de la prueba.** Puesto en la sección 04.
 
 ### El agente
 
@@ -732,6 +814,30 @@ la constante `CALL_MINUTES` de `agent-tools.js`, que usan el evento de la llamad
 de notas; antes eran dos `30 * 60000` en funciones distintas. También lo decía la descripción de la
 tool en `chat.js`, que el modelo lee en cada turno.
 
+#### El agente aprende a recibir al que llega pidiendo la llamada
+
+Agosto de 2026, con el botón de la 08. Ahora el primer mensaje de muchas conversaciones va a ser
+«Quiero agendar los quince minutos», y el prompt tal como estaba lo habría atendido mal por dos
+sitios que se contradecían entre sí:
+
+- **«Cómo abrir» mandaba preguntar por el negocio.** «Si trajo poco, preguntas UNA sola cosa
+  concreta: la que más te falte para entender su negocio.» Aplicado a alguien que acaba de pulsar
+  «agendar», eso es ponerle un trámite delante a quien ya dijo que sí — justo lo que el botón viene
+  a quitar. Ahora lleva una excepción y dos ejemplos más, uno bien y uno mal.
+- **El «Flujo de handoff» empezaba por reconocer la intención**, que en este caso ya está dada. Se
+  le añade el bloque **«Cuando llegan pidiendo la llamada»**: se salta el paso 1, arranca por el
+  email y **puede juntar el paso 2 y el 3 en un mensaje** —el correo y las tres franjas a la vez—
+  porque ahí no está cualificando, está cerrando. La línea de scoping se sigue pidiendo, pero en el
+  paso 4, cuando la invitación ya está medio hecha.
+
+El bloque reconoce el texto del botón y también las variantes escritas a mano («quiero agendar»,
+«vamos a la llamada», «apúntame», «book a call»), así que sirve igual para quien lo teclee por su
+cuenta. **No hace falta ninguna bandera en la petición:** lo que dispara la regla es lo que dice el
+visitante, no de dónde viene el clic.
+
+El `FIRST_TURN_REMINDER` de `chat.js` lleva la misma excepción en corto, porque el clic del botón cae
+casi siempre en el primer turno, que es donde ese recordatorio se añade.
+
 **El caso del prompt se puso al día con la 04** (agosto de 2026). Al reescribir la sección se
 abrieron tres diferencias con `system-prompt.js`: el prompt seguía diciendo «la academia de
 contrabajo» donde la página ya dice «la primera membresía de contrabajo online del mundo», seguía
@@ -745,6 +851,12 @@ Las tres se corrigieron; de la errata queda solo la regla útil, que su nombre s
 - [ ] **Comprobar los dos arreglos en producción.** Aquí no hay `ANTHROPIC_API_KEY`. Abrir el chat,
       escribir «Hola, estoy interesado en armar una plataforma» y mirar que no salude y que trate de
       tú.
+- [ ] **Comprobar el botón que agenda, en producción.** El clic y lo que pasa en el navegador sí está
+      verificado —baja al chat, escribe la línea en el idioma que toca, la guarda en el historial y
+      el segundo clic no la repite—, pero **la respuesta del agente no**, por lo mismo: sin clave, el
+      chat devuelve el aviso de conexión. Pulsar «Hablemos quince minutos» en la 08 y mirar que pida
+      el correo y proponga tres franjas **sin preguntar antes por el negocio**, y que la reserva
+      llegue al calendario.
 
 ### La web contra el prompt nuevo
 
@@ -781,11 +893,15 @@ por Google se encuentra el sitio viejo; es un coste conocido. **No es un pendien
 
 ### Newsletter
 
-- [ ] **Elegir herramienta de correos.** Mientras tanto, el formulario guarda una copia en el
-      navegador (`localStorage`, clave `arc_newsletter_v1`) y envía a **Netlify Forms** con el
-      nombre `newsletter` — se recuperan en el panel de Netlify, en Forms. Si esa función no está
-      activada en la cuenta, el envío falla en silencio y el visitante ve igualmente «Listo, te
-      escribo pronto». Nunca da error. Cuando haya herramienta, se cambia el destino del `fetch`.
+- [x] **Elegir herramienta de correos — hecha.** Adrián la eligió en agosto de 2026. Falta
+      configurarla, y falta anotar aquí cuál es.
+- [ ] **Conectarla.** Hasta que esté, el formulario guarda una copia en el navegador (`localStorage`,
+      clave `arc_newsletter_v1`) y envía a **Netlify Forms** con el nombre `newsletter` — se
+      recuperan en el panel de Netlify, en Forms. **Si esa función no está activada en la cuenta, el
+      envío falla en silencio** y el visitante ve igualmente «Listo, te escribo pronto». Nunca da
+      error, así que no hay forma de enterarse desde fuera de que se están perdiendo. Cuando la
+      herramienta esté configurada, se cambia el destino del `fetch` en el bloque `newsletter()` del
+      final de `index.html`.
 
 ### Diseño
 
@@ -794,15 +910,28 @@ por Google se encuentra el sitio viejo; es un coste conocido. **No es un pendien
       las páginas de servicio (los tiempos del proceso, `~48h`), que son las que se quedan ocultas y
       sin tocar — así que esto solo importa el día que se escriba texto pequeño en verde en el home.
       Está en `styles.css`, común a todo, si alguna vez se arregla de raíz.
-- [ ] **El home se desborda a lo ancho en móvil.** A 390px la página mide 405px de ancho real, así
-      que se puede arrastrar de lado. Sale del bloque del chat: `.ai__chat` y `.ai__side` (y dentro,
-      `.ai__log`, `.ai__form` y el `.btn` del lateral) se salen 15px. Es anterior al home nuevo y no
-      lo causa ninguna sección. Se comprueba a 390px con
+- [x] **El home se desbordaba a lo ancho en móvil — arreglado.** 5 de agosto de 2026. A 390px la
+      página medía 405px de ancho real y se podía arrastrar de lado.
+
+      **La causa era una sola línea que no estaba escrita.** `.ai__panel` es una rejilla, y los hijos
+      de una rejilla llevan `min-width: auto`: la columna no puede encogerse por debajo del contenido
+      mínimo de lo que lleva dentro. El contenedor da 350px a 390px de pantalla y la columna se
+      plantaba en 385, así que `.ai__chat` y `.ai__side` —y con ellos `.ai__log`, `.ai__form` y el
+      `.btn` del lateral— se salían los 15px. La `.nav` salía en la lista de sospechosos porque es
+      `position: fixed` con `left: 0; right: 0` y se estira hasta el ancho del documento: era el
+      síntoma, no la causa.
+
+      Se arregla con **`.ai__panel > * { min-width: 0; }`**. Comprobado: 405 → 390px, sin nada que se
+      salga, y el panel se ve igual a 350px —el log, las sugerencias, la fila de escribir y los dos
+      bloques del lateral entran sin recortarse—. A 834 y 1440px no cambia nada.
+
+      Llevaba abierto desde antes del home nuevo. Se comprueba a 390px con
       `document.documentElement.scrollWidth > clientWidth`.
-- [ ] **Y en inglés se desborda más: 449px.** Es el `.foot-display` del pie, la frase grande que
-      acaba en «something.»: a ese cuerpo no cabe a 390px y se sale 59px. En español no pasa. Se
-      arregla bajando el `clamp` del `.foot-display` o partiendo la frase, como en la 03 — y hay una
-      entrada de copy para eso, porque lo que sobra es la frase, no el tamaño.
+- [ ] **En inglés se sigue desbordando: 449px.** Y ahora es lo único que queda. Es el
+      `.foot-display` del pie, la frase grande que acaba en «something.»: a ese cuerpo no cabe a
+      390px y se sale 59px. En español no pasa. **Está cerrado por decisión** en el bloque 3 del
+      copy —Adrián lo miró en móvil y se queda—, así que esta entrada es un recordatorio de lo que se
+      acepta, no una tarea. Se arreglaría partiendo la frase, como en la 03, no tocando el `clamp`.
 - [ ] **La sección 06 mide 3.447px en móvil.** Es la más larga del sitio, y es el precio de decirlo
       todo. Si se hace pesada, lo que pliega bien son las dos listas de «qué incluye / qué no» con el
       mismo desplegable de las preguntas: el visitante que solo quiere las cifras las tiene en los

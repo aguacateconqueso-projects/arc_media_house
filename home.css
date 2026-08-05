@@ -509,6 +509,14 @@
   .ai__head .h-1, .ai__head .body-lg { grid-column: 1; }
 }
 
+/* Los hijos de una rejilla llevan `min-width: auto`, así que la columna no
+   puede encogerse por debajo del contenido mínimo de lo que lleva dentro. A
+   390px eso dejaba la columna en 385px cuando el contenedor solo tiene 350, y
+   el sobrante —15px— era el desbordamiento lateral de todo el home: la página
+   medía 405px de ancho real y se podía arrastrar de lado. Con `min-width: 0`
+   la columna vuelve a obedecer al contenedor. */
+.ai__panel > * { min-width: 0; }
+
 /* process */
 .process { padding-top: 100px; padding-bottom: 80px; }
 .process__head { display: grid; grid-template-columns: 1fr 2fr; gap: 60px; padding-bottom: 80px; }
@@ -1342,6 +1350,21 @@
   color: var(--fg-2);
   max-width: 34ch;
   margin: 0;
+}
+/* el correo baja a respaldo: el botón de arriba agenda solo, y esto es para
+   quien prefiera escribir. Pequeño y en gris, debajo de la letra fina */
+.contact-sales__fallback {
+  font-size: clamp(13px, 1vw, 15px);
+  line-height: 1.5;
+  color: var(--fg-2);
+  max-width: 34ch;
+  margin: -8px 0 0;
+}
+.contact-sales__fallback a {
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
 }
 .contact-sales__agent {
   margin: clamp(56px, 7vw, 90px) auto 0;
