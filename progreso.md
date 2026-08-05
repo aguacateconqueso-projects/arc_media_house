@@ -252,12 +252,12 @@ foro donde se hablan entre ellos» y ahora dice «el foro donde ellos preguntan 
 («the forum where they ask and only you answer»). Con esto el foro se vende igual en todas partes:
 no es un sitio donde los alumnos charlan, es donde preguntan y contesta quien lleva la academia.
 
-**El vídeo de la prueba ya está puesto.** `Videos/showcase_palataforma_emilse_rios_v2.mp4` sustituye
-al recuadro de «Video en camino». Va dentro del mismo `.proof__video` de 16:9 —el vídeo es 3840×2160,
-la misma proporción, así que llena la caja sin recortar— con `autoplay muted loop playsinline` y
-`controls`, que es lo que ya hacen los vídeos de `services-video.html` más la barra para que se pueda
-parar o subir el sonido. La regla `.proof__video .mono` del texto de relleno se cambió por
-`.proof__video video`, y la caja lleva `overflow: hidden`.
+**El vídeo de la prueba ya está puesto.** Sustituye al recuadro de «Video en camino». Va dentro de un
+`.proof__video` de 16:9 —el vídeo tiene esa misma proporción, así que llena la caja sin recortar— con
+`autoplay muted loop playsinline` y `controls`, que es lo que ya hacen los vídeos de
+`services-video.html` más la barra para que se pueda parar o subir el sonido. La regla
+`.proof__video .mono` del texto de relleno se cambió por `.proof__video video`, y la caja lleva
+`overflow: hidden`.
 
 **El archivo se cambió por uno más ligero** (5 de agosto de 2026). Ahora es
 `Videos/showcase_compressed.mp4`, que subió Adrián: **1080p y 11,6 MB** en vez de 4K y 24,4 MB. Misma
@@ -282,9 +282,10 @@ producción de todas formas.
 
 Sigue sin haber imagen de `poster`, por lo mismo: extraer un fotograma pide decodificar H.264.
 
-El 4K viejo, `showcase_palataforma_emilse_rios_v2.mp4`, **se queda en el repositorio** sin que nadie
-lo enlace. Son 24 MB de despliegue que ya no ve ningún visitante; borrarlo es de una línea el día que
-se quiera.
+**El 4K viejo se borró.** `showcase_palataforma_emilse_rios_v2.mp4` eran 24 MB que ya no enlazaba
+nadie y que se publicaban en cada despliegue. Antes de quitarlo se comprobó que no lo nombraba ningún
+HTML, CSS ni JS — solo este archivo. Sigue en el historial de git por si alguna vez hace falta el
+original en 4K.
 
 **Los dos párrafos se reescribieron y llegó la cita** (agosto de 2026).
 
