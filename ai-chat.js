@@ -51,25 +51,39 @@
   }
   renderHistory();
 
-  // Re-render if cleared/changed elsewhere (widget, other tab)
+  function renderGreeting() {
+    log.innerHTML = '';
+    var div = document.createElement('div');
+    div.className = 'ai__msg ai__msg--bot';
+    var lang = document.documentElement.getAttribute('data-lang') || 'en';
+    var greet = lang === 'es'
+      ? '¡Hola! Soy el agente de ARC, no hablo como Adrián pero estoy aprendiendo. ¿Vamos a trabajar juntos? Cuéntame de ti y de cómo vamos a mejorar tu plataforma.'
+      : "Hi — I'm ARC's agent. I don't sound like Adrián yet, but I'm learning. Shall we work together? Tell me about yourself and how we're going to improve your platform.";
+    div.innerHTML = '<div class="ai__msg-label mono">AGENT</div><div class="ai__msg-body">' + greet + '</div>';
+    log.appendChild(div);
+  }
+
+  // Re-render cuando la conversación cambia en otro sitio: el widget flotante
+  // u otra pestaña. Antes solo se miraba el caso de «se ha borrado», así que
+  // si el visitante escribía en el widget este log se quedaba atrás hasta
+  // recargar. Ahora que los botones abren el widget, eso pasaría siempre.
+  var busy = false;
   window.ARCChat.onChange(function () {
+    if (busy) return; // mandando desde aquí: lo pinta `ask()`
     var history = window.ARCChat.get();
     if (history.length === 0) {
-      // restore the original welcome — reload to keep it simple
-      // (this only triggers when user clears from the widget)
-      log.innerHTML = '';
-      var div = document.createElement('div');
-      div.className = 'ai__msg ai__msg--bot';
-      var lang = document.documentElement.getAttribute('data-lang') || 'en';
-      var greet = lang === 'es'
-        ? '¡Hola! Soy el agente de ARC, no hablo como Adrián pero estoy aprendiendo. ¿Vamos a trabajar juntos? Cuéntame de ti y de cómo vamos a mejorar tu plataforma.'
-        : "Hi — I'm ARC's agent. I don't sound like Adrián yet, but I'm learning. Shall we work together? Tell me about yourself and how we're going to improve your platform.";
-      div.innerHTML = '<div class="ai__msg-label mono">AGENT</div><div class="ai__msg-body">' + greet + '</div>';
-      log.appendChild(div);
+      renderGreeting();
+      return;
     }
+    log.innerHTML = '';
+    for (var i = 0; i < history.length; i++) {
+      addMsg(history[i].role === 'user' ? 'user' : 'bot', history[i].content);
+    }
+    if (suggestBox) suggestBox.style.display = 'none';
   });
 
   function ask(text) {
+    busy = true;
     addMsg('user', text);
     var typing = addMsg('bot', '', { typing: true });
 
@@ -79,10 +93,12 @@
         typing.remove();
         var out = addMsg('bot', '');
         typewriter(out, reply);
+        busy = false;
       },
       onError: function (msg) {
         typing.querySelector('.ai__msg-body').textContent = '⚠ ' + msg;
         typing.classList.remove('ai__msg--typing');
+        busy = false;
       }
     });
   }
@@ -107,43 +123,4 @@
     });
   }
 
-  /* ---- El botón de la 08 se lo pasa al agente ----
-     «Hablemos quince minutos» abría el correo, que en escritorio con webmail
-     no hace nada y pierde al visitante en silencio. Ahora baja al chat y
-     escribe la intención por él: el agente pide el correo y la franja y la
-     agenda en el calendario (schedule_call, agent-tools.js).
-     El enlace apunta a #ai, así que sin JS sigue bajando al chat. */
-  var section = document.getElementById('ai');
-  var intentSent = false;
-  var intentPending = false;
-
-  function goToChat() {
-    var quiet = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (section) section.scrollIntoView({ behavior: quiet ? 'auto' : 'smooth', block: 'start' });
-    if (input) setTimeout(function () { input.focus({ preventScroll: true }); }, quiet ? 0 : 500);
-  }
-
-  document.addEventListener('click', function (e) {
-    var trigger = e.target.closest('[data-agent-intent]');
-    if (!trigger) return;
-    e.preventDefault();
-    goToChat();
-
-    // Ya lo pidió: no se repite la misma línea, solo se le devuelve el foco.
-    if (intentSent || intentPending) return;
-
-    var lang = document.documentElement.getAttribute('data-lang') || 'en';
-    var text = trigger.getAttribute(lang === 'es' ? 'data-intent-es' : 'data-intent-en');
-    if (!text) return;
-
-    intentPending = true;
-    if (suggestBox) suggestBox.style.display = 'none';
-    var sending = ask(text);
-    intentSent = true;
-    if (sending && sending.then) {
-      sending.then(function () { intentPending = false; }, function () { intentPending = false; });
-    } else {
-      intentPending = false;
-    }
-  });
 })();

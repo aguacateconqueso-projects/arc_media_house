@@ -13,6 +13,13 @@
   to = "/.netlify/functions/admin-conversations"
   status = 200
 
+# Resumen diario de las conversaciones que no acabaron en reserva. A las 07:00
+# UTC, que en Madrid son las 08:00 en invierno y las 09:00 en verano. La hora
+# la fija Netlify en UTC y no hay forma de decirle una zona, así que se acepta
+# que se mueva una hora con el cambio de horario.
+[functions."daily-digest"]
+  schedule = "0 7 * * *"
+
 [dev]
   port = 3002
   targetPort = 3000
