@@ -2,7 +2,7 @@
 
 Estado del sitio y de lo que queda pendiente. Se actualiza cuando algo cambia de sitio.
 
-Última actualización: 4 de agosto de 2026.
+Última actualización: 5 de agosto de 2026.
 
 ---
 
@@ -546,14 +546,27 @@ precio en tres grupos con las cuatro preguntas nuevas.
 El #96, ya fusionado, quitó las cuatro contradicciones entre la página y el agente: la pieza 05 de la
 03 y los tres textos del bloque del chat.
 
-Después vino la pasada de copy de agosto: el párrafo del encabezado, la entradilla de la 01, los tres
-párrafos de la 02, la 04 entera —texto nuevo, la cita de Emilse por fin, el nombre corregido, fuera
-el «Entra y míralo» y el botón subido a la altura de la cita— y las cuatro tarjetas de la 05, más el
-caso del prompt puesto al día detrás.
+El **#98**, ya fusionado, trajo la pasada de copy de agosto: el párrafo del encabezado, la entradilla
+de la 01, los tres párrafos de la 02, la 04 entera —texto nuevo, la cita de Emilse por fin, el nombre
+corregido, fuera el «Entra y míralo» y el botón subido a la altura de la cita— y las cuatro tarjetas
+de la 05, más el caso del prompt puesto al día detrás.
 
-**No queda ninguno abierto.** El sitio y el agente dicen ya lo mismo sobre el precio, sobre el caso
-de Emilse y sobre lo que el agente es. De copy queda un bloque, el 3 —el inglés—, y lo lleva Adrián
-aparte.
+El sitio y el agente dicen ya lo mismo sobre el precio, sobre el caso de Emilse y sobre lo que el
+agente es.
+
+### Abierto ahora mismo: el #99
+
+**El #99 está abierto y sin fusionar**, y es lo primero que hay que mirar al volver. Arregla los dos
+fallos del agente que salieron en conversaciones reales —el saludo repetido y el voseo— y toca
+`system-prompt.js`, `chat.js` y este archivo. El detalle está en «El agente», más abajo.
+
+**Va sin probar contra la API**, porque en la sesión no había `ANTHROPIC_API_KEY`. Antes de fusionarlo
+o justo después de desplegarlo, la comprobación es de treinta segundos y está descrita en la lista de
+pendientes.
+
+**Mientras el #99 siga abierto, no se abre otro PR que toque `progreso.md`.** Es exactamente el choque
+que está descrito abajo: el segundo en fusionarse da conflicto aquí. Si hace falta corregir algo del
+#99, se corrige dentro del #99.
 
 **Dos PR abiertos a la vez chocan en este archivo.** El #88 y el #89 salieron los dos de `main` y
 los dos escriben justo antes de «Idioma», así que el segundo en fusionarse dio conflicto aquí — en
@@ -573,6 +586,44 @@ no se despliega. Se rehízo desde `main` en el #84. **No se apilan PR.**
 ---
 
 ## Pendiente
+
+### Por dónde seguir
+
+Estado al cerrar la sesión del 5 de agosto de 2026. Todo lo de abajo está desarrollado en su sección;
+esto es solo el orden en que conviene cogerlo.
+
+**Primero, y es corto:**
+
+1. **Fusionar el #99** —el arreglo del saludo repetido y el voseo del agente— o corregirlo dentro del
+   propio PR. Mientras siga abierto, nada más toca este archivo.
+2. **Comprobar los dos arreglos en el chat desplegado.** Escribir «Hola, estoy interesado en armar
+   una plataforma» y mirar dos cosas: que no salude, y que trate de tú. Es la única parte del #99
+   que no se pudo verificar.
+
+**Si el saludo se sigue colando después del #99**, el siguiente paso está pensado y no se hizo por
+invasivo: guardar el saludo en `ARCChat` como primer mensaje y quitarlo del DOM estático, para que el
+modelo lo vea de verdad en el historial. Ojo con dos cosas si se hace — `renderHistory()` de
+`ai-chat.js` borra el saludo estático cuando hay historial, y la Messages API exige que el primer
+mensaje de la petición sea `user`, así que habría que quitarlo al enviar.
+
+**Lo grande que queda, sin fecha:**
+
+3. **El inglés del home entero** — bloque 3 de copy, tres entradas. Es el pendiente más gordo y lleva
+   tiempo esperando; la pasada de agosto le añadió bastante texto sin repasar. Ahí dentro van también
+   la frase del pie que no cabe en inglés y el titular de la 08, que ocupa tres líneas.
+4. **Repasar conversaciones reales en Supabase.** Ya ha dado dos fallos de verdad (los del #99), así
+   que sale a cuenta.
+5. **Comprimir el vídeo de la 04** — 25 MB en 4K y con el `moov` al final.
+6. **Elegir herramienta de correos** para la newsletter.
+7. **Los cuatro de diseño**: el desbordamiento a 390px en español (405px) y en inglés (449px, que es
+   la misma frase del pie del punto 3), el contraste del verde en tema claro y el largo de la 06 en
+   móvil.
+
+Son once entradas abiertas en total, y ninguna bloquea a otra salvo las dos primeras.
+
+**Lo que NO hay que volver a abrir**, que está decidido y se sigue reabriendo solo: las páginas del
+posicionamiento viejo se quedan ocultas y sin tocar (bloque 4 de copy), y las menudencias del bloque
+5 también. Las dos decisiones están razonadas abajo.
 
 ### Copy
 
