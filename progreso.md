@@ -590,8 +590,28 @@ idioma — con el efecto de que las demás páginas también le cargarán en esp
 
 ## Despliegue
 
-Netlify. Cada push a `main` dispara `.github/workflows/deploy.yml`, que publica el sitio entero.
-Configuración de rutas y funciones en `netlify.toml`.
+Netlify. Configuración de rutas y funciones en `netlify.toml`.
+
+**Quien publica es la integración de Git de Netlify**, no GitHub Actions. Comprobado el 5 de agosto
+de 2026 contra el sitio en vivo: los cambios del #100 estaban servidos en `arcmediahouse.com` a los
+pocos minutos del merge, con el workflow en rojo.
+
+**`.github/workflows/deploy.yml` no ha funcionado nunca.** Aquí ponía que cada push a `main` lo
+dispara «y publica el sitio entero». Lo dispara, sí; publicar no publica nada. **Los treinta runs
+registrados fallaron, sin una sola excepción**, y todos en el mismo sitio: el paso `npm ci`, antes
+de llegar al `npx netlify-cli deploy --prod`.
+
+    npm error `npm ci` can only install packages when your package.json and
+    package-lock.json are in sync.
+    npm error Missing: @supabase/supabase-js@2.112.1 from lock file
+    … y siete más
+
+`package.json` declara `"@supabase/supabase-js": "^2.45.0"` y el `package-lock.json` **no tiene esa
+dependencia**. `npm ci` es estricto a propósito: si el lock no cuadra con el manifiesto, falla en vez
+de instalar otra cosa. Se arregla regenerando el lock con `npm install`.
+
+Lo único que hace hoy el workflow es mandar un correo de fallo en cada push. Antes de arreglarlo
+conviene decidir si hace falta: si Netlify ya despliega desde Git, sobra.
 
 Variables de entorno: la lista está en `.env.example`. En local se copian a `.env`; en producción se
 ponen en Netlify → Site configuration → Environment variables.
@@ -746,6 +766,15 @@ Decidido en agosto, con el resto.
       no se puede hacer desde este entorno.
 - [x] **Vídeo de la prueba.** Puesto en la sección 04.
 
+### Infraestructura
+
+- [ ] **Decidir qué se hace con `deploy.yml`.** No ha publicado nunca —los treinta runs en rojo, todos
+      en `npm ci`— y quien despliega de verdad es la integración de Git de Netlify. Está contado
+      arriba, en «Despliegue». Dos caminos: **borrarlo**, si Netlify ya hace el trabajo, o
+      **arreglarlo** regenerando el `package-lock.json` con `npm install`. Lo que no vale es dejarlo
+      como está: hoy su única función es mandar un correo de fallo en cada push, y ese ruido es lo
+      que hace que un fallo de verdad pase desapercibido.
+
 ### El agente
 
 **Hecho, en el #92.** El prompt está reescrito entero para la oferta única y metido en
@@ -848,15 +877,21 @@ Las tres se corrigieron; de la errata queda solo la regla útil, que su nombre s
 - [ ] **Repasar conversaciones reales.** Es lo que el sitio ahora cobra en el mensual del agente, así
       que conviene hacerlo: leer lo que guarda Supabase y corregir lo que conteste mal. **Ya dio dos
       capturas:** el saludo repetido y el voseo, los dos arreglados arriba. Vale la pena seguir.
+
+      **Ojo con el agujero de agosto.** El proyecto de Supabase estuvo **pausado** y nadie se enteró,
+      porque `supabase-log.js` se traga el fallo a propósito: `logMessages` captura el error, lo
+      escribe en la consola y sigue. Eso está bien pensado —que la base caída no tumbe el chat— pero
+      significa que **de ese periodo no hay conversaciones guardadas**, aunque el agente estuviera
+      respondiendo y agendando con normalidad. Se reactivó el 5 de agosto de 2026. Si algún día el
+      panel de `admin.html` se ve más vacío de lo que debería, esto es lo primero que hay que mirar,
+      y el sitio donde se ve es en los logs de la función, no en la web.
 - [ ] **Comprobar los dos arreglos en producción.** Aquí no hay `ANTHROPIC_API_KEY`. Abrir el chat,
       escribir «Hola, estoy interesado en armar una plataforma» y mirar que no salude y que trate de
       tú.
-- [ ] **Comprobar el botón que agenda, en producción.** El clic y lo que pasa en el navegador sí está
-      verificado —baja al chat, escribe la línea en el idioma que toca, la guarda en el historial y
-      el segundo clic no la repite—, pero **la respuesta del agente no**, por lo mismo: sin clave, el
-      chat devuelve el aviso de conexión. Pulsar «Hablemos quince minutos» en la 08 y mirar que pida
-      el correo y proponga tres franjas **sin preguntar antes por el negocio**, y que la reserva
-      llegue al calendario.
+- [x] **El botón que agenda — comprobado en producción.** 5 de agosto de 2026. Adrián agendó una
+      llamada de principio a fin: la reserva pasó y llegaron los dos correos, el suyo y el de prueba.
+      Así que el circuito entero funciona — `schedule_call`, la invitación de Google Calendar y el
+      `send_transcript`.
 
 ### La web contra el prompt nuevo
 
