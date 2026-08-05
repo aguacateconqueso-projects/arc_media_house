@@ -259,10 +259,32 @@ la misma proporción, así que llena la caja sin recortar— con `autoplay muted
 parar o subir el sonido. La regla `.proof__video .mono` del texto de relleno se cambió por
 `.proof__video video`, y la caja lleva `overflow: hidden`.
 
-Quedan dos cosas del archivo, ninguna urgente: pesa 25 MB en 4K —conviene una copia a 1080p— y tiene
-el `moov` al final, así que el navegador necesita el fichero entero antes de empezar. Las dos se
-arreglan de una pasada con `ffmpeg -movflags +faststart`; aquí no hay ffmpeg con H.264 para hacerlo.
-Tampoco hay imagen de `poster` por lo mismo.
+**El archivo se cambió por uno más ligero** (5 de agosto de 2026). Ahora es
+`Videos/showcase_compressed.mp4`, que subió Adrián: **1080p y 11,6 MB** en vez de 4K y 24,4 MB. Misma
+duración —74s— y la misma proporción 16:9, así que la caja no cambia. En el HTML solo cambia el
+`src`.
+
+**Y se le movió el `moov` al principio.** Venía como el anterior, `ftyp → free → mdat → moov`, o sea
+con el índice al final: el navegador tenía que bajarse los 11,5 MB del `mdat` antes de saber siquiera
+la duración del vídeo. Ahora es `ftyp → moov → free → mdat` y el índice empieza en el byte 32.
+
+Eso se hace normalmente con `ffmpeg -movflags +faststart`, y **aquí sigue sin haber ffmpeg**. Pero no
+hace falta: mover el `moov` es reordenar el contenedor, no recodificar. El script está en el
+historial del PR y hace dos cosas — mueve la caja `moov` delante y **corrige las tres tablas `stco`**,
+que guardan la posición absoluta en el fichero de cada chunk y por tanto se desplazan los 45.111
+bytes que ocupa el `moov`.
+
+Como aquí el Chromium de Playwright no trae códecs H.264, **el vídeo no se puede reproducir en este
+entorno** y la comprobación fue estructural, no visual: mismo tamaño de fichero, `mdat` byte a byte
+idéntico, y las 290 entradas de offset desplazadas exactamente el tamaño del `moov`, dentro del
+`mdat` nuevo y apuntando a los mismos bytes que en el original. Conviene mirarlo una vez en
+producción de todas formas.
+
+Sigue sin haber imagen de `poster`, por lo mismo: extraer un fotograma pide decodificar H.264.
+
+El 4K viejo, `showcase_palataforma_emilse_rios_v2.mp4`, **se queda en el repositorio** sin que nadie
+lo enlace. Son 24 MB de despliegue que ya no ve ningún visitante; borrarlo es de una línea el día que
+se quiera.
 
 **Los dos párrafos se reescribieron y llegó la cita** (agosto de 2026).
 
@@ -598,9 +620,10 @@ párrafos de la 02, la 04 entera —texto nuevo, la cita de Emilse por fin, el n
 el «Entra y míralo» y el botón subido a la altura de la cita— y las cuatro tarjetas de la 05, más el
 caso del prompt puesto al día detrás.
 
-Y en agosto, el botón de la 08: deja de abrir el correo y se lo pasa al agente, que pide el correo y
-la franja y agenda la llamada. Con él van la excepción del prompt para quien llega pidiéndola y el
-párrafo del agente reescrito, que si no se quedaba contradiciendo al botón.
+Y en agosto, el **#100**, que junta cuatro cosas: el botón de la 08 deja de abrir el correo y se lo
+pasa al agente —con la excepción del prompt para quien llega pidiendo la llamada y el párrafo del
+agente reescrito, que si no se quedaba contradiciendo al botón—, la frase del inglés de la 04, el
+vídeo ligero con el `moov` movido al principio, y el desbordamiento lateral del móvil.
 
 **No queda ninguno abierto.** El sitio y el agente dicen ya lo mismo sobre el precio, sobre el caso
 de Emilse y sobre lo que el agente es. De copy queda un bloque, el 3 —el inglés—, y lo lleva Adrián
@@ -627,13 +650,14 @@ no se despliega. Se rehízo desde `main` en el #84. **No se apilan PR.**
 
 ### Copy
 
-De los cinco bloques que había, **del 3 —el inglés— queda solo la mitad de abajo**. El 1 se hizo en
-el #96, el 2 se cerró al llegar la cita de Emilse, y el 4 y el 5 se cerraron por decisión, no por
-trabajo: no vuelven a la lista.
+De los cinco bloques que había, **no queda ninguno vivo**. El 1 se hizo en el #96, el 2 se cerró al
+llegar la cita de Emilse, el 3 se cerró el 5 de agosto de 2026 —el repaso hecho y sus dos puntos de
+maquetación cerrados por decisión— y el 4 y el 5 se habían cerrado antes, también por decisión. **De
+copy no queda nada pendiente.**
 
 **El repaso del inglés ya está hecho** (5 de agosto de 2026) y salió limpio: una sola frase, en la
-04. Lo que queda del bloque 3 no es traducción, es maquetación —dos textos ingleses que no caben— y
-por eso sigue abierto.
+04. Los otros dos puntos del bloque no eran traducción sino maquetación —dos textos ingleses que no
+caben— y se cerraron por decisión, mirados en móvil: se quedan como están.
 
 **1. Lo que se contradice con el agente — hecho, en el #96**
 
@@ -678,11 +702,14 @@ siendo el del pie y el del bloque del chat, y no lo toca este cambio.
       párrafo de la 04: decía «and no idea how to give it shape», que es la construcción española
       traducida de frente. Pasa a «and no idea how to shape it». No mueve el alto de la sección en
       ningún ancho.
-- [ ] **El pie no cabe en inglés.** «Make— something.» se sale 59px de la pantalla a 390px y es la
-      causa del desbordamiento de 449px que sale en la lista de diseño. Se arregla escribiendo una
-      frase más corta, no tocando el `clamp`.
-- [ ] **El titular de la 08 ocupa tres líneas en inglés** («Let's talk for fifteen minutes.») donde
-      el español ocupa dos. Buen momento para acortarlo.
+- [x] **El pie que no cabe en inglés — cerrado: se queda.** «Make— something.» se sale 59px de la
+      pantalla a 390px, y desde el 5 de agosto de 2026 **es la única causa** del desbordamiento a lo
+      ancho que le queda al sitio: el otro, el del bloque del chat, se arregló. Adrián lo miró en
+      móvil y decide que se queda. **Lo que eso acepta, a sabiendas:** en inglés la página mide 449px
+      de ancho real a 390px y se puede arrastrar de lado 59px. En español no pasa. Si algún día se
+      toca el pie por otra razón, ahí está la frase.
+- [x] **El titular de la 08 en inglés — cerrado: se queda.** «Let's talk for fifteen minutes.» ocupa
+      tres líneas donde el español ocupa dos. Se ve, pero no molesta. Agosto de 2026.
 
 **4. Las páginas del posicionamiento viejo — cerrado: se quedan como están**
 
@@ -710,11 +737,13 @@ Decidido en agosto, con el resto.
 
 ### Otros pendientes de contenido
 
-- [ ] **Comprimir el vídeo de la prueba.** Está a 4K y pesa 25 MB, y lleva el `moov` al final, así
-      que el navegador se lo tiene que bajar entero antes de arrancar. Una copia a 1080p con
-      `ffmpeg -movflags +faststart`, y de paso un `poster` con el primer fotograma.
-- [x] **Vídeo de la prueba.** Puesto: `Videos/showcase_palataforma_emilse_rios_v2.mp4` en la
-      sección 04.
+- [x] **Comprimir el vídeo de la prueba — hecho.** 5 de agosto de 2026. Adrián subió
+      `Videos/showcase_compressed.mp4` a 1080p y 11,6 MB, y en el mismo paso se le movió el `moov` al
+      principio, que era la otra mitad del problema. Está contado en la sección 04.
+- [ ] **El `poster` del vídeo.** Sigue sin haberlo, y sigue por la misma razón: sacar un fotograma
+      pide decodificar H.264, y aquí no hay ni ffmpeg ni un Chromium con ese códec. Es de lo poco que
+      no se puede hacer desde este entorno.
+- [x] **Vídeo de la prueba.** Puesto en la sección 04.
 
 ### El agente
 
@@ -863,11 +892,15 @@ por Google se encuentra el sitio viejo; es un coste conocido. **No es un pendien
 
 ### Newsletter
 
-- [ ] **Elegir herramienta de correos.** Mientras tanto, el formulario guarda una copia en el
-      navegador (`localStorage`, clave `arc_newsletter_v1`) y envía a **Netlify Forms** con el
-      nombre `newsletter` — se recuperan en el panel de Netlify, en Forms. Si esa función no está
-      activada en la cuenta, el envío falla en silencio y el visitante ve igualmente «Listo, te
-      escribo pronto». Nunca da error. Cuando haya herramienta, se cambia el destino del `fetch`.
+- [x] **Elegir herramienta de correos — hecha.** Adrián la eligió en agosto de 2026. Falta
+      configurarla, y falta anotar aquí cuál es.
+- [ ] **Conectarla.** Hasta que esté, el formulario guarda una copia en el navegador (`localStorage`,
+      clave `arc_newsletter_v1`) y envía a **Netlify Forms** con el nombre `newsletter` — se
+      recuperan en el panel de Netlify, en Forms. **Si esa función no está activada en la cuenta, el
+      envío falla en silencio** y el visitante ve igualmente «Listo, te escribo pronto». Nunca da
+      error, así que no hay forma de enterarse desde fuera de que se están perdiendo. Cuando la
+      herramienta esté configurada, se cambia el destino del `fetch` en el bloque `newsletter()` del
+      final de `index.html`.
 
 ### Diseño
 
@@ -876,15 +909,28 @@ por Google se encuentra el sitio viejo; es un coste conocido. **No es un pendien
       las páginas de servicio (los tiempos del proceso, `~48h`), que son las que se quedan ocultas y
       sin tocar — así que esto solo importa el día que se escriba texto pequeño en verde en el home.
       Está en `styles.css`, común a todo, si alguna vez se arregla de raíz.
-- [ ] **El home se desborda a lo ancho en móvil.** A 390px la página mide 405px de ancho real, así
-      que se puede arrastrar de lado. Sale del bloque del chat: `.ai__chat` y `.ai__side` (y dentro,
-      `.ai__log`, `.ai__form` y el `.btn` del lateral) se salen 15px. Es anterior al home nuevo y no
-      lo causa ninguna sección. Se comprueba a 390px con
+- [x] **El home se desbordaba a lo ancho en móvil — arreglado.** 5 de agosto de 2026. A 390px la
+      página medía 405px de ancho real y se podía arrastrar de lado.
+
+      **La causa era una sola línea que no estaba escrita.** `.ai__panel` es una rejilla, y los hijos
+      de una rejilla llevan `min-width: auto`: la columna no puede encogerse por debajo del contenido
+      mínimo de lo que lleva dentro. El contenedor da 350px a 390px de pantalla y la columna se
+      plantaba en 385, así que `.ai__chat` y `.ai__side` —y con ellos `.ai__log`, `.ai__form` y el
+      `.btn` del lateral— se salían los 15px. La `.nav` salía en la lista de sospechosos porque es
+      `position: fixed` con `left: 0; right: 0` y se estira hasta el ancho del documento: era el
+      síntoma, no la causa.
+
+      Se arregla con **`.ai__panel > * { min-width: 0; }`**. Comprobado: 405 → 390px, sin nada que se
+      salga, y el panel se ve igual a 350px —el log, las sugerencias, la fila de escribir y los dos
+      bloques del lateral entran sin recortarse—. A 834 y 1440px no cambia nada.
+
+      Llevaba abierto desde antes del home nuevo. Se comprueba a 390px con
       `document.documentElement.scrollWidth > clientWidth`.
-- [ ] **Y en inglés se desborda más: 449px.** Es el `.foot-display` del pie, la frase grande que
-      acaba en «something.»: a ese cuerpo no cabe a 390px y se sale 59px. En español no pasa. Se
-      arregla bajando el `clamp` del `.foot-display` o partiendo la frase, como en la 03 — y hay una
-      entrada de copy para eso, porque lo que sobra es la frase, no el tamaño.
+- [ ] **En inglés se sigue desbordando: 449px.** Y ahora es lo único que queda. Es el
+      `.foot-display` del pie, la frase grande que acaba en «something.»: a ese cuerpo no cabe a
+      390px y se sale 59px. En español no pasa. **Está cerrado por decisión** en el bloque 3 del
+      copy —Adrián lo miró en móvil y se queda—, así que esta entrada es un recordatorio de lo que se
+      acepta, no una tarea. Se arreglaría partiendo la frase, como en la 03, no tocando el `clamp`.
 - [ ] **La sección 06 mide 3.447px en móvil.** Es la más larga del sitio, y es el precio de decirlo
       todo. Si se hace pesada, lo que pliega bien son las dos listas de «qué incluye / qué no» con el
       mismo desplegable de las preguntas: el visitante que solo quiere las cifras las tiene en los
