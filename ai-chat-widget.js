@@ -140,16 +140,15 @@
     renderEmpty();
   });
 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var v = input.value.trim();
-    if (!v) return;
-    input.value = '';
-    addMsg('user', v, false);
+  // Mandar un mensaje. Lo usan el formulario y la API pública de abajo, que
+  // es por donde entran los botones «Hablemos quince minutos».
+  function send(text) {
+    if (!text || sendBtn.disabled) return;
+    addMsg('user', text, false);
     var typing = addTyping();
     sendBtn.disabled = true;
 
-    window.ARCChat.send(v, {
+    window.ARCChat.send(text, {
       onUser: function () { /* already rendered above */ },
       onReply: function (reply) {
         typing.remove();
@@ -162,6 +161,14 @@
         sendBtn.disabled = false;
       }
     });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var v = input.value.trim();
+    if (!v) return;
+    input.value = '';
+    send(v);
   });
 
   // Sync with store changes (from inline chat or other tabs)
@@ -174,6 +181,38 @@
   new MutationObserver(applyLang).observe(document.documentElement, {
     attributes: true, attributeFilter: ['data-lang']
   });
+
+  /* ---- Los botones «Hablemos quince minutos» ----
+     Los cuatro traen `data-agent-intent` y abren el widget aquí mismo, encima
+     de donde esté el visitante: sin scroll, y en móvil el panel ocupa la
+     pantalla entera. Antes el de contacto bajaba al chat del final de la
+     página, que desde el encabezado son dos mil píxeles de viaje.
+     El manejador vive en el widget y no en `ai-chat.js` porque el widget está
+     en todas las páginas y el chat incrustado solo en el home.
+     El `href` de cada botón es el respaldo sin JS: `#contacto` en los tres de
+     arriba, que es donde está el correo, y `#ai` en el de dentro de contacto,
+     que no puede llevar a sí mismo. */
+  var intentSent = false;
+
+  document.addEventListener('click', function (e) {
+    var trigger = e.target.closest('[data-agent-intent]');
+    if (!trigger) return;
+    e.preventDefault();
+    open();
+
+    // Ya lo pidió: se le abre el panel y se le devuelve el foco, sin repetir
+    // la línea.
+    if (intentSent) return;
+
+    var lang = document.documentElement.getAttribute('data-lang') || 'en';
+    var text = trigger.getAttribute(lang === 'es' ? 'data-intent-es' : 'data-intent-en');
+    if (!text) return;
+
+    intentSent = true;
+    send(text);
+  });
+
+  window.ARCChatWidget = { open: open, close: close, ask: send };
 
   applyLang();
   render();

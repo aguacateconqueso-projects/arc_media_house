@@ -328,7 +328,7 @@ exports.handler = async (event) => {
     // — that lead would otherwise vanish. Skip when a prior booking was
     // already confirmed: the original turn's transcript covered the lead.
     if (!scheduledCall && !transcriptCalled && !priorBookingDetected) {
-      const lead = detectLead(incoming, response);
+      const lead = detectLead(incoming);
       if (lead) {
         console.log('[chat] secondary backstop: lead captured without booking — sending transcript', { email: lead.email });
         try {
@@ -427,7 +427,6 @@ function buildBackstopTranscript(originalMessages, scheduledCall) {
 }
 
 const EMAIL_IN_TEXT = /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i;
-const HANDOFF_HINTS_RE = /(adri[áa]n|llamada|calendar|invitaci[oó]n|invite|schedule|book|agend|discovery|confirm|en la llamada|on the call)/i;
 const BOOKING_CONFIRM_RE = /\b(Listo|Done|Booked|Agendado|Confirmed)\b[\s\S]{0,200}?\b\d{1,2}[:h]\d{2}\b[\s\S]{0,200}?(invitaci[oó]n|invite|Calendar|Meet|CET|CEST)/i;
 
 function detectPriorBooking(originalMessages) {
@@ -438,7 +437,13 @@ function detectPriorBooking(originalMessages) {
   return false;
 }
 
-function detectLead(originalMessages, lastResponse) {
+// Un correo escrito por el visitante es señal suficiente. Antes se exigían
+// dos cosas a la vez —el correo Y que el agente hubiera dicho alguna palabra
+// de HANDOFF_HINTS_RE— y ese segundo requisito perdía leads reales: si alguien
+// deja su correo y el agente contesta sin decir «llamada», «agendar» ni
+// «Adrián», el aviso no salía. Nadie escribe su correo en un chat por
+// accidente.
+function detectLead(originalMessages) {
   let email = null;
   for (const m of originalMessages || []) {
     if (!m || m.role !== 'user' || typeof m.content !== 'string') continue;
@@ -446,16 +451,6 @@ function detectLead(originalMessages, lastResponse) {
     if (match) email = match[0];
   }
   if (!email) return null;
-
-  const handoff =
-    (originalMessages || []).some(
-      (m) => m && m.role === 'assistant' && typeof m.content === 'string' && HANDOFF_HINTS_RE.test(m.content)
-    ) ||
-    ((lastResponse && lastResponse.content) || []).some(
-      (b) => b.type === 'text' && HANDOFF_HINTS_RE.test(b.text || '')
-    );
-
-  if (!handoff) return null;
   return { email };
 }
 

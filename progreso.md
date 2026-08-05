@@ -39,8 +39,13 @@ Hojas de estilo: `styles.css` (sistema de diseño, común a todo), `home.css` (h
 
 JavaScript: `app.js` (tema, idioma, cursor, apariciones, menú móvil, reloj, animación de entrada),
 `ai-chat-store.js` (estado compartido del chat), `ai-chat.js` (chat incrustado del home),
-`ai-chat-widget.js` (widget flotante, en todas las páginas), `home.js`, `hero-shader.js`,
-`hero-bloom.js`.
+`ai-chat-widget.js` (widget flotante, en todas las páginas, y los botones que lo abren), `home.js`,
+`hero-shader.js`, `hero-bloom.js`.
+
+Funciones de Netlify: `chat.js` (el agente, en `/api/chat`), `agent-tools.js` (agendar y mandar la
+transcripción), `system-prompt.js` (las instrucciones), `supabase-log.js` (guardar cada turno),
+`admin-conversations.js` (lo que lee `admin.html`) y `daily-digest.js` (el resumen diario, programado
+en `netlify.toml`).
 
 ---
 
@@ -176,10 +181,9 @@ montón de gente, y por eso es uno de tus problemas. El tercero pasa a «Todo se
 que deciden si vendes o no:», que es la frase que entrega las tres filas. Solo texto: el alto de la
 sección no se mueve en ninguno de los tres anchos.
 
-**El botón «Hablemos quince minutos» aparece cuatro veces.** Las tres de arriba —encabezado, fin de
-la prueba, fin del precio— bajan a contacto. La cuarta, la de dentro de contacto, no puede llevar a
-sí misma: desde agosto de 2026 se lo pasa al agente, que pide el correo y la franja y agenda la
-llamada. Está contado en la sección 08.
+**El botón «Hablemos quince minutos» aparece cuatro veces** —encabezado, fin de la prueba, fin del
+precio y dentro de contacto— y **los cuatro abren el agente**, que pide el correo y la franja y
+agenda la llamada. Está contado en la sección 08.
 
 ### La sección 03 — «Qué se construye»
 
@@ -525,19 +529,34 @@ El agente ya sabe hacer esto. `agent-tools.js` agenda los quince minutos en el c
 invitación al visitante y le pasa la transcripción a Adrián, con dos backstops en `chat.js` para que
 el lead no se pierda aunque el modelo falle. Estaba construido y el botón principal lo ignoraba.
 
-**Ahora el botón baja al chat y escribe la intención por él.** El enlace es `href="#ai"` y lleva
-`data-agent-intent` con sus `data-intent-es` y `data-intent-en` («Quiero agendar los quince minutos.»
-/ «I'd like to book the fifteen minutes.»). El manejador vive al final de `ai-chat.js`: baja a la
-sección del chat, esconde las sugerencias y llama al mismo `ask()` que ya usaban esos botones. **Sin
-JS el enlace sigue funcionando** y baja al chat igual — por eso es un `<a href="#ai">` y no un
-`<button>`, que además habría necesitado CSS nuevo para parecerse a `.btn`.
+**Ahora el botón abre el agente y escribe la intención por él.** Lleva `data-agent-intent` con sus
+`data-intent-es` y `data-intent-en` («Quiero agendar los quince minutos.» / «I'd like to book the
+fifteen minutes.»).
 
-**El segundo clic no repite la línea.** Dos banderas, `intentSent` y `intentPending`: si ya lo pidió,
-el botón solo le devuelve el foco al campo. `ask()` ahora devuelve la promesa de `ARCChat.send()`
-para poder saber cuándo termina.
+**Y lo abre donde esté el visitante.** La primera versión bajaba al chat incrustado del final de la
+página; duró un día. El problema lo vio Adrián enseguida: **desde el encabezado eso son dos mil
+píxeles de viaje**, y la gente se cansa antes de llegar. Ahora los cuatro botones **abren el widget
+flotante encima de lo que se esté mirando**, sin mover la página ni un píxel. En móvil (≤560px) el
+panel ya estaba hecho para ocupar la pantalla entera, así que ahí es igual de cómodo que el chat
+grande. Los dos comparten conversación —usan el mismo `ARCChat`—, así que no se pierde nada.
 
-**Los otros tres botones no se tocan.** Siguen bajando a contacto, que es lo correcto: el que se
-lleva al agente es el del final del recorrido, cuando ya está todo dicho.
+**El manejador se mudó a `ai-chat-widget.js`.** Vivía en `ai-chat.js`, que solo se carga en el home;
+el widget está en todas las páginas, así que es el sitio que no deja el botón muerto si algún día
+aparece en otra. Para eso el widget saca una API pública, `window.ARCChatWidget`, con `open`, `close`
+y `ask`; el envío del formulario se extrajo a una función `send()` que usan los dos caminos.
+
+**Sin JS los enlaces siguen funcionando.** Por eso son `<a>` y no `<button>`: los tres de arriba
+apuntan a `#contacto`, que es donde está el correo, y el de dentro de contacto a `#ai`, que no puede
+llevar a sí mismo. Un `<button>` además habría necesitado CSS nuevo para parecerse a `.btn`.
+
+**El segundo clic no repite la línea.** La bandera `intentSent` y el `sendBtn.disabled` que ya
+llevaba el widget: si ya lo pidió, el botón solo le abre el panel.
+
+**El chat incrustado ahora se entera.** Su `ARCChat.onChange` solo miraba el caso de «se ha borrado
+todo», así que lo que se escribiera en el widget no aparecía ahí hasta recargar. Con los botones
+abriendo el widget eso pasaría siempre, así que ahora repinta desde el historial. Lleva una bandera
+`busy` para no pisarse cuando el que manda es él mismo — el mismo truco que el widget hace con
+`sendBtn.disabled`.
 
 **El correo baja a respaldo**, en un `.contact-sales__fallback` debajo de la letra fina: «Te la
 agenda aquí mismo. ¿Prefieres el correo? hello@arcmediahouse.com». Pequeño y en `--fg-2`, con el
@@ -590,8 +609,32 @@ idioma — con el efecto de que las demás páginas también le cargarán en esp
 
 ## Despliegue
 
-Netlify. Cada push a `main` dispara `.github/workflows/deploy.yml`, que publica el sitio entero.
-Configuración de rutas y funciones en `netlify.toml`.
+Netlify. Configuración de rutas y funciones en `netlify.toml`.
+
+**Quien publica es la integración de Git de Netlify**, no GitHub Actions. Comprobado el 5 de agosto
+de 2026 contra el sitio en vivo: los cambios del #100 estaban servidos en `arcmediahouse.com` a los
+pocos minutos del merge, con el workflow en rojo.
+
+**`.github/workflows/deploy.yml` se borró, y no ha funcionado nunca.** Aquí ponía que cada push a
+`main` lo dispara «y publica el sitio entero». Lo disparaba, sí; publicar no publicaba nada. **Los
+treinta runs registrados fallaron, sin una sola excepción**, y todos en el mismo sitio: el paso
+`npm ci`, antes de llegar al `npx netlify-cli deploy --prod`.
+
+    npm error `npm ci` can only install packages when your package.json and
+    package-lock.json are in sync.
+    npm error Missing: @supabase/supabase-js@2.112.1 from lock file
+    … y siete más
+
+`package.json` declara `"@supabase/supabase-js": "^2.45.0"` y el `package-lock.json` **no tenía esa
+dependencia**. `npm ci` es estricto a propósito: si el lock no cuadra con el manifiesto, falla en vez
+de instalar otra cosa.
+
+**Se decidió borrarlo y no arreglarlo** (5 de agosto de 2026). Cuatro razones: no había funcionado ni
+una vez, así que nada dependía de él; Netlify ya hacía el trabajo; dos caminos de despliegue al mismo
+sitio es una forma de tener carreras raras el día que los dos funcionen; y su único efecto real era
+**mandar un correo de fallo en cada push**, que es lo que enseña a ignorar los correos de fallo. El
+día que haya tests y haga falta un sitio donde correrlos antes de publicar, se escribe un workflow
+para eso.
 
 Variables de entorno: la lista está en `.env.example`. En local se copian a `.env`; en producción se
 ponen en Netlify → Site configuration → Environment variables.
@@ -746,6 +789,13 @@ Decidido en agosto, con el resto.
       no se puede hacer desde este entorno.
 - [x] **Vídeo de la prueba.** Puesto en la sección 04.
 
+### Infraestructura
+
+- [x] **`deploy.yml` — borrado.** 5 de agosto de 2026. No había publicado nunca —los treinta runs en
+      rojo, todos en `npm ci`— y quien despliega de verdad es la integración de Git de Netlify. El
+      razonamiento entero está arriba, en «Despliegue». Con él se va la carpeta `.github`, que no
+      tenía nada más.
+
 ### El agente
 
 **Hecho, en el #92.** El prompt está reescrito entero para la oferta única y metido en
@@ -814,6 +864,40 @@ la constante `CALL_MINUTES` de `agent-tools.js`, que usan el evento de la llamad
 de notas; antes eran dos `30 * 60000` en funciones distintas. También lo decía la descripción de la
 tool en `chat.js`, que el modelo lee en cada turno.
 
+#### Las conversaciones que no acaban en reserva
+
+Agosto de 2026. El aviso a Adrián solo salía si la conversación **acababa agendando**, o si el
+visitante dejaba su correo *y además* el agente decía alguna palabra de una lista. Todo lo demás
+—alguien que pregunta cinco cosas y se va— no avisaba de nada. Y son justo las interesantes para
+corregir al agente: donde la conversación se torció.
+
+**Lo primero que hay que decir es que esas conversaciones no se estaban perdiendo.** `chat.js` llama
+a `logMessages()` en todos los turnos, sin condiciones, así que todo está en Supabase y se lee desde
+`admin.html`. El problema no era de captura sino de **aviso**: había que acordarse de entrar a
+mirar. (Salvo durante el parón de Supabase, donde sí se perdieron de verdad — está apuntado abajo.)
+
+**El resumen diario.** `netlify/functions/daily-digest.js`, programada en `netlify.toml` a las 07:00
+UTC. Lee de Supabase las conversaciones del día anterior, quita las que sí agendaron —de esas ya
+llegó su transcripción en su momento— y manda **un solo correo** con el resto, cada una con sus
+turnos, la hora, el idioma y el correo si lo dejó.
+
+Va una vez al día y no por conversación **a propósito**: un chat web no tiene final limpio, así que
+un correo por charla llegaría a deshora y varias veces por la misma. Y esto no es una alerta, es
+material de estudio. Por lo mismo **es silenciosa**: si no hubo conversaciones, no manda nada — un
+correo diario diciendo «nada» enseña a ignorar el remitente, que es exactamente lo que le pasaba al
+`deploy.yml`.
+
+Dos detalles del código. **La ventana de fechas se calcula con `Intl`**, no con
+`getTimezoneOffset()`: el runtime de Netlify va en UTC y el cambio de hora movería la ventana dos
+veces al año. Se prueban los dos offsets posibles de Madrid y se queda el que al volver a formatear
+devuelve la misma fecha local. Y **todo lo que escribe el visitante se escapa** antes de meterlo en
+el HTML del correo, que si no es una vía de inyección directa desde el chat a tu bandeja.
+
+**Y el aviso inmediato se afloja.** `detectLead` exigía dos cosas a la vez: un correo en los mensajes
+del visitante **y** que el agente hubiera dicho «llamada», «agendar», «Adrián» o alguna otra de
+`HANDOFF_HINTS_RE`. Ese segundo requisito perdía leads reales — nadie escribe su correo en un chat
+por accidente. Ahora basta con el correo, y la constante desaparece porque no la usaba nadie más.
+
 #### El agente aprende a recibir al que llega pidiendo la llamada
 
 Agosto de 2026, con el botón de la 08. Ahora el primer mensaje de muchas conversaciones va a ser
@@ -848,15 +932,21 @@ Las tres se corrigieron; de la errata queda solo la regla útil, que su nombre s
 - [ ] **Repasar conversaciones reales.** Es lo que el sitio ahora cobra en el mensual del agente, así
       que conviene hacerlo: leer lo que guarda Supabase y corregir lo que conteste mal. **Ya dio dos
       capturas:** el saludo repetido y el voseo, los dos arreglados arriba. Vale la pena seguir.
+
+      **Ojo con el agujero de agosto.** El proyecto de Supabase estuvo **pausado** y nadie se enteró,
+      porque `supabase-log.js` se traga el fallo a propósito: `logMessages` captura el error, lo
+      escribe en la consola y sigue. Eso está bien pensado —que la base caída no tumbe el chat— pero
+      significa que **de ese periodo no hay conversaciones guardadas**, aunque el agente estuviera
+      respondiendo y agendando con normalidad. Se reactivó el 5 de agosto de 2026. Si algún día el
+      panel de `admin.html` se ve más vacío de lo que debería, esto es lo primero que hay que mirar,
+      y el sitio donde se ve es en los logs de la función, no en la web.
 - [ ] **Comprobar los dos arreglos en producción.** Aquí no hay `ANTHROPIC_API_KEY`. Abrir el chat,
       escribir «Hola, estoy interesado en armar una plataforma» y mirar que no salude y que trate de
       tú.
-- [ ] **Comprobar el botón que agenda, en producción.** El clic y lo que pasa en el navegador sí está
-      verificado —baja al chat, escribe la línea en el idioma que toca, la guarda en el historial y
-      el segundo clic no la repite—, pero **la respuesta del agente no**, por lo mismo: sin clave, el
-      chat devuelve el aviso de conexión. Pulsar «Hablemos quince minutos» en la 08 y mirar que pida
-      el correo y proponga tres franjas **sin preguntar antes por el negocio**, y que la reserva
-      llegue al calendario.
+- [x] **El botón que agenda — comprobado en producción.** 5 de agosto de 2026. Adrián agendó una
+      llamada de principio a fin: la reserva pasó y llegaron los dos correos, el suyo y el de prueba.
+      Así que el circuito entero funciona — `schedule_call`, la invitación de Google Calendar y el
+      `send_transcript`.
 
 ### La web contra el prompt nuevo
 
