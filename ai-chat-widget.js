@@ -192,7 +192,21 @@
      El `href` de cada botón es el respaldo sin JS: `#contacto` en los tres de
      arriba, que es donde está el correo, y `#ai` en el de dentro de contacto,
      que no puede llevar a sí mismo. */
-  var intentSent = false;
+  // ¿Es la intención lo último que dijo el visitante? Se mira el historial y
+  // no una bandera de página: una bandera se quedaba en «ya lo pidió» aunque
+  // el visitante hubiera vaciado la conversación con la papelera, y a partir
+  // de ahí el botón solo abría el panel sin escribir nada. Se comparan los
+  // dos idiomas por si cambió de idioma entre un clic y el otro.
+  function alreadyAsked(trigger) {
+    var history = window.ARCChat.get();
+    var last = null;
+    for (var i = history.length - 1; i >= 0; i--) {
+      if (history[i].role === 'user') { last = history[i].content; break; }
+    }
+    if (last === null) return false;
+    return last === trigger.getAttribute('data-intent-es')
+        || last === trigger.getAttribute('data-intent-en');
+  }
 
   document.addEventListener('click', function (e) {
     var trigger = e.target.closest('[data-agent-intent]');
@@ -200,15 +214,15 @@
     e.preventDefault();
     open();
 
-    // Ya lo pidió: se le abre el panel y se le devuelve el foco, sin repetir
-    // la línea.
-    if (intentSent) return;
+    // Acaba de pedirlo: se le abre el panel y ya está, sin repetir la línea.
+    // Si lleva un rato conversando y pulsa el botón, sí se manda: está
+    // diciendo que quiere agendar ahora.
+    if (alreadyAsked(trigger)) return;
 
     var lang = document.documentElement.getAttribute('data-lang') || 'en';
     var text = trigger.getAttribute(lang === 'es' ? 'data-intent-es' : 'data-intent-en');
     if (!text) return;
 
-    intentSent = true;
     send(text);
   });
 

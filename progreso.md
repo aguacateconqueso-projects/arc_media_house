@@ -549,8 +549,22 @@ y `ask`; el envío del formulario se extrajo a una función `send()` que usan lo
 apuntan a `#contacto`, que es donde está el correo, y el de dentro de contacto a `#ai`, que no puede
 llevar a sí mismo. Un `<button>` además habría necesitado CSS nuevo para parecerse a `.btn`.
 
-**El segundo clic no repite la línea.** La bandera `intentSent` y el `sendBtn.disabled` que ya
-llevaba el widget: si ya lo pidió, el botón solo le abre el panel.
+**El segundo clic no repite la línea, pero la papelera lo reinicia.** La primera versión usaba una
+bandera, `intentSent`, que se ponía a `true` en el primer clic y ya no volvía atrás en toda la vida
+de la página. Y eso rompía un caso real, que Adrián encontró en producción el mismo día: **si el
+visitante vacía la conversación con la papelera del widget y vuelve a pulsar el botón, el panel se
+abre vacío y no se escribe nada.** La bandera seguía diciendo «ya lo pidió» cuando el historial ya no
+existía.
+
+Ahora la condición **sale del historial y no de una bandera**: se manda la intención salvo que ya sea
+lo último que dijo el visitante. Con eso los cuatro casos caen solos — conversación nueva manda,
+conversación vaciada vuelve a mandar, dos clics seguidos no duplican, y si lleva un rato conversando
+y pulsa el botón **sí se manda**, porque ahí está diciendo que quiere agendar ahora. Se comparan los
+dos idiomas por si cambió de idioma entre un clic y el otro.
+
+La lección, por si vuelve la tentación: **el estado de la conversación vive en `ARCChat`, así que
+preguntárselo a él es lo único que no se desincroniza.** Una bandera paralela solo sabe lo que pasó
+por su propio camino, y aquí había otro —la papelera— que la dejaba mintiendo.
 
 **El chat incrustado ahora se entera.** Su `ARCChat.onChange` solo miraba el caso de «se ha borrado
 todo», así que lo que se escribiera en el widget no aparecía ahí hasta recargar. Con los botones
