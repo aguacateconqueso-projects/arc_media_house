@@ -6,6 +6,34 @@ Estado del sitio y de lo que queda pendiente. Se actualiza cuando algo cambia de
 
 ---
 
+## Por dónde ibas
+
+Atajo para no leerse el archivo entero. El detalle de cada cosa está más abajo, en su sección.
+
+**Lo que hay que mirar en producción, y nadie ha mirado todavía:**
+
+1. **El primer resumen diario** (`daily-digest.js`). Nunca se ha ejecutado de verdad. Se mira en los
+   logs de la función, no en la bandeja: «no llegó correo» puede ser «no hubo conversaciones» o
+   «falló», y desde fuera no se distinguen.
+2. **El saludo repetido y el voseo** del agente. Los arreglos están razonados sobre el código pero
+   sin verificar en conversación.
+
+**Lo que puede estar perdiendo datos ahora mismo:**
+
+3. **El newsletter.** Va a Netlify Forms y, si esa función no está activada en la cuenta, **falla en
+   silencio**: el visitante ve «Listo, te escribo pronto» y la dirección no llega a ninguna parte.
+   La herramienta ya está elegida; falta conectarla, y falta anotar aquí cuál es.
+
+**Trabajo normal, sin prisa:** leer las conversaciones que guarda Supabase para corregir al agente
+—es lo que se cobra en su mensual— y el `poster` del vídeo, que es lo único que no se puede hacer
+desde el entorno de trabajo porque pide decodificar H.264.
+
+**Lo aceptado a sabiendas, que no hay que volver a abrir:** las páginas del posicionamiento viejo
+siguen ocultas y contradiciendo al agente; el pie en inglés se sale 59px a 390px; el verde de acento
+no contrasta en tema claro. Las tres están decididas.
+
+---
+
 ## Dónde estamos
 
 El estudio pasó de vender tres cosas (web, agentes IA, vídeo) a vender una: **plataformas y webs
@@ -554,7 +582,7 @@ bandera, `intentSent`, que se ponía a `true` en el primer clic y ya no volvía 
 de la página. Y eso rompía un caso real, que Adrián encontró en producción el mismo día: **si el
 visitante vacía la conversación con la papelera del widget y vuelve a pulsar el botón, el panel se
 abre vacío y no se escribe nada.** La bandera seguía diciendo «ya lo pidió» cuando el historial ya no
-existía.
+existía. Arreglado y comprobado en producción (#102).
 
 Ahora la condición **sale del historial y no de una bandera**: se manda la intención salvo que ya sea
 lo último que dijo el visitante. Con eso los cuatro casos caen solos — conversación nueva manda,
@@ -954,9 +982,19 @@ Las tres se corrigieron; de la errata queda solo la regla útil, que su nombre s
       respondiendo y agendando con normalidad. Se reactivó el 5 de agosto de 2026. Si algún día el
       panel de `admin.html` se ve más vacío de lo que debería, esto es lo primero que hay que mirar,
       y el sitio donde se ve es en los logs de la función, no en la web.
-- [ ] **Comprobar los dos arreglos en producción.** Aquí no hay `ANTHROPIC_API_KEY`. Abrir el chat,
-      escribir «Hola, estoy interesado en armar una plataforma» y mirar que no salude y que trate de
-      tú.
+- [ ] **Comprobar el saludo repetido y el voseo en producción.** Los dos arreglos siguen razonados
+      sobre el código y sin verificar en conversación: en este entorno no hay `ANTHROPIC_API_KEY`.
+      Abrir el chat, escribir «Hola, estoy interesado en armar una plataforma» y mirar dos cosas: que
+      **no salude** —el saludo ya está en pantalla— y que trate **de tú y no de vos**. Lo que delata
+      el voseo es el verbo, no el pronombre: «tenés», «querés», «podés», «sos».
+- [ ] **Ver si el primer resumen diario sale bien.** `daily-digest.js` nunca se ha ejecutado de
+      verdad: aquí no hay ni `RESEND_API_KEY` ni Supabase, así que la consulta y el envío son código
+      sin estrenar. Solo están probados el troceado y el HTML, con datos inventados.
+
+      **Mirar los logs de la función el primer día**, no la bandeja. Que no llegue correo significa
+      dos cosas distintas —que no hubo conversaciones, que es correcto, o que algo falló— y desde la
+      bandeja no se distinguen. En los logs sí: la función escribe la ventana de fechas que calculó,
+      cuántas sesiones encontró y cuántas quedaron tras quitar las que agendaron.
 - [x] **El botón que agenda — comprobado en producción.** 5 de agosto de 2026. Adrián agendó una
       llamada de principio a fin: la reserva pasó y llegaron los dos correos, el suyo y el de prueba.
       Así que el circuito entero funciona — `schedule_call`, la invitación de Google Calendar y el
