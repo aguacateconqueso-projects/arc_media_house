@@ -2,7 +2,7 @@
 
 Estado del sitio y de lo que queda pendiente. Se actualiza cuando algo cambia de sitio.
 
-Última actualización: 5 de agosto de 2026.
+Última actualización: 6 de agosto de 2026.
 
 ---
 
@@ -18,11 +18,12 @@ Atajo para no leerse el archivo entero. El detalle de cada cosa está más abajo
 2. **El saludo repetido y el voseo** del agente. Los arreglos están razonados sobre el código pero
    sin verificar en conversación.
 
-**Lo que puede estar perdiendo datos ahora mismo:**
+**Lo que hay que tocar en Buttondown, y solo se puede desde ahí:**
 
-3. **El newsletter.** Va a Netlify Forms y, si esa función no está activada en la cuenta, **falla en
-   silencio**: el visitante ve «Listo, te escribo pronto» y la dirección no llega a ninguna parte.
-   La herramienta ya está elegida; falta conectarla, y falta anotar aquí cuál es.
+3. **El newsletter ya está conectado** (6 de agosto de 2026) y no pierde direcciones. Pero quedan
+   tres cosas que son de la cuenta, no del repositorio: la lista se sigue llamando «My Awesome
+   Newsletter», falta la URL de vuelta para que el visitante no se quede en Buttondown, y hay tres
+   direcciones de prueba que borrar. Está detallado abajo, en «Newsletter».
 
 **Trabajo normal, sin prisa:** leer las conversaciones que guarda Supabase para corregir al agente
 —es lo que se cobra en su mensual— y el `poster` del vídeo, que es lo único que no se puede hacer
@@ -1035,15 +1036,48 @@ por Google se encuentra el sitio viejo; es un coste conocido. **No es un pendien
 
 ### Newsletter
 
-- [x] **Elegir herramienta de correos — hecha.** Adrián la eligió en agosto de 2026. Falta
-      configurarla, y falta anotar aquí cuál es.
-- [ ] **Conectarla.** Hasta que esté, el formulario guarda una copia en el navegador (`localStorage`,
-      clave `arc_newsletter_v1`) y envía a **Netlify Forms** con el nombre `newsletter` — se
-      recuperan en el panel de Netlify, en Forms. **Si esa función no está activada en la cuenta, el
-      envío falla en silencio** y el visitante ve igualmente «Listo, te escribo pronto». Nunca da
-      error, así que no hay forma de enterarse desde fuera de que se están perdiendo. Cuando la
-      herramienta esté configurada, se cambia el destino del `fetch` en el bloque `newsletter()` del
-      final de `index.html`.
+**La herramienta es Buttondown.** La lista vive en <https://buttondown.com/adrian_arcmedia> y el
+usuario es `adrian_arcmedia`.
+
+- [x] **Elegir herramienta — hecha.** Buttondown, elegida por Adrián en agosto de 2026.
+- [x] **Conectarla — hecha.** 6 de agosto de 2026. El formulario de la sección 09 de `index.html`
+      envía directo a `https://buttondown.com/api/emails/embed-subscribe/adrian_arcmedia`, con el
+      campo `email`, y **el navegador sigue la respuesta**. Fuera Netlify Forms: el `data-netlify`,
+      el `form-name` y el `bot-field` ya no están. La copia en `localStorage` (clave
+      `arc_newsletter_v1`) se queda como estaba.
+
+      **Por qué envía el navegador y no una función de Netlify.** Era lo primero que se pensó, para
+      que el visitante no se moviera de la página. Se probó contra el endpoint real y no sirve:
+      Buttondown pide un captcha cuando llegan varias altas seguidas desde la misma dirección IP.
+      Comprobado — la primera devuelve `302` a `?state=confirmed_subscription` y las siguientes
+      devuelven `400` con la página «Verify Your Subscription». Detrás de una función, todos los
+      visitantes salen por la misma IP y, a partir del primero, todos fallarían. Y fallarían en
+      silencio, que es justo lo que llevaba meses abierto aquí. Enviando desde el navegador, cada
+      visitante va con su IP; si a alguno le sale el captcha, lo resuelve en la página de Buttondown
+      y se entera. **Nada se pierde sin que alguien lo vea.**
+
+      El precio de esto es que el visitante acaba en Buttondown. Se arregla con la URL de vuelta,
+      abajo.
+
+- [ ] **Poner la URL de vuelta, en Buttondown.** En los ajustes de la lista, el campo de redirección
+      tras la suscripción (`subscription_redirect_url`, ahora vacío): ponerlo en
+      `https://arcmediahouse.com/?news=ok`. **El código de la web ya lo espera**: el bloque
+      `newsletter()` del final de `index.html` lee ese `?news=ok`, enseña la línea de confirmación
+      bajo el formulario, se desplaza hasta ella y limpia la barra de direcciones. Hasta que se
+      ponga, el que se apunta se queda en la página de Buttondown — funciona igual, solo que fuera
+      de casa.
+- [ ] **Cambiar el nombre de la lista.** Se sigue llamando «My Awesome Newsletter», que es el que
+      viene por defecto, y es el que ve quien entra en el enlace. La descripción («ARC's media
+      newsletter») y el remitente («Adrian») sí están puestos.
+- [ ] **Borrar las tres direcciones de prueba.** `adrianmendozam+arcweb-test@gmail.com`,
+      `+arcweb-test2` y `+arcweb-test3`. Son de comprobar el endpoint el 6 de agosto; la primera
+      entró y las otras dos toparon con el captcha. Ninguna está confirmada.
+
+**La lista pide confirmación** (doble opt-in, activado en la cuenta): quien se apunta recibe un
+correo y no cuenta hasta que lo abre. **Por eso cambió el texto de la confirmación**: decía «Listo,
+te escribo pronto», que era mentira —no se escribe a nadie hasta que confirme—, y ahora dice «Listo.
+Mira el correo: te espera uno para confirmar.» En inglés, «Done. Check your inbox: there's an email
+waiting to be confirmed.»
 
 ### Diseño
 

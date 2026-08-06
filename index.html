@@ -674,9 +674,8 @@
       <h2 class="h-1 reveal" data-en="Not yet?" data-es="¿Todavía no?">¿Todavía no?</h2>
       <p class="body-lg reveal" data-delay="1" data-en="I write one email a week. It nearly always starts with something that happened to me and ends up somewhere useful for selling what you know. Sometimes it's about websites, sometimes not." data-es="Escribo un correo a la semana. Casi siempre arranca con algo que me pasó y termina en algo que sirve para vender lo que sabes. A veces va de webs, a veces no.">Escribo un correo a la semana. Casi siempre arranca con algo que me pasó y termina en algo que sirve para vender lo que sabes. A veces va de webs, a veces no.</p>
 
-      <form class="news__form reveal" data-delay="2" id="news-form" name="newsletter" method="POST" data-netlify="true" netlify-honeypot="bot-field">
-        <input type="hidden" name="form-name" value="newsletter" />
-        <p class="news__hp" aria-hidden="true"><label>bot-field <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+      <form class="news__form reveal" data-delay="2" id="news-form" method="post"
+            action="https://buttondown.com/api/emails/embed-subscribe/adrian_arcmedia">
         <input id="news-email" class="news__input" type="email" name="email" required autocomplete="email"
                placeholder="tu@correo.com" data-en-placeholder="you@email.com" data-es-placeholder="tu@correo.com"
                aria-label="Email" />
@@ -686,7 +685,7 @@
         </button>
       </form>
 
-      <p class="news__done mono" id="news-done" hidden data-en="Done, I'll write to you soon." data-es="Listo, te escribo pronto.">Listo, te escribo pronto.</p>
+      <p class="news__done mono" id="news-done" hidden data-en="Done. Check your inbox: there's an email waiting to be confirmed." data-es="Listo. Mira el correo: te espera uno para confirmar.">Listo. Mira el correo: te espera uno para confirmar.</p>
 
       <p class="news__fine" data-en="No welcome gift, no free course. Just the email. You leave whenever you want." data-es="Sin regalo de bienvenida, sin curso gratis. Solo el correo. Te sales cuando quieras.">Sin regalo de bienvenida, sin curso gratis. Solo el correo. Te sales cuando quieras.</p>
     </div>
@@ -732,10 +731,17 @@
 <script src="hero-bloom.js" defer></script>
 <script src="hero-shader.js" defer></script>
 <script>
-/* ---------- NEWSLETTER (no mailing tool wired yet) ----------
-   Keeps a copy in localStorage so nothing is lost, and posts to Netlify Forms
-   (form name: "newsletter") so the addresses land in the Netlify dashboard.
-   Whatever the POST does, the visitor always sees the confirmation. */
+/* ---------- NEWSLETTER (Buttondown) ----------
+   The form posts straight to Buttondown, from the visitor's own browser, and the
+   browser follows the answer. That is on purpose: Buttondown asks for a captcha
+   when several sign-ups arrive from the same address, so proxying this through a
+   Netlify function would put every visitor behind one IP and start failing —
+   silently, which is the one thing this must never do. The trade is that the
+   visitor lands on Buttondown's page. To bring them back, set
+   Buttondown → Settings → subscription redirect URL to
+   https://arcmediahouse.com/?news=ok — this file already reads that and shows
+   the confirmation line below the form.
+   The address is also kept in localStorage, as it always was. */
 (function newsletter() {
   var form = document.getElementById('news-form');
   if (!form) return;
@@ -763,28 +769,22 @@
         lang: document.documentElement.getAttribute('data-lang') || 'es'
       });
       localStorage.setItem(KEY, JSON.stringify(list));
-    } catch (e) { /* storage disabled — the POST below still runs */ }
+    } catch (e) { /* storage disabled — the form still submits */ }
   }
 
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
+  /* No preventDefault: the browser submits the form and follows Buttondown. */
+  form.addEventListener('submit', function () {
     var email = (input.value || '').trim();
-    if (!email) return;
-    keep(email);
-
-    var pairs = [];
-    new FormData(form).forEach(function (v, k) {
-      pairs.push(encodeURIComponent(k) + '=' + encodeURIComponent(v));
-    });
-    fetch('/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: pairs.join('&')
-    }).catch(function () { /* nothing to do — the address is kept locally */ });
-
-    form.reset();
-    done.hidden = false;
+    if (email) keep(email);
   });
+
+  /* Back from Buttondown with the redirect URL set: say so, and leave the
+     address bar clean so a reload does not repeat the message. */
+  if (/[?&]news=ok\b/.test(location.search)) {
+    done.hidden = false;
+    if (history.replaceState) history.replaceState(null, '', location.pathname);
+    done.scrollIntoView({ block: 'center' });
+  }
 })();
 </script>
 </body>
