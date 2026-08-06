@@ -166,8 +166,30 @@ del botón de la página y ya dijo que sí. No le preguntes por el negocio: pide
 el email y proponle tres franjas en el mismo mensaje. La línea de scoping se la
 pides después.
 
-En español: de tú, latinoamericano neutro. Nada de voseo — ni "tenés", ni
-"querés", ni "podés", ni "sos".`;
+`;
+
+// Va al final del system prompt en TODOS los turnos, y por eso está fuera del
+// recordatorio de arriba. Antes vivía dentro de él y solo salía en el primero:
+// a partir del segundo, la única regla contra el voseo que le quedaba al modelo
+// era la del punto d) de "Voz", enterrada en la línea 56 de un prompt de casi
+// 500. Observado en producción el 6 de agosto de 2026 — los dos primeros turnos
+// de tú y a partir del tercero «¿Para cuándo lo querés listo?». Lo último que
+// lee es lo que más pesa, así que la regla se repite ahí, cada vez.
+const REGISTER_REMINDER = `# Registro — lo último y lo más importante
+
+Si esta conversación va en español, escribes en latinoamericano neutro y de tú.
+NUNCA voseo, ni en el primer turno ni en el décimo. Lo que delata es el verbo:
+
+✕ tenés · querés · podés · sabés · hacés · vendés · necesitás · pensás
+✕ entendés · preferís · decís · venís · sos
+✕ decime · contame · mirá · fijate · mandá · escribime · esperá · andá
+
+✓ tienes · quieres · puedes · sabes · haces · vendes · necesitas · piensas
+✓ entiendes · prefieres · dices · vienes · eres
+✓ dime · cuéntame · mira · fíjate · manda · escríbeme · espera · ve
+
+Si el visitante te vosea a él, tú sigues de tú. Antes de enviar, relee tu
+respuesta y comprueba que no se te ha colado ninguna de las de arriba.`;
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') {
@@ -206,6 +228,7 @@ exports.handler = async (event) => {
       dateContextBlock(),
       SYSTEM,
       isFirstTurn ? FIRST_TURN_REMINDER : null,
+      REGISTER_REMINDER,
     ]
       .filter(Boolean)
       .join('\n\n');
@@ -355,6 +378,11 @@ exports.handler = async (event) => {
       text = defaultClosingFor(incoming);
     }
 
+    // Último paso antes de contestar: se corrige lo que se ve y lo que se
+    // guarda, para que el registro de admin.html no enseñe un voseo que el
+    // visitante nunca llegó a leer.
+    text = deVoseo(text);
+
     // Log this turn to Supabase: the latest user message + the assistant
     // reply, with any tool events captured along the way. Fire-and-forget
     // so a Supabase outage never blocks the chat reply.
@@ -398,6 +426,72 @@ exports.handler = async (event) => {
     };
   }
 };
+
+/* ---------- El filtro de voseo ----------
+   La red de seguridad, por debajo del prompt. El prompt lo prohíbe en tres
+   sitios —el punto d) de "Voz", el bloque de "Idioma" y el recordatorio de
+   registro que ahora va en todos los turnos— y aun así se cuela: se arregló
+   dos veces sobre el papel y las dos veces siguió apareciendo en producción.
+   Con un modelo pequeño y un prompt largo, pedirlo no basta.
+
+   Esto no pide: sustituye. Lista cerrada y explícita, nada de reglas generales
+   por terminación —"estás", "vas", "quizás" y "atrás" son correctas y una regla
+   automática se las llevaría por delante—. Cuando salta lo deja escrito en los
+   logs, que es la única forma de saber si el prompt está mejorando o si el
+   filtro es lo único que nos separa del voseo. */
+// Las fronteras se construyen con `\p{L}` y no con `\b`. `\b` en JavaScript
+// solo conoce el ASCII, así que detrás de una vocal acentuada no ve frontera
+// ninguna: `/\bmirá\b/` no encuentra «mirá esto». Con los imperativos de voseo,
+// que casi todos acaban en á, eso deja fuera media lista.
+const L = '[\\p{L}\\p{M}]';
+function vRe(word, flags = 'giu') {
+  return new RegExp(`(?<!${L})${word}(?!${L})`, flags);
+}
+
+const VOSEO = [
+  // Presente.
+  ['tenés', 'tienes'], ['querés', 'quieres'], ['podés', 'puedes'],
+  ['sabés', 'sabes'], ['hacés', 'haces'], ['vendés', 'vendes'],
+  ['necesitás', 'necesitas'], ['buscás', 'buscas'], ['pensás', 'piensas'],
+  ['entendés', 'entiendes'], ['preferís', 'prefieres'], ['decís', 'dices'],
+  ['venís', 'vienes'], ['contás', 'cuentas'], ['llevás', 'llevas'],
+  ['mandás', 'mandas'], ['esperás', 'esperas'], ['mirás', 'miras'],
+  // Imperativos.
+  ['decime', 'dime'], ['contame', 'cuéntame'], ['escribime', 'escríbeme'],
+  ['mandame', 'mándame'], ['avisame', 'avísame'], ['pedime', 'pídeme'],
+  ['fijate', 'fíjate'], ['mirá', 'mira'], ['contá', 'cuenta'],
+  ['mandá', 'manda'], ['esperá', 'espera'], ['probá', 'prueba'],
+  ['andá', 've'], ['dejá', 'deja'],
+  // Pronombre. Las preposicionales van primero: "para vos" no es "para tú".
+  ['con vos', 'contigo'], ['para vos', 'para ti'],
+  ['a vos', 'a ti'], ['de vos', 'de ti'],
+].map(([voseo, tuteo]) => [vRe(voseo), tuteo]);
+
+// "sos" aparte: solo en minúscula, porque "SOS" en mayúsculas es otra cosa.
+VOSEO.push([vRe('sos', 'gu'), 'eres']);
+
+// "Querés" a principio de frase tiene que salir "Quieres", no "quieres".
+function matchCase(found, replacement) {
+  const head = found[0];
+  if (head !== head.toLowerCase() && head === head.toUpperCase()) {
+    return replacement[0].toUpperCase() + replacement.slice(1);
+  }
+  return replacement;
+}
+
+function deVoseo(text) {
+  if (!text) return text;
+  const hits = [];
+  let out = text;
+  for (const [re, tuteo] of VOSEO) {
+    out = out.replace(re, (found) => {
+      hits.push(found);
+      return matchCase(found, tuteo);
+    });
+  }
+  if (hits.length) console.warn('[chat] voseo corregido', hits);
+  return out;
+}
 
 function buildBackstopTranscript(originalMessages, scheduledCall) {
   const lines = [];

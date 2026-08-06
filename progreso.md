@@ -12,11 +12,10 @@ Atajo para no leerse el archivo entero. El detalle de cada cosa está más abajo
 
 **Lo que hay que mirar en producción, y nadie ha mirado todavía:**
 
-1. **El primer resumen diario** (`daily-digest.js`). Nunca se ha ejecutado de verdad. Se mira en los
-   logs de la función, no en la bandeja: «no llegó correo» puede ser «no hubo conversaciones» o
-   «falló», y desde fuera no se distinguen.
-2. **El saludo repetido y el voseo** del agente. Los arreglos están razonados sobre el código pero
-   sin verificar en conversación.
+1. ~~**El primer resumen diario**~~ — **comprobado el 6 de agosto de 2026 y funciona.** Está contado
+   abajo, en «El agente».
+2. ~~**El saludo repetido**~~ — comprobado el 6 de agosto, no repite. **El voseo sí seguía**, y se
+   arregló ese mismo día con dos capas. También abajo.
 
 **Lo que hay que tocar en Buttondown, y solo se puede desde ahí:**
 
@@ -983,19 +982,61 @@ Las tres se corrigieron; de la errata queda solo la regla útil, que su nombre s
       respondiendo y agendando con normalidad. Se reactivó el 5 de agosto de 2026. Si algún día el
       panel de `admin.html` se ve más vacío de lo que debería, esto es lo primero que hay que mirar,
       y el sitio donde se ve es en los logs de la función, no en la web.
-- [ ] **Comprobar el saludo repetido y el voseo en producción.** Los dos arreglos siguen razonados
-      sobre el código y sin verificar en conversación: en este entorno no hay `ANTHROPIC_API_KEY`.
-      Abrir el chat, escribir «Hola, estoy interesado en armar una plataforma» y mirar dos cosas: que
-      **no salude** —el saludo ya está en pantalla— y que trate **de tú y no de vos**. Lo que delata
-      el voseo es el verbo, no el pronombre: «tenés», «querés», «podés», «sos».
-- [ ] **Ver si el primer resumen diario sale bien.** `daily-digest.js` nunca se ha ejecutado de
-      verdad: aquí no hay ni `RESEND_API_KEY` ni Supabase, así que la consulta y el envío son código
-      sin estrenar. Solo están probados el troceado y el HTML, con datos inventados.
+- [x] **El saludo repetido — comprobado el 6 de agosto de 2026.** No repite. El visitante escribió
+      «hola! estoy interesado, me das más detalles sobre el proceso de Adrián porfa?» y el agente
+      entró directo con «¿Qué enseñas y dónde lo estás vendiendo ahora mismo?», sin saludar.
+- [x] **El voseo — seguía pasando, y se arregló el 6 de agosto de 2026.** En la misma conversación:
+      los dos primeros turnos de tú y a partir del tercero «¿Para cuándo lo **querés** listo?».
 
-      **Mirar los logs de la función el primer día**, no la bandeja. Que no llegue correo significa
-      dos cosas distintas —que no hubo conversaciones, que es correcto, o que algo falló— y desde la
-      bandeja no se distinguen. En los logs sí: la función escribe la ventana de fechas que calculó,
-      cuántas sesiones encontró y cuántas quedaron tras quitar las que agendaron.
+      **La causa.** La regla más fuerte contra el voseo vivía dentro de `FIRST_TURN_REMINDER`, en
+      `chat.js`, que **solo se manda en el primer turno**. Del segundo en adelante, la única que le
+      quedaba al modelo era el punto d) de «Voz», en la línea 56 de un prompt de casi 500. Con Haiku
+      y esa distancia, se diluye. Encaja exactamente con lo observado: bien al principio, torcido
+      después.
+
+      **Se arregló con dos capas, porque el prompt solo ya falló dos veces.**
+
+      1. **`REGISTER_REMINDER`, en todos los turnos.** Sale de `FIRST_TURN_REMINDER` y pasa a ser un
+         bloque propio que va **al final del system prompt siempre**. Lo último que lee es lo que
+         más pesa, y ahora lo lee cada vez.
+      2. **`deVoseo()`, un filtro determinista.** Lista cerrada de formas —presente, imperativos y
+         el pronombre con preposición— aplicada a la respuesta antes de devolverla y antes de
+         guardarla, para que el panel no enseñe un voseo que el visitante nunca leyó. **Nada de
+         reglas por terminación**: «estás», «vas», «quizás» y «atrás» son correctas y una regla
+         automática se las llevaría por delante.
+
+         Las fronteras se construyen con `\p{L}`, no con `\b`. `\b` en JavaScript solo conoce el
+         ASCII, así que detrás de vocal acentuada no ve frontera: `/\bmirá\b/` **no encuentra**
+         «mirá esto». Se cazó probando, y afectaba a casi todos los imperativos, que acaban en á.
+
+      Cuando el filtro salta lo escribe en los logs (`[chat] voseo corregido`). Es la única forma de
+      saber si el prompt está mejorando o si el filtro es lo único que nos separa del voseo. **Si
+      pasan semanas sin que aparezca esa línea, la capa 1 basta y la 2 es red de seguridad.**
+- [x] **El primer resumen diario — comprobado el 6 de agosto de 2026, y sale bien.** El log de la
+      función:
+
+      ```
+      ventana { start: '2026-08-04T22:00:00.000Z', end: '2026-08-05T22:00:00.000Z', label: '2026-08-05' }
+      sesiones { total: 0, sinReserva: 0 }
+      nada que mandar
+      ```
+
+      La ventana es la correcta —el 5 de agosto en Madrid—, la lectura de Supabase no dio error, no
+      había nada y calló, que es lo que debe hacer. La programación está registrada en Netlify y la
+      siguiente ejecución sale anunciada.
+
+      **Encontró cero porque Supabase no tenía nada de ese día**: es el agujero del parón, contado
+      arriba. El proyecto se reactivó y la escritura volvió — comprobado el mismo día abriendo el
+      chat y viendo la conversación aparecer en `admin.html`.
+
+      **Y hay un botón `Run now`** en la página de la función, en Netlify. No hay que esperar a la
+      mañana siguiente para probarla: se habla con el agente y se le da ahí.
+
+      Sigue valiendo el aviso de siempre: **esto se mira en los logs, no en la bandeja.** Que no
+      llegue correo significa dos cosas distintas y desde el buzón no se distinguen.
+- [ ] **`RESEND_TO` no está puesta en Netlify.** Comprobado el 6 de agosto. Sin ella, el resumen va
+      a `hello@arcmediahouse.com`, que es el destino por defecto del código. Funciona; solo hay que
+      saber que va ahí. Si algún día se quiere en otra dirección, se añade esa variable.
 - [x] **El botón que agenda — comprobado en producción.** 5 de agosto de 2026. Adrián agendó una
       llamada de principio a fin: la reserva pasó y llegaron los dos correos, el suyo y el de prueba.
       Así que el circuito entero funciona — `schedule_call`, la invitación de Google Calendar y el
@@ -1059,19 +1100,32 @@ usuario es `adrian_arcmedia`.
       El precio de esto es que el visitante acaba en Buttondown. Se arregla con la URL de vuelta,
       abajo.
 
-- [ ] **Poner la URL de vuelta, en Buttondown.** En los ajustes de la lista, el campo de redirección
-      tras la suscripción (`subscription_redirect_url`, ahora vacío): ponerlo en
-      `https://arcmediahouse.com/?news=ok`. **El código de la web ya lo espera**: el bloque
-      `newsletter()` del final de `index.html` lee ese `?news=ok`, enseña la línea de confirmación
-      bajo el formulario, se desplaza hasta ella y limpia la barra de direcciones. Hasta que se
-      ponga, el que se apunta se queda en la página de Buttondown — funciona igual, solo que fuera
-      de casa.
-- [ ] **Cambiar el nombre de la lista.** Se sigue llamando «My Awesome Newsletter», que es el que
-      viene por defecto, y es el que ve quien entra en el enlace. La descripción («ARC's media
-      newsletter») y el remitente («Adrian») sí están puestos.
-- [ ] **Borrar las tres direcciones de prueba.** `adrianmendozam+arcweb-test@gmail.com`,
-      `+arcweb-test2` y `+arcweb-test3`. Son de comprobar el endpoint el 6 de agosto; la primera
-      entró y las otras dos toparon con el captcha. Ninguna está confirmada.
+- [x] **Funciona de punta a punta — 6 de agosto de 2026.** Adrián se suscribió y le llegó el correo.
+      **El primer intento falló y no era el código**: tenía la página vieja en la caché del
+      navegador, la que enviaba a Netlify Forms, y esa dirección se perdió. Lo delató el mensaje que
+      vio —«Listo, te escribo pronto», que ya no existe— y que no le sacara a Buttondown. Si vuelve
+      a pasar algo así, lo primero es recargar forzando (`Cmd+Shift+R`).
+- [x] **Las dos URLs de vuelta — puestas, y se usan las dos.** Son dos momentos distintos y ahora
+      dicen cosas distintas:
+
+      | Ajuste en Buttondown | Valor | Cuándo | Qué se ve |
+      |---|---|---|---|
+      | `subscription_redirect_url` | `/?news=ok` | al enviar el formulario | «Listo. Mira el correo…» |
+      | `subscription_confirmation_redirect_url` | `/?news=done` | al confirmar desde el correo | «Confirmado. Ya estás dentro…» |
+
+      Se pusieron cruzadas al principio: el `?news=ok` estaba en la de confirmación, así que quien
+      se apuntaba volvía a casa **sin ningún mensaje** y quien confirmaba leía que fuera a mirar el
+      correo, que ya había mirado. Ninguna de las dos es obligatoria: sin ellas el visitante se
+      queda en la página de Buttondown y todo sigue funcionando.
+- [x] **El nombre de la lista — cambiado.** «ARC MEDIA HOUSE».
+- [ ] **Borrar las cuatro direcciones de prueba.** `adrianmendozam+arcweb-test@gmail.com` y
+      `+arcweb-test2`, `3` y `4`. Son de comprobar el endpoint el 6 de agosto; solo la primera
+      entró, las otras toparon con el captcha. Ninguna está confirmada.
+- [x] **El firewall de Buttondown, bajado de tono.** Estaba en `Aggressive` + `Reject`, que es la
+      combinación más dura que hay: al sospechoso lo rechaza y **no aparece en ningún sitio**. Con
+      cero suscriptores y ningún problema de spam, eso solo podía perder gente de verdad — el mismo
+      fallo silencioso que se acababa de tapar en la web, pero del lado de Buttondown. Ahora los
+      dudosos entran marcados y se ven.
 
 **La lista pide confirmación** (doble opt-in, activado en la cuenta): quien se apunta recibe un
 correo y no cuenta hasta que lo abre. **Por eso cambió el texto de la confirmación**: decía «Listo,

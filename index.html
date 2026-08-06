@@ -686,6 +686,7 @@
       </form>
 
       <p class="news__done mono" id="news-done" hidden data-en="Done. Check your inbox: there's an email waiting to be confirmed." data-es="Listo. Mira el correo: te espera uno para confirmar.">Listo. Mira el correo: te espera uno para confirmar.</p>
+      <p class="news__done mono" id="news-confirmed" hidden data-en="Confirmed. You're in — first email lands this week." data-es="Confirmado. Ya estás dentro; el primer correo te llega esta semana.">Confirmado. Ya estás dentro; el primer correo te llega esta semana.</p>
 
       <p class="news__fine" data-en="No welcome gift, no free course. Just the email. You leave whenever you want." data-es="Sin regalo de bienvenida, sin curso gratis. Solo el correo. Te sales cuando quieras.">Sin regalo de bienvenida, sin curso gratis. Solo el correo. Te sales cuando quieras.</p>
     </div>
@@ -737,10 +738,13 @@
    when several sign-ups arrive from the same address, so proxying this through a
    Netlify function would put every visitor behind one IP and start failing —
    silently, which is the one thing this must never do. The trade is that the
-   visitor lands on Buttondown's page. To bring them back, set
-   Buttondown → Settings → subscription redirect URL to
-   https://arcmediahouse.com/?news=ok — this file already reads that and shows
-   the confirmation line below the form.
+   visitor lands on Buttondown's page. Two settings bring them back, and the
+   list has both:
+     subscription redirect URL              -> /?news=ok    (right after signing up)
+     subscription confirmation redirect URL -> /?news=done  (after confirming by email)
+   They are two different moments and they get two different lines: the first
+   sends you to your inbox, the second says you are in. Neither is required —
+   without them the visitor just stays on Buttondown's page.
    The address is also kept in localStorage, as it always was. */
 (function newsletter() {
   var form = document.getElementById('news-form');
@@ -778,12 +782,16 @@
     if (email) keep(email);
   });
 
-  /* Back from Buttondown with the redirect URL set: say so, and leave the
+  /* Back from Buttondown: say which of the two moments this is, and leave the
      address bar clean so a reload does not repeat the message. */
-  if (/[?&]news=ok\b/.test(location.search)) {
-    done.hidden = false;
-    if (history.replaceState) history.replaceState(null, '', location.pathname);
-    done.scrollIntoView({ block: 'center' });
+  var back = /[?&]news=(ok|done)\b/.exec(location.search);
+  if (back) {
+    var line = back[1] === 'done' ? document.getElementById('news-confirmed') : done;
+    if (line) {
+      line.hidden = false;
+      if (history.replaceState) history.replaceState(null, '', location.pathname);
+      line.scrollIntoView({ block: 'center' });
+    }
   }
 })();
 </script>
